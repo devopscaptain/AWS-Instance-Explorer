@@ -1,0 +1,2308 @@
+{
+  "ec2Families": {
+    "t": {
+      "family_name": "T-Series (Burstable)",
+      "category": "General Purpose",
+      "icon": "\u26a1",
+      "color": "#4FC3F7",
+      "gradient": "linear-gradient(135deg, #4FC3F7, #0288D1)",
+      "headline": "Burstable Performance for Variable Workloads",
+      "reasoning": "T-series instances use a CPU credit model that provides a baseline level of CPU performance with the ability to burst above baseline. This makes them ideal for workloads that don't use the full CPU consistently but occasionally need high CPU performance.",
+      "best_for": [
+        "Development & test environments",
+        "Microservices with variable traffic",
+        "Small to medium databases",
+        "Code repositories & CI/CD",
+        "Virtual desktops",
+        "Low-traffic web applications"
+      ],
+      "not_for": [
+        "Sustained high-CPU workloads",
+        "Large-scale production databases",
+        "High-performance computing"
+      ],
+      "key_specs": {
+        "vCPUs": "2 \u2013 96",
+        "Memory": "0.5 \u2013 384 GiB",
+        "Burst": "Yes (CPU Credits)",
+        "Network": "Up to 12.5 Gbps"
+      },
+      "generations": [
+        "t2",
+        "t3",
+        "t3a",
+        "t4g"
+      ]
+    },
+    "m": {
+      "family_name": "M-Series (General Purpose)",
+      "category": "General Purpose",
+      "icon": "\ud83c\udfaf",
+      "color": "#66BB6A",
+      "gradient": "linear-gradient(135deg, #66BB6A, #2E7D32)",
+      "headline": "Balanced Compute, Memory & Networking",
+      "reasoning": "M-series instances provide a balance of compute, memory, and networking resources. They are the most versatile instance family and are suitable for a wide range of workloads. If you're unsure which instance type to choose, M-series is a safe starting point.",
+      "best_for": [
+        "Backend application servers",
+        "Medium-sized databases (MySQL, PostgreSQL)",
+        "Caching fleets (Memcached, Redis)",
+        "Enterprise applications (SAP, SharePoint)",
+        "Gaming servers",
+        "Mid-size data processing"
+      ],
+      "not_for": [
+        "GPU-intensive workloads",
+        "Extreme memory requirements (>512 GiB)",
+        "High-throughput storage I/O"
+      ],
+      "key_specs": {
+        "vCPUs": "1 \u2013 192",
+        "Memory": "4 \u2013 768 GiB",
+        "Network": "Up to 200 Gbps",
+        "EBS Bandwidth": "Up to 40 Gbps"
+      },
+      "generations": [
+        "m5",
+        "m5a",
+        "m5n",
+        "m6i",
+        "m6g",
+        "m7i",
+        "m7g"
+      ]
+    },
+    "a": {
+      "family_name": "A-Series (Arm-Based GP)",
+      "category": "General Purpose",
+      "icon": "\ud83d\udcaa",
+      "color": "#26A69A",
+      "gradient": "linear-gradient(135deg, #26A69A, #00695C)",
+      "headline": "Cost-Effective Arm-Based General Purpose",
+      "reasoning": "A-series instances are powered by AWS Graviton processors (Arm-based). They deliver up to 20% lower cost compared to x86-based instances for scale-out and Arm-compatible workloads.",
+      "best_for": [
+        "Containerized microservices",
+        "Web servers (Nginx, Apache)",
+        "Application servers",
+        "Open-source databases",
+        "In-memory caching",
+        "Arm-native development"
+      ],
+      "not_for": [
+        "x86-only software",
+        "Windows workloads",
+        "Legacy applications requiring x86"
+      ],
+      "key_specs": {
+        "vCPUs": "1 \u2013 16",
+        "Memory": "2 \u2013 32 GiB",
+        "Processor": "AWS Graviton (Arm)",
+        "Network": "Up to 10 Gbps"
+      },
+      "generations": [
+        "a1"
+      ]
+    },
+    "mac": {
+      "family_name": "Mac-Series",
+      "category": "General Purpose",
+      "icon": "\ud83c\udf4e",
+      "color": "#78909C",
+      "gradient": "linear-gradient(135deg, #78909C, #37474F)",
+      "headline": "macOS on AWS for Apple Development",
+      "reasoning": "Mac instances are powered by Apple Mac mini hardware. They are the only way to run macOS in the cloud for building, testing, and signing Apple applications. Required for iOS/macOS CI/CD pipelines.",
+      "best_for": [
+        "iOS & macOS app development",
+        "Xcode CI/CD pipelines",
+        "macOS automated testing",
+        "Apple app signing & notarization"
+      ],
+      "not_for": [
+        "General Linux workloads",
+        "Windows workloads",
+        "Cost-sensitive workloads"
+      ],
+      "key_specs": {
+        "vCPUs": "6 \u2013 12",
+        "Memory": "8 \u2013 32 GiB",
+        "Processor": "Apple M1/M2/Intel",
+        "Dedicated Host": "Required (24hr min)"
+      },
+      "generations": [
+        "mac1",
+        "mac2",
+        "mac2-m2",
+        "mac2-m2pro"
+      ]
+    },
+    "c": {
+      "family_name": "C-Series (Compute Optimized)",
+      "category": "Compute Optimized",
+      "icon": "\ud83d\ude80",
+      "color": "#FF7043",
+      "gradient": "linear-gradient(135deg, #FF7043, #D84315)",
+      "headline": "Highest Per-Core CPU Performance",
+      "reasoning": "C-series instances are optimized for compute-bound applications that benefit from high-performance processors. They have the highest ratio of vCPU to memory, making them ideal for CPU-intensive tasks where raw compute power matters most.",
+      "best_for": [
+        "Batch processing & ETL",
+        "High-performance web servers",
+        "Scientific modeling & simulation",
+        "Machine learning inference",
+        "Ad serving & real-time bidding",
+        "Video encoding / transcoding",
+        "Gaming backends"
+      ],
+      "not_for": [
+        "Memory-intensive workloads",
+        "Large in-memory databases",
+        "GPU workloads"
+      ],
+      "key_specs": {
+        "vCPUs": "2 \u2013 192",
+        "Memory": "4 \u2013 384 GiB",
+        "CPU-to-Memory Ratio": "1:2",
+        "Network": "Up to 200 Gbps"
+      },
+      "generations": [
+        "c5",
+        "c5a",
+        "c5n",
+        "c6i",
+        "c6g",
+        "c7i",
+        "c7g",
+        "c7gn"
+      ]
+    },
+    "r": {
+      "family_name": "R-Series (Memory Optimized)",
+      "category": "Memory Optimized",
+      "icon": "\ud83e\udde0",
+      "color": "#AB47BC",
+      "gradient": "linear-gradient(135deg, #AB47BC, #6A1B9A)",
+      "headline": "High Memory for Data-Intensive Workloads",
+      "reasoning": "R-series instances are designed for memory-intensive applications. They provide more memory per vCPU than general purpose instances, making them ideal for workloads that process large data sets in memory. The 'R' stands for RAM.",
+      "best_for": [
+        "High-performance relational databases",
+        "In-memory databases (Redis, Memcached, SAP HANA)",
+        "Real-time big data analytics (Spark, Presto)",
+        "Distributed caches",
+        "Genomics & bioinformatics",
+        "EDA (Electronic Design Automation)"
+      ],
+      "not_for": [
+        "CPU-bound workloads with low memory needs",
+        "Simple web servers",
+        "Burstable/intermittent workloads"
+      ],
+      "key_specs": {
+        "vCPUs": "2 \u2013 192",
+        "Memory": "16 \u2013 1536 GiB",
+        "CPU-to-Memory Ratio": "1:8",
+        "Network": "Up to 200 Gbps"
+      },
+      "generations": [
+        "r5",
+        "r5a",
+        "r5n",
+        "r6i",
+        "r6g",
+        "r7i",
+        "r7g",
+        "r7iz"
+      ]
+    },
+    "x": {
+      "family_name": "X-Series (Extreme Memory)",
+      "category": "Memory Optimized",
+      "icon": "\ud83d\udc8e",
+      "color": "#7E57C2",
+      "gradient": "linear-gradient(135deg, #7E57C2, #4527A0)",
+      "headline": "Extreme Memory for Largest In-Memory Databases",
+      "reasoning": "X-series instances offer the highest memory capacity in EC2. They are purpose-built for large-scale, enterprise-class in-memory applications like SAP HANA. If your workload requires terabytes of RAM, X-series is your only option.",
+      "best_for": [
+        "SAP HANA (production)",
+        "In-memory databases at scale",
+        "Real-time analytics on massive datasets",
+        "Large ERP systems"
+      ],
+      "not_for": [
+        "Small to medium workloads",
+        "Cost-sensitive applications",
+        "Workloads under 256 GiB memory"
+      ],
+      "key_specs": {
+        "vCPUs": "4 \u2013 448",
+        "Memory": "128 \u2013 6144 GiB (6 TiB!)",
+        "Network": "Up to 100 Gbps",
+        "SAP Certified": "Yes"
+      },
+      "generations": [
+        "x1",
+        "x1e",
+        "x2idn",
+        "x2iedn",
+        "x2iezn",
+        "x2gd"
+      ]
+    },
+    "z": {
+      "family_name": "Z-Series (High Frequency)",
+      "category": "Memory Optimized",
+      "icon": "\u26a1",
+      "color": "#5C6BC0",
+      "gradient": "linear-gradient(135deg, #5C6BC0, #283593)",
+      "headline": "Highest Clock Speed + High Memory",
+      "reasoning": "Z-series instances combine high single-thread performance with high memory. They use custom Intel Xeon processors with sustained all-core turbo boost up to 4.5 GHz. Ideal for workloads that need fast single-threaded performance AND large memory.",
+      "best_for": [
+        "EDA (Electronic Design Automation)",
+        "Single-threaded relational databases",
+        "Financial simulations",
+        "Actuarial modeling",
+        "High-frequency trading"
+      ],
+      "not_for": [
+        "Highly parallelized workloads",
+        "GPU workloads",
+        "Cost-sensitive applications"
+      ],
+      "key_specs": {
+        "vCPUs": "2 \u2013 48",
+        "Memory": "16 \u2013 384 GiB",
+        "Clock Speed": "Up to 4.5 GHz",
+        "Network": "Up to 25 Gbps"
+      },
+      "generations": [
+        "z1d"
+      ]
+    },
+    "i": {
+      "family_name": "I-Series (Storage / NVMe)",
+      "category": "Storage Optimized",
+      "icon": "\ud83d\udcbe",
+      "color": "#FFA726",
+      "gradient": "linear-gradient(135deg, #FFA726, #E65100)",
+      "headline": "High Random I/O & NVMe SSD Storage",
+      "reasoning": "I-series instances are optimized for workloads requiring high random I/O performance and high sequential read throughput. They come with NVMe-based local instance storage, delivering very low latency.",
+      "best_for": [
+        "NoSQL databases (Cassandra, MongoDB, DynamoDB-compatible)",
+        "In-memory databases (Aerospike)",
+        "Elasticsearch / OpenSearch",
+        "Data warehousing",
+        "Distributed file systems (HDFS, Lustre)"
+      ],
+      "not_for": [
+        "Workloads that need persistent storage (data is ephemeral!)",
+        "CPU-bound workloads with no storage needs",
+        "Small datasets"
+      ],
+      "key_specs": {
+        "vCPUs": "2 \u2013 128",
+        "Memory": "16 \u2013 1024 GiB",
+        "Local NVMe": "Up to 60 TB",
+        "IOPS": "Up to 3.3M random IOPS"
+      },
+      "generations": [
+        "i3",
+        "i3en",
+        "i4i",
+        "im4gn",
+        "is4gen"
+      ]
+    },
+    "d": {
+      "family_name": "D-Series (Dense HDD Storage)",
+      "category": "Storage Optimized",
+      "icon": "\ud83d\udcc0",
+      "color": "#8D6E63",
+      "gradient": "linear-gradient(135deg, #8D6E63, #4E342E)",
+      "headline": "Massive HDD Storage at Lowest Cost",
+      "reasoning": "D-series instances provide dense, cost-effective HDD-based local storage. They are optimized for sequential read/write workloads where the cost per TB is critical. Perfect for massive data lakes.",
+      "best_for": [
+        "MapReduce & Hadoop (HDFS)",
+        "Distributed computing (Apache Kafka)",
+        "Log processing",
+        "Data lakes",
+        "Network file systems"
+      ],
+      "not_for": [
+        "Random I/O workloads",
+        "Low-latency database queries",
+        "Workloads needing SSD performance"
+      ],
+      "key_specs": {
+        "vCPUs": "2 \u2013 96",
+        "Memory": "8 \u2013 768 GiB",
+        "HDD Storage": "Up to 336 TB",
+        "Throughput": "Up to 13.6 GB/s"
+      },
+      "generations": [
+        "d2",
+        "d3",
+        "d3en"
+      ]
+    },
+    "h": {
+      "family_name": "H-Series (High Throughput HDD)",
+      "category": "Storage Optimized",
+      "icon": "\ud83d\uddc4\ufe0f",
+      "color": "#A1887F",
+      "gradient": "linear-gradient(135deg, #A1887F, #5D4037)",
+      "headline": "High Sequential Throughput with HDD",
+      "reasoning": "H-series instances are built for workloads requiring high-throughput access to large sequential data. They complement D-series with higher memory and networking for throughput-critical scenarios.",
+      "best_for": [
+        "MapReduce & big data workloads",
+        "Distributed file systems",
+        "Large sequential data processing",
+        "Log and data analytics"
+      ],
+      "not_for": [
+        "Random I/O workloads",
+        "Transactional databases",
+        "Low-storage workloads"
+      ],
+      "key_specs": {
+        "vCPUs": "8 \u2013 64",
+        "Memory": "32 \u2013 256 GiB",
+        "HDD Storage": "Up to 16 x 2 TB",
+        "Network": "Up to 25 Gbps"
+      },
+      "generations": [
+        "h1"
+      ]
+    },
+    "p": {
+      "family_name": "P-Series (GPU \u2013 Training)",
+      "category": "Accelerated Computing",
+      "icon": "\ud83e\udd16",
+      "color": "#EF5350",
+      "gradient": "linear-gradient(135deg, #EF5350, #B71C1C)",
+      "headline": "NVIDIA GPU for ML Training & HPC",
+      "reasoning": "P-series instances are powered by NVIDIA GPUs (V100, A100, H100) designed for machine learning training, deep learning, and HPC. They provide the highest GPU compute performance in EC2.",
+      "best_for": [
+        "ML/DL model training",
+        "Large language model fine-tuning",
+        "High-performance computing (HPC)",
+        "Computational fluid dynamics",
+        "Molecular dynamics",
+        "Financial risk modeling"
+      ],
+      "not_for": [
+        "Inference-only workloads (use Inf instead)",
+        "Non-GPU workloads",
+        "Cost-sensitive workloads"
+      ],
+      "key_specs": {
+        "vCPUs": "4 \u2013 192",
+        "Memory": "61 \u2013 2048 GiB",
+        "GPUs": "1 \u2013 8 NVIDIA (V100/A100/H100)",
+        "GPU Memory": "Up to 640 GiB HBM"
+      },
+      "generations": [
+        "p3",
+        "p3dn",
+        "p4d",
+        "p4de",
+        "p5"
+      ]
+    },
+    "g": {
+      "family_name": "G-Series (GPU \u2013 Graphics)",
+      "category": "Accelerated Computing",
+      "icon": "\ud83c\udfae",
+      "color": "#EC407A",
+      "gradient": "linear-gradient(135deg, #EC407A, #880E4F)",
+      "headline": "GPU for Graphics, Rendering & Inference",
+      "reasoning": "G-series instances provide GPU acceleration for graphics-intensive applications and ML inference. They balance GPU compute with graphics rendering capabilities using NVIDIA T4/A10G GPUs.",
+      "best_for": [
+        "3D rendering & visualization",
+        "Game streaming (cloud gaming)",
+        "Video transcoding at scale",
+        "ML inference",
+        "AR/VR applications",
+        "Remote graphics workstations"
+      ],
+      "not_for": [
+        "Large-scale ML training (use P-series)",
+        "Non-graphics, non-ML workloads"
+      ],
+      "key_specs": {
+        "vCPUs": "4 \u2013 192",
+        "Memory": "16 \u2013 768 GiB",
+        "GPUs": "1 \u2013 8 NVIDIA (T4/A10G/L4)",
+        "GPU Memory": "Up to 192 GiB"
+      },
+      "generations": [
+        "g4dn",
+        "g4ad",
+        "g5",
+        "g5g",
+        "g6"
+      ]
+    },
+    "inf": {
+      "family_name": "Inf-Series (ML Inference)",
+      "category": "Accelerated Computing",
+      "icon": "\ud83e\uddee",
+      "color": "#F06292",
+      "gradient": "linear-gradient(135deg, #F06292, #AD1457)",
+      "headline": "AWS Inferentia for Cost-Effective ML Inference",
+      "reasoning": "Inf-series instances use AWS's custom Inferentia chips, designed specifically for ML inference. They deliver up to 2.3x higher throughput and up to 70% lower cost per inference compared to GPU-based instances.",
+      "best_for": [
+        "Production ML inference at scale",
+        "Natural language processing",
+        "Image recognition",
+        "Recommendation engines",
+        "Search rankings"
+      ],
+      "not_for": [
+        "ML training (use P-series)",
+        "General-purpose GPU workloads",
+        "Non-ML workloads"
+      ],
+      "key_specs": {
+        "vCPUs": "4 \u2013 96",
+        "Memory": "8 \u2013 384 GiB",
+        "Accelerators": "1 \u2013 12 AWS Inferentia/Inferentia2",
+        "Throughput": "Up to 2.3x better than GPU"
+      },
+      "generations": [
+        "inf1",
+        "inf2"
+      ]
+    },
+    "trn": {
+      "family_name": "Trn-Series (ML Training)",
+      "category": "Accelerated Computing",
+      "icon": "\ud83d\udd2c",
+      "color": "#CE93D8",
+      "gradient": "linear-gradient(135deg, #CE93D8, #7B1FA2)",
+      "headline": "AWS Trainium for Cost-Effective ML Training",
+      "reasoning": "Trn-series instances use AWS's custom Trainium chips, purpose-built for deep learning training. They deliver up to 50% cost savings over comparable GPU instances for training large models.",
+      "best_for": [
+        "Large language model training",
+        "Deep learning at scale",
+        "Distributed training workloads",
+        "Foundation model training"
+      ],
+      "not_for": [
+        "ML inference (use Inf-series)",
+        "Non-ML workloads",
+        "Small model training"
+      ],
+      "key_specs": {
+        "vCPUs": "8 \u2013 128",
+        "Memory": "32 \u2013 512 GiB",
+        "Accelerators": "1 \u2013 16 AWS Trainium",
+        "Training Cost": "Up to 50% less vs GPU"
+      },
+      "generations": [
+        "trn1",
+        "trn1n"
+      ]
+    },
+    "hpc": {
+      "family_name": "HPC-Series",
+      "category": "HPC Optimized",
+      "icon": "\ud83d\udd25",
+      "color": "#FF8A65",
+      "gradient": "linear-gradient(135deg, #FF8A65, #BF360C)",
+      "headline": "Purpose-Built for High Performance Computing",
+      "reasoning": "HPC instances are specifically designed for tightly-coupled HPC workloads. They offer high-bandwidth, low-latency EFA networking and optimized compute for simulation and modeling.",
+      "best_for": [
+        "Weather forecasting",
+        "Seismic analysis",
+        "Molecular simulation",
+        "Computational fluid dynamics",
+        "Crash simulation (automotive)"
+      ],
+      "not_for": [
+        "Web applications",
+        "Loosely coupled workloads",
+        "General compute tasks"
+      ],
+      "key_specs": {
+        "vCPUs": "96",
+        "Memory": "192 GiB",
+        "Network": "200 Gbps EFA",
+        "Optimized For": "Tightly-coupled HPC"
+      },
+      "generations": [
+        "hpc6a",
+        "hpc6id",
+        "hpc7g",
+        "hpc7a"
+      ]
+    }
+  },
+  "ec2Instances": {
+    "t": [
+      {
+        "type": "t3.nano",
+        "vCPUs": 2,
+        "memoryGiB": 0.5,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "t3.micro",
+        "vCPUs": 2,
+        "memoryGiB": 1,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "t3.small",
+        "vCPUs": 2,
+        "memoryGiB": 2,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "t3.medium",
+        "vCPUs": 2,
+        "memoryGiB": 4,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "t3.large",
+        "vCPUs": 2,
+        "memoryGiB": 8,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "t3.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 16,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "t3.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 32,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "t3a.nano",
+        "vCPUs": 2,
+        "memoryGiB": 0.5,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "t3a.micro",
+        "vCPUs": 2,
+        "memoryGiB": 1,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "t3a.small",
+        "vCPUs": 2,
+        "memoryGiB": 2,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "t3a.medium",
+        "vCPUs": 2,
+        "memoryGiB": 4,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "t3a.large",
+        "vCPUs": 2,
+        "memoryGiB": 8,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "t3a.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 16,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "t3a.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 32,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "t4g.nano",
+        "vCPUs": 2,
+        "memoryGiB": 0.5,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "t4g.micro",
+        "vCPUs": 2,
+        "memoryGiB": 1,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "t4g.small",
+        "vCPUs": 2,
+        "memoryGiB": 2,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "t4g.medium",
+        "vCPUs": 2,
+        "memoryGiB": 4,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "t4g.large",
+        "vCPUs": 2,
+        "memoryGiB": 8,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "t4g.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 16,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "t4g.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 32,
+        "network": "Up to 5 Gbps",
+        "gen": true
+      }
+    ],
+    "m": [
+      {
+        "type": "m5.large",
+        "vCPUs": 2,
+        "memoryGiB": 8,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m5.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 16,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m5.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 32,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m5.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 64,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m5.8xlarge",
+        "vCPUs": 32,
+        "memoryGiB": 128,
+        "network": "10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m5.12xlarge",
+        "vCPUs": 48,
+        "memoryGiB": 192,
+        "network": "12 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m5.16xlarge",
+        "vCPUs": 64,
+        "memoryGiB": 256,
+        "network": "20 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m5.24xlarge",
+        "vCPUs": 96,
+        "memoryGiB": 384,
+        "network": "25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m6i.large",
+        "vCPUs": 2,
+        "memoryGiB": 8,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m6i.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 16,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m6i.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 32,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m6i.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 64,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m6i.8xlarge",
+        "vCPUs": 32,
+        "memoryGiB": 128,
+        "network": "12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m6i.12xlarge",
+        "vCPUs": 48,
+        "memoryGiB": 192,
+        "network": "18.75 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m6i.16xlarge",
+        "vCPUs": 64,
+        "memoryGiB": 256,
+        "network": "25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m6i.24xlarge",
+        "vCPUs": 96,
+        "memoryGiB": 384,
+        "network": "37.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m6i.32xlarge",
+        "vCPUs": 128,
+        "memoryGiB": 512,
+        "network": "50 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m6g.medium",
+        "vCPUs": 1,
+        "memoryGiB": 4,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m6g.large",
+        "vCPUs": 2,
+        "memoryGiB": 8,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m6g.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 16,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m6g.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 32,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m7i.large",
+        "vCPUs": 2,
+        "memoryGiB": 8,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m7i.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 16,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m7i.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 32,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m7i.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 64,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m7g.medium",
+        "vCPUs": 1,
+        "memoryGiB": 4,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m7g.large",
+        "vCPUs": 2,
+        "memoryGiB": 8,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "m7g.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 16,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      }
+    ],
+    "a": [
+      {
+        "type": "a1.medium",
+        "vCPUs": 1,
+        "memoryGiB": 2,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "a1.large",
+        "vCPUs": 2,
+        "memoryGiB": 4,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "a1.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 8,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "a1.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 16,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "a1.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 32,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      }
+    ],
+    "mac": [
+      {
+        "type": "mac1.metal",
+        "vCPUs": 12,
+        "memoryGiB": 32,
+        "network": "25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "mac2.metal",
+        "vCPUs": 8,
+        "memoryGiB": 16,
+        "network": "10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "mac2-m2.metal",
+        "vCPUs": 8,
+        "memoryGiB": 24,
+        "network": "10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "mac2-m2pro.metal",
+        "vCPUs": 12,
+        "memoryGiB": 32,
+        "network": "10 Gbps",
+        "gen": true
+      }
+    ],
+    "c": [
+      {
+        "type": "c5.large",
+        "vCPUs": 2,
+        "memoryGiB": 4,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "c5.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 8,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "c5.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 16,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "c5.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 32,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "c5.9xlarge",
+        "vCPUs": 36,
+        "memoryGiB": 72,
+        "network": "12 Gbps",
+        "gen": true
+      },
+      {
+        "type": "c5.12xlarge",
+        "vCPUs": 48,
+        "memoryGiB": 96,
+        "network": "12 Gbps",
+        "gen": true
+      },
+      {
+        "type": "c5.18xlarge",
+        "vCPUs": 72,
+        "memoryGiB": 144,
+        "network": "25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "c5.24xlarge",
+        "vCPUs": 96,
+        "memoryGiB": 192,
+        "network": "25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "c6i.large",
+        "vCPUs": 2,
+        "memoryGiB": 4,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "c6i.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 8,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "c6i.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 16,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "c6i.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 32,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "c6g.medium",
+        "vCPUs": 1,
+        "memoryGiB": 2,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "c6g.large",
+        "vCPUs": 2,
+        "memoryGiB": 4,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "c6g.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 8,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "c7i.large",
+        "vCPUs": 2,
+        "memoryGiB": 4,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "c7i.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 8,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "c7g.medium",
+        "vCPUs": 1,
+        "memoryGiB": 2,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "c7g.large",
+        "vCPUs": 2,
+        "memoryGiB": 4,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      }
+    ],
+    "r": [
+      {
+        "type": "r5.large",
+        "vCPUs": 2,
+        "memoryGiB": 16,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "r5.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 32,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "r5.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 64,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "r5.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 128,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "r5.8xlarge",
+        "vCPUs": 32,
+        "memoryGiB": 256,
+        "network": "10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "r5.12xlarge",
+        "vCPUs": 48,
+        "memoryGiB": 384,
+        "network": "12 Gbps",
+        "gen": true
+      },
+      {
+        "type": "r5.16xlarge",
+        "vCPUs": 64,
+        "memoryGiB": 512,
+        "network": "20 Gbps",
+        "gen": true
+      },
+      {
+        "type": "r5.24xlarge",
+        "vCPUs": 96,
+        "memoryGiB": 768,
+        "network": "25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "r6i.large",
+        "vCPUs": 2,
+        "memoryGiB": 16,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "r6i.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 32,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "r6i.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 64,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "r6g.medium",
+        "vCPUs": 1,
+        "memoryGiB": 8,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "r6g.large",
+        "vCPUs": 2,
+        "memoryGiB": 16,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "r7i.large",
+        "vCPUs": 2,
+        "memoryGiB": 16,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "r7i.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 32,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "r7g.medium",
+        "vCPUs": 1,
+        "memoryGiB": 8,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "r7g.large",
+        "vCPUs": 2,
+        "memoryGiB": 16,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      }
+    ],
+    "x": [
+      {
+        "type": "x1.16xlarge",
+        "vCPUs": 64,
+        "memoryGiB": 976,
+        "network": "10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "x1.32xlarge",
+        "vCPUs": 128,
+        "memoryGiB": 1952,
+        "network": "25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "x1e.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 122,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "x1e.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 244,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "x1e.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 488,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "x1e.8xlarge",
+        "vCPUs": 32,
+        "memoryGiB": 976,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "x1e.16xlarge",
+        "vCPUs": 64,
+        "memoryGiB": 1952,
+        "network": "10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "x1e.32xlarge",
+        "vCPUs": 128,
+        "memoryGiB": 3904,
+        "network": "25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "x2idn.16xlarge",
+        "vCPUs": 64,
+        "memoryGiB": 1024,
+        "network": "50 Gbps",
+        "gen": true
+      },
+      {
+        "type": "x2idn.24xlarge",
+        "vCPUs": 96,
+        "memoryGiB": 1536,
+        "network": "75 Gbps",
+        "gen": true
+      },
+      {
+        "type": "x2idn.32xlarge",
+        "vCPUs": 128,
+        "memoryGiB": 2048,
+        "network": "100 Gbps",
+        "gen": true
+      }
+    ],
+    "z": [
+      {
+        "type": "z1d.large",
+        "vCPUs": 2,
+        "memoryGiB": 16,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "z1d.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 32,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "z1d.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 64,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "z1d.3xlarge",
+        "vCPUs": 12,
+        "memoryGiB": 96,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "z1d.6xlarge",
+        "vCPUs": 24,
+        "memoryGiB": 192,
+        "network": "10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "z1d.12xlarge",
+        "vCPUs": 48,
+        "memoryGiB": 384,
+        "network": "25 Gbps",
+        "gen": true
+      }
+    ],
+    "i": [
+      {
+        "type": "i3.large",
+        "vCPUs": 2,
+        "memoryGiB": 15.25,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "i3.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 30.5,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "i3.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 61,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "i3.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 122,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "i3.8xlarge",
+        "vCPUs": 32,
+        "memoryGiB": 244,
+        "network": "10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "i3.16xlarge",
+        "vCPUs": 64,
+        "memoryGiB": 488,
+        "network": "25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "i4i.large",
+        "vCPUs": 2,
+        "memoryGiB": 16,
+        "network": "Up to 25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "i4i.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 32,
+        "network": "Up to 25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "i4i.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 64,
+        "network": "Up to 25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "i4i.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 128,
+        "network": "Up to 25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "i4i.8xlarge",
+        "vCPUs": 32,
+        "memoryGiB": 256,
+        "network": "18.75 Gbps",
+        "gen": true
+      },
+      {
+        "type": "i4i.16xlarge",
+        "vCPUs": 64,
+        "memoryGiB": 512,
+        "network": "37.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "i4i.32xlarge",
+        "vCPUs": 128,
+        "memoryGiB": 1024,
+        "network": "75 Gbps",
+        "gen": true
+      }
+    ],
+    "d": [
+      {
+        "type": "d2.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 30.5,
+        "network": "Moderate",
+        "gen": false
+      },
+      {
+        "type": "d2.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 61,
+        "network": "High",
+        "gen": false
+      },
+      {
+        "type": "d2.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 122,
+        "network": "High",
+        "gen": false
+      },
+      {
+        "type": "d2.8xlarge",
+        "vCPUs": 36,
+        "memoryGiB": 244,
+        "network": "10 Gbps",
+        "gen": false
+      },
+      {
+        "type": "d3.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 32,
+        "network": "Up to 15 Gbps",
+        "gen": true
+      },
+      {
+        "type": "d3.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 64,
+        "network": "Up to 15 Gbps",
+        "gen": true
+      },
+      {
+        "type": "d3.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 128,
+        "network": "Up to 15 Gbps",
+        "gen": true
+      },
+      {
+        "type": "d3.8xlarge",
+        "vCPUs": 32,
+        "memoryGiB": 256,
+        "network": "25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "d3en.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 16,
+        "network": "Up to 25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "d3en.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 32,
+        "network": "Up to 25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "d3en.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 64,
+        "network": "25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "d3en.8xlarge",
+        "vCPUs": 32,
+        "memoryGiB": 128,
+        "network": "50 Gbps",
+        "gen": true
+      },
+      {
+        "type": "d3en.12xlarge",
+        "vCPUs": 48,
+        "memoryGiB": 192,
+        "network": "75 Gbps",
+        "gen": true
+      }
+    ],
+    "h": [
+      {
+        "type": "h1.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 32,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "h1.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 64,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "h1.8xlarge",
+        "vCPUs": 32,
+        "memoryGiB": 128,
+        "network": "10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "h1.16xlarge",
+        "vCPUs": 64,
+        "memoryGiB": 256,
+        "network": "25 Gbps",
+        "gen": true
+      }
+    ],
+    "p": [
+      {
+        "type": "p3.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 61,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "p3.8xlarge",
+        "vCPUs": 32,
+        "memoryGiB": 244,
+        "network": "10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "p3.16xlarge",
+        "vCPUs": 64,
+        "memoryGiB": 488,
+        "network": "25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "p3dn.24xlarge",
+        "vCPUs": 96,
+        "memoryGiB": 768,
+        "network": "100 Gbps",
+        "gen": true
+      },
+      {
+        "type": "p4d.24xlarge",
+        "vCPUs": 96,
+        "memoryGiB": 1152,
+        "network": "400 Gbps",
+        "gen": true
+      },
+      {
+        "type": "p5.48xlarge",
+        "vCPUs": 192,
+        "memoryGiB": 2048,
+        "network": "3200 Gbps",
+        "gen": true
+      }
+    ],
+    "g": [
+      {
+        "type": "g4dn.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 16,
+        "network": "Up to 25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "g4dn.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 32,
+        "network": "Up to 25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "g4dn.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 64,
+        "network": "Up to 25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "g4dn.8xlarge",
+        "vCPUs": 32,
+        "memoryGiB": 128,
+        "network": "50 Gbps",
+        "gen": true
+      },
+      {
+        "type": "g4dn.12xlarge",
+        "vCPUs": 48,
+        "memoryGiB": 192,
+        "network": "50 Gbps",
+        "gen": true
+      },
+      {
+        "type": "g4dn.16xlarge",
+        "vCPUs": 64,
+        "memoryGiB": 256,
+        "network": "50 Gbps",
+        "gen": true
+      },
+      {
+        "type": "g5.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 16,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "g5.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 32,
+        "network": "Up to 10 Gbps",
+        "gen": true
+      },
+      {
+        "type": "g5.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 64,
+        "network": "Up to 25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "g5.8xlarge",
+        "vCPUs": 32,
+        "memoryGiB": 128,
+        "network": "25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "g5.12xlarge",
+        "vCPUs": 48,
+        "memoryGiB": 192,
+        "network": "40 Gbps",
+        "gen": true
+      },
+      {
+        "type": "g5.16xlarge",
+        "vCPUs": 64,
+        "memoryGiB": 256,
+        "network": "25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "g5.24xlarge",
+        "vCPUs": 96,
+        "memoryGiB": 384,
+        "network": "50 Gbps",
+        "gen": true
+      },
+      {
+        "type": "g5.48xlarge",
+        "vCPUs": 192,
+        "memoryGiB": 768,
+        "network": "100 Gbps",
+        "gen": true
+      }
+    ],
+    "inf": [
+      {
+        "type": "inf1.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 8,
+        "network": "Up to 25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "inf1.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 16,
+        "network": "Up to 25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "inf1.6xlarge",
+        "vCPUs": 24,
+        "memoryGiB": 48,
+        "network": "25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "inf1.24xlarge",
+        "vCPUs": 96,
+        "memoryGiB": 192,
+        "network": "100 Gbps",
+        "gen": true
+      },
+      {
+        "type": "inf2.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 32,
+        "network": "Up to 15 Gbps",
+        "gen": true
+      },
+      {
+        "type": "inf2.8xlarge",
+        "vCPUs": 32,
+        "memoryGiB": 128,
+        "network": "Up to 25 Gbps",
+        "gen": true
+      },
+      {
+        "type": "inf2.24xlarge",
+        "vCPUs": 96,
+        "memoryGiB": 384,
+        "network": "100 Gbps",
+        "gen": true
+      },
+      {
+        "type": "inf2.48xlarge",
+        "vCPUs": 192,
+        "memoryGiB": 768,
+        "network": "100 Gbps",
+        "gen": true
+      }
+    ],
+    "trn": [
+      {
+        "type": "trn1.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 32,
+        "network": "Up to 12.5 Gbps",
+        "gen": true
+      },
+      {
+        "type": "trn1.32xlarge",
+        "vCPUs": 128,
+        "memoryGiB": 512,
+        "network": "800 Gbps",
+        "gen": true
+      },
+      {
+        "type": "trn1n.32xlarge",
+        "vCPUs": 128,
+        "memoryGiB": 512,
+        "network": "1600 Gbps",
+        "gen": true
+      }
+    ],
+    "hpc": [
+      {
+        "type": "hpc6a.48xlarge",
+        "vCPUs": 96,
+        "memoryGiB": 384,
+        "network": "100 Gbps EFA",
+        "gen": true
+      },
+      {
+        "type": "hpc6id.32xlarge",
+        "vCPUs": 64,
+        "memoryGiB": 1024,
+        "network": "200 Gbps EFA",
+        "gen": true
+      },
+      {
+        "type": "hpc7g.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 128,
+        "network": "200 Gbps EFA",
+        "gen": true
+      },
+      {
+        "type": "hpc7g.8xlarge",
+        "vCPUs": 32,
+        "memoryGiB": 128,
+        "network": "200 Gbps EFA",
+        "gen": true
+      },
+      {
+        "type": "hpc7g.16xlarge",
+        "vCPUs": 64,
+        "memoryGiB": 128,
+        "network": "200 Gbps EFA",
+        "gen": true
+      },
+      {
+        "type": "hpc7a.12xlarge",
+        "vCPUs": 24,
+        "memoryGiB": 768,
+        "network": "300 Gbps EFA",
+        "gen": true
+      },
+      {
+        "type": "hpc7a.24xlarge",
+        "vCPUs": 48,
+        "memoryGiB": 768,
+        "network": "300 Gbps EFA",
+        "gen": true
+      },
+      {
+        "type": "hpc7a.48xlarge",
+        "vCPUs": 96,
+        "memoryGiB": 768,
+        "network": "300 Gbps EFA",
+        "gen": true
+      },
+      {
+        "type": "hpc7a.96xlarge",
+        "vCPUs": 192,
+        "memoryGiB": 768,
+        "network": "300 Gbps EFA",
+        "gen": true
+      }
+    ]
+  },
+  "rdsFamilies": {
+    "db.t": {
+      "family_name": "db.t (Burstable)",
+      "category": "Burstable Performance",
+      "icon": "\u26a1",
+      "color": "#29B6F6",
+      "gradient": "linear-gradient(135deg, #29B6F6, #0277BD)",
+      "headline": "Burstable DB Instances for Variable Workloads",
+      "reasoning": "db.t instances use a CPU credit system, ideal for databases with variable workloads that don't need sustained high CPU. They're the most cost-effective option for development, testing, and small production databases.",
+      "best_for": [
+        "Development & testing databases",
+        "Small production workloads",
+        "Microservices backends",
+        "POC / prototype databases",
+        "Low-traffic web app backends"
+      ],
+      "not_for": [
+        "High-throughput OLTP",
+        "Large analytical queries",
+        "Sustained 100% CPU workloads"
+      ],
+      "key_specs": {
+        "vCPUs": "2 \u2013 8",
+        "Memory": "1 \u2013 32 GiB",
+        "Burst": "Yes (CPU Credits)",
+        "Cost": "Lowest tier"
+      },
+      "generations": [
+        "db.t3",
+        "db.t3.micro",
+        "db.t3.small",
+        "db.t3.medium",
+        "db.t3.large",
+        "db.t4g"
+      ]
+    },
+    "db.m": {
+      "family_name": "db.m (General Purpose)",
+      "category": "General Purpose",
+      "icon": "\ud83c\udfaf",
+      "color": "#66BB6A",
+      "gradient": "linear-gradient(135deg, #66BB6A, #2E7D32)",
+      "headline": "Balanced Performance for Most DB Workloads",
+      "reasoning": "db.m instances offer a balance of compute, memory, and networking suitable for the majority of production database workloads. They provide consistent performance without the burst model, making them predictable and reliable.",
+      "best_for": [
+        "Production OLTP databases",
+        "E-commerce backends",
+        "SaaS application databases",
+        "Content management systems",
+        "ERP & CRM databases",
+        "Multi-AZ deployments"
+      ],
+      "not_for": [
+        "Memory-intensive analytics",
+        "Very large in-memory datasets",
+        "Cost-sensitive dev/test environments"
+      ],
+      "key_specs": {
+        "vCPUs": "2 \u2013 96",
+        "Memory": "8 \u2013 384 GiB",
+        "Network": "Up to 50 Gbps",
+        "EBS Optimized": "Yes"
+      },
+      "generations": [
+        "db.m5",
+        "db.m5d",
+        "db.m6i",
+        "db.m6g",
+        "db.m7g"
+      ]
+    },
+    "db.r": {
+      "family_name": "db.r (Memory Optimized)",
+      "category": "Memory Optimized",
+      "icon": "\ud83e\udde0",
+      "color": "#AB47BC",
+      "gradient": "linear-gradient(135deg, #AB47BC, #6A1B9A)",
+      "headline": "High Memory for Data-Intensive Databases",
+      "reasoning": "db.r instances are designed for memory-intensive database workloads. They provide more GiB of memory per vCPU than db.m instances, allowing more data to be cached in memory, reducing disk I/O and improving query performance dramatically.",
+      "best_for": [
+        "High-performance OLTP at scale",
+        "Analytics & reporting databases",
+        "Large working-set databases",
+        "Real-time data processing",
+        "Aurora with large buffer pools",
+        "Memory-optimized PostgreSQL / MySQL"
+      ],
+      "not_for": [
+        "Small databases under 64 GiB",
+        "Dev/test environments",
+        "Cost-sensitive workloads"
+      ],
+      "key_specs": {
+        "vCPUs": "2 \u2013 96",
+        "Memory": "16 \u2013 768 GiB",
+        "CPU-to-Memory Ratio": "1:8",
+        "Network": "Up to 50 Gbps"
+      },
+      "generations": [
+        "db.r5",
+        "db.r5b",
+        "db.r6i",
+        "db.r6g",
+        "db.r7g"
+      ]
+    },
+    "db.x": {
+      "family_name": "db.x (Extreme Memory)",
+      "category": "Memory Optimized",
+      "icon": "\ud83d\udc8e",
+      "color": "#7E57C2",
+      "gradient": "linear-gradient(135deg, #7E57C2, #4527A0)",
+      "headline": "Extreme Memory for Largest Databases",
+      "reasoning": "db.x instances offer the highest memory capacity for RDS. They are purpose-built for demanding database workloads that require terabytes of memory, such as large Oracle or SQL Server databases.",
+      "best_for": [
+        "Large Oracle databases",
+        "Enterprise SQL Server",
+        "SAP on RDS",
+        "Very large in-memory datasets"
+      ],
+      "not_for": [
+        "Small to medium databases",
+        "Cost-conscious workloads",
+        "Databases under 256 GiB working set"
+      ],
+      "key_specs": {
+        "vCPUs": "4 \u2013 128",
+        "Memory": "128 \u2013 3904 GiB",
+        "Cost": "Premium tier",
+        "Optimized For": "Extreme memory"
+      },
+      "generations": [
+        "db.x1",
+        "db.x1e",
+        "db.x2g",
+        "db.x2idn",
+        "db.x2iedn"
+      ]
+    }
+  },
+  "rdsInstances": {
+    "db.t": [
+      {
+        "class": "db.t3.micro",
+        "engine": "mysql, postgres, mariadb"
+      },
+      {
+        "class": "db.t3.small",
+        "engine": "mysql, postgres, mariadb, aurora-mysql"
+      },
+      {
+        "class": "db.t3.medium",
+        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql, sqlserver-ee"
+      },
+      {
+        "class": "db.t3.large",
+        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql, sqlserver-ee"
+      },
+      {
+        "class": "db.t3.xlarge",
+        "engine": "mysql, postgres, mariadb, sqlserver-ee"
+      },
+      {
+        "class": "db.t3.2xlarge",
+        "engine": "mysql, postgres, mariadb, sqlserver-ee"
+      },
+      {
+        "class": "db.t4g.micro",
+        "engine": "mysql, postgres, mariadb"
+      },
+      {
+        "class": "db.t4g.small",
+        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql"
+      },
+      {
+        "class": "db.t4g.medium",
+        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql"
+      },
+      {
+        "class": "db.t4g.large",
+        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql"
+      },
+      {
+        "class": "db.t4g.xlarge",
+        "engine": "mysql, postgres, mariadb"
+      },
+      {
+        "class": "db.t4g.2xlarge",
+        "engine": "mysql, postgres, mariadb"
+      }
+    ],
+    "db.m": [
+      {
+        "class": "db.m5.large",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.m5.xlarge",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.m5.2xlarge",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.m5.4xlarge",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.m5.8xlarge",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.m5.12xlarge",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.m5.16xlarge",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.m5.24xlarge",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.m6i.large",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.m6i.xlarge",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.m6i.2xlarge",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.m6i.4xlarge",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.m6g.large",
+        "engine": "mysql, postgres, mariadb"
+      },
+      {
+        "class": "db.m6g.xlarge",
+        "engine": "mysql, postgres, mariadb"
+      },
+      {
+        "class": "db.m6g.2xlarge",
+        "engine": "mysql, postgres, mariadb"
+      },
+      {
+        "class": "db.m7g.large",
+        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql"
+      },
+      {
+        "class": "db.m7g.xlarge",
+        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql"
+      }
+    ],
+    "db.r": [
+      {
+        "class": "db.r5.large",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee, aurora-mysql, aurora-postgresql"
+      },
+      {
+        "class": "db.r5.xlarge",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee, aurora-mysql, aurora-postgresql"
+      },
+      {
+        "class": "db.r5.2xlarge",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee, aurora-mysql, aurora-postgresql"
+      },
+      {
+        "class": "db.r5.4xlarge",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee, aurora-mysql, aurora-postgresql"
+      },
+      {
+        "class": "db.r5.8xlarge",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee, aurora-mysql, aurora-postgresql"
+      },
+      {
+        "class": "db.r5.12xlarge",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee, aurora-mysql, aurora-postgresql"
+      },
+      {
+        "class": "db.r5.16xlarge",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.r5.24xlarge",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.r6i.large",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.r6i.xlarge",
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.r6g.large",
+        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql"
+      },
+      {
+        "class": "db.r6g.xlarge",
+        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql"
+      },
+      {
+        "class": "db.r7g.large",
+        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql"
+      },
+      {
+        "class": "db.r7g.xlarge",
+        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql"
+      }
+    ],
+    "db.x": [
+      {
+        "class": "db.x1.16xlarge",
+        "engine": "oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.x1.32xlarge",
+        "engine": "oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.x1e.xlarge",
+        "engine": "oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.x1e.2xlarge",
+        "engine": "oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.x1e.4xlarge",
+        "engine": "oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.x1e.8xlarge",
+        "engine": "oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.x1e.16xlarge",
+        "engine": "oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.x1e.32xlarge",
+        "engine": "oracle-ee, sqlserver-ee"
+      },
+      {
+        "class": "db.x2g.large",
+        "engine": "mysql, postgres"
+      },
+      {
+        "class": "db.x2g.xlarge",
+        "engine": "mysql, postgres"
+      },
+      {
+        "class": "db.x2g.2xlarge",
+        "engine": "mysql, postgres"
+      }
+    ]
+  },
+  "rdsEngines": {
+    "mysql": {
+      "engine_name": "MySQL",
+      "icon": "\ud83d\udc2c",
+      "color": "#00758F",
+      "gradient": "linear-gradient(135deg, #00758F, #F29111)",
+      "headline": "World's Most Popular Open-Source Database",
+      "reasoning": "MySQL is the most widely adopted open-source relational database. Choose MySQL when you need a proven, cost-effective RDBMS with a massive community, extensive tooling, and broad compatibility.",
+      "best_for": [
+        "Web applications (WordPress, Drupal)",
+        "E-commerce platforms (Magento)",
+        "SaaS applications",
+        "Read-heavy workloads",
+        "Content management systems"
+      ]
+    },
+    "postgres": {
+      "engine_name": "PostgreSQL",
+      "icon": "\ud83d\udc18",
+      "color": "#336791",
+      "gradient": "linear-gradient(135deg, #336791, #008BB9)",
+      "headline": "Advanced Open-Source Object-Relational DB",
+      "reasoning": "PostgreSQL is the most advanced open-source relational database. Choose PostgreSQL when you need advanced data types (JSON, arrays, hstore), complex queries, strong ACID compliance, and extensibility.",
+      "best_for": [
+        "Geospatial applications (PostGIS)",
+        "Complex analytical queries",
+        "Data warehousing",
+        "Financial applications requiring strict ACID",
+        "Applications needing JSON/JSONB support"
+      ]
+    },
+    "aurora-mysql": {
+      "engine_name": "Amazon Aurora (MySQL)",
+      "icon": "\ud83c\udf1f",
+      "color": "#FF9900",
+      "gradient": "linear-gradient(135deg, #FF9900, #232F3E)",
+      "headline": "MySQL-Compatible, 5x Faster Performance",
+      "reasoning": "Aurora MySQL is AWS's cloud-native MySQL-compatible database. It delivers up to 5x the throughput of standard MySQL with automatic scaling, high availability (6-way replication), and seamless migration from standard MySQL.",
+      "best_for": [
+        "High-performance MySQL workloads",
+        "Applications requiring 99.99% availability",
+        "Auto-scaling read replicas",
+        "Global databases",
+        "MySQL migrations seeking better performance"
+      ]
+    },
+    "aurora-postgresql": {
+      "engine_name": "Amazon Aurora (PostgreSQL)",
+      "icon": "\u2728",
+      "color": "#FF9900",
+      "gradient": "linear-gradient(135deg, #FF9900, #336791)",
+      "headline": "PostgreSQL-Compatible, 3x Faster Performance",
+      "reasoning": "Aurora PostgreSQL delivers up to 3x the throughput of standard PostgreSQL. It combines PostgreSQL compatibility with Aurora's cloud-native architecture for automatic scaling and high availability.",
+      "best_for": [
+        "High-performance PostgreSQL workloads",
+        "Applications needing global distribution",
+        "Serverless database workloads (Aurora Serverless v2)",
+        "PostgreSQL migrations to AWS"
+      ]
+    },
+    "mariadb": {
+      "engine_name": "MariaDB",
+      "icon": "\ud83e\uddad",
+      "color": "#003545",
+      "gradient": "linear-gradient(135deg, #003545, #C0765A)",
+      "headline": "Enhanced MySQL Fork with Extra Features",
+      "reasoning": "MariaDB is a community-driven fork of MySQL with additional storage engines, optimizations, and features. Choose MariaDB when you want MySQL compatibility with extra open-source features.",
+      "best_for": [
+        "MySQL workloads seeking additional features",
+        "Open-source enthusiasts",
+        "Applications needing Aria/ColumnStore engines",
+        "Web applications and CMS"
+      ]
+    },
+    "oracle-ee": {
+      "engine_name": "Oracle Database",
+      "icon": "\ud83c\udfdb\ufe0f",
+      "color": "#F80000",
+      "gradient": "linear-gradient(135deg, #F80000, #8B0000)",
+      "headline": "Enterprise-Grade Commercial RDBMS",
+      "reasoning": "Oracle is the industry-standard enterprise database. Choose Oracle on RDS when your application requires Oracle-specific features like PL/SQL, RAC compatibility, or you have existing Oracle licenses.",
+      "best_for": [
+        "Enterprise applications with Oracle dependencies",
+        "Legacy Oracle migrations",
+        "Applications using PL/SQL",
+        "BYOL (Bring Your Own License)"
+      ]
+    },
+    "sqlserver-ee": {
+      "engine_name": "Microsoft SQL Server",
+      "icon": "\ud83e\ude9f",
+      "color": "#CC2927",
+      "gradient": "linear-gradient(135deg, #CC2927, #2f2f2f)",
+      "headline": "Microsoft's Enterprise Database on AWS",
+      "reasoning": "SQL Server on RDS is ideal for Microsoft-stack applications. Choose SQL Server when your application depends on T-SQL, SSRS, SSIS, or .NET integration.",
+      "best_for": [
+        ".NET application backends",
+        "Microsoft ecosystem applications",
+        "Applications requiring T-SQL",
+        "Legacy SQL Server migrations",
+        "BYOL SQL Server deployments"
+      ]
+    }
+  }
+}
