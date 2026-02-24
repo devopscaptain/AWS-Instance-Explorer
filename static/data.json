@@ -2122,121 +2122,150 @@
     "db.t": [
       {
         "class": "db.t3.micro",
-        "engine": "mysql, postgres, mariadb"
+        "engine": "mysql, postgres, mariadb",
+        "price_hourly": 0.017
       },
       {
         "class": "db.t3.small",
-        "engine": "mysql, postgres, mariadb, aurora-mysql"
+        "engine": "mysql, postgres, mariadb, aurora-mysql",
+        "price_hourly": 0.034
       },
       {
         "class": "db.t3.medium",
-        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql, sqlserver-ee"
+        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql, sqlserver-ee",
+        "price_hourly": 0.068
       },
       {
         "class": "db.t3.large",
-        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql, sqlserver-ee"
+        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql, sqlserver-ee",
+        "price_hourly": 0.136
       },
       {
         "class": "db.t3.xlarge",
-        "engine": "mysql, postgres, mariadb, sqlserver-ee"
+        "engine": "mysql, postgres, mariadb, sqlserver-ee",
+        "price_hourly": 0.272
       },
       {
         "class": "db.t3.2xlarge",
-        "engine": "mysql, postgres, mariadb, sqlserver-ee"
+        "engine": "mysql, postgres, mariadb, sqlserver-ee",
+        "price_hourly": 0.544
       },
       {
         "class": "db.t4g.micro",
-        "engine": "mysql, postgres, mariadb"
+        "engine": "mysql, postgres, mariadb",
+        "price_hourly": 0.016
       },
       {
         "class": "db.t4g.small",
-        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql"
+        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql",
+        "price_hourly": 0.032
       },
       {
         "class": "db.t4g.medium",
-        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql"
+        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql",
+        "price_hourly": 0.064
       },
       {
         "class": "db.t4g.large",
-        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql"
+        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql",
+        "price_hourly": 0.128
       },
       {
         "class": "db.t4g.xlarge",
-        "engine": "mysql, postgres, mariadb"
+        "engine": "mysql, postgres, mariadb",
+        "price_hourly": 0.256
       },
       {
         "class": "db.t4g.2xlarge",
-        "engine": "mysql, postgres, mariadb"
+        "engine": "mysql, postgres, mariadb",
+        "price_hourly": 0.512
       }
     ],
     "db.m": [
       {
         "class": "db.m5.large",
-        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee",
+        "price_hourly": 0.192
       },
       {
         "class": "db.m5.xlarge",
-        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee",
+        "price_hourly": 0.384
       },
       {
         "class": "db.m5.2xlarge",
-        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee",
+        "price_hourly": 0.768
       },
       {
         "class": "db.m5.4xlarge",
-        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee",
+        "price_hourly": 1.536
       },
       {
         "class": "db.m5.8xlarge",
-        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee",
+        "price_hourly": 3.072
       },
       {
         "class": "db.m5.12xlarge",
-        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee",
+        "price_hourly": 4.608
       },
       {
         "class": "db.m5.16xlarge",
-        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee",
+        "price_hourly": 6.144
       },
       {
         "class": "db.m5.24xlarge",
-        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee",
+        "price_hourly": 9.216
       },
       {
         "class": "db.m6i.large",
-        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee",
+        "price_hourly": 0.192
       },
       {
         "class": "db.m6i.xlarge",
-        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee",
+        "price_hourly": 0.384
       },
       {
         "class": "db.m6i.2xlarge",
-        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee",
+        "price_hourly": 0.768
       },
       {
         "class": "db.m6i.4xlarge",
-        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee"
+        "engine": "mysql, postgres, mariadb, oracle-ee, sqlserver-ee",
+        "price_hourly": 1.536
       },
       {
         "class": "db.m6g.large",
-        "engine": "mysql, postgres, mariadb"
+        "engine": "mysql, postgres, mariadb",
+        "price_hourly": 0.154
       },
       {
         "class": "db.m6g.xlarge",
-        "engine": "mysql, postgres, mariadb"
+        "engine": "mysql, postgres, mariadb",
+        "price_hourly": 0.308
       },
       {
         "class": "db.m6g.2xlarge",
-        "engine": "mysql, postgres, mariadb"
+        "engine": "mysql, postgres, mariadb",
+        "price_hourly": 0.616
       },
       {
         "class": "db.m7g.large",
-        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql"
+        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql",
+        "price_hourly": 0.161
       },
       {
         "class": "db.m7g.xlarge",
-        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql"
+        "engine": "mysql, postgres, mariadb, aurora-mysql, aurora-postgresql",
+        "price_hourly": 0.322
       }
     ],
     "db.r": [

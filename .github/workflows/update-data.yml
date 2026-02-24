@@ -26,16 +26,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install boto3
 
-      # - name: Configure AWS Credentials
-      #   uses: aws-actions/configure-aws-credentials@v4
-      #   with:
-      #     # Best practice: Use OIDC role (Set AWS_ROLE_ARN in GitHub Secrets)
-      #     role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-      #     aws-region: us-east-1
-
-      #     # Alternatively, if you use Access Keys, uncomment the lines below and comment out role-to-assume:
-      #     # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          # Option 1: Use OIDC role (Recommended - more secure, no long-term credentials)
+          # Uncomment the line below and set AWS_ROLE_ARN in GitHub Secrets
+          # role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          
+          # Option 2: Use Access Keys (Simpler setup)
+          # Uncomment the lines below and set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in GitHub Secrets
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
 
       - name: Fetch Latest Data from AWS
         run: python .github/scripts/update_data.py

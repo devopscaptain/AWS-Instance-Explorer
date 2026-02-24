@@ -115,8 +115,10 @@ function setupTabs() {
             $(`#${tab}Content`).classList.add('active');
             if (tab === 'engines') {
                 els.filterChips.style.display = 'none';
+                els.searchInput.placeholder = 'Search database engines...';
             } else {
                 els.filterChips.style.display = 'flex';
+                els.searchInput.placeholder = 'Search instance types... (e.g., m5.xlarge, gpu, burstable)';
                 applyFilters();
             }
         });
@@ -158,8 +160,21 @@ function setupSearch() {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
             state.searchQuery = e.target.value.toLowerCase().trim();
-            applyFilters();
+            if (state.activeTab === 'engines') {
+                applyEngineSearch();
+            } else {
+                applyFilters();
+            }
         }, 200);
+    });
+}
+
+function applyEngineSearch() {
+    const cards = els.enginesGrid.querySelectorAll('.engine-card');
+    cards.forEach(card => {
+        const matchesSearch = !state.searchQuery ||
+            card.textContent.toLowerCase().includes(state.searchQuery);
+        card.style.display = matchesSearch ? 'block' : 'none';
     });
 }
 
@@ -221,6 +236,12 @@ async function loadStaticData() {
         state.rdsData = { families: rdsFamilies, totalClasses: totalRds, totalFamilies: Object.keys(rdsFamilies).length };
 
         state.engineData = data.rdsEngines;
+
+        // Set last updated timestamp if available
+        if (data.lastUpdated) {
+            const date = new Date(data.lastUpdated);
+            $('#lastUpdated').textContent = `Last updated: ${date.toLocaleDateString()}`;
+        }
 
         // Render everything
         updateStats();
@@ -327,8 +348,8 @@ function buildFamilyCardHTML(key, fam, r, idx, type) {
     let tableHtml = '';
     if (type === 'ec2') {
         const rows = instances.slice(0, 50).map((inst, i) => {
-            const costHtml = inst.price_hourly ? `<span class="price-val">$${inst.price_hourly.toFixed(3)}/hr<br><span style="font-size:10px; opacity:0.7">~$${(inst.price_hourly * 730).toFixed(2)}/mo</span></span>` : '—';
-            const winCostHtml = inst.price_hourly_windows ? `<span class="price-val">$${inst.price_hourly_windows.toFixed(3)}/hr<br><span style="font-size:10px; opacity:0.7">~$${(inst.price_hourly_windows * 730).toFixed(2)}/mo</span></span>` : '—';
+            const costHtml = inst.price_hourly ? `<span class="price-val">$${inst.price_hourly.toFixed(3)}/hr<br><span style="font-size:10px; opacity:0.7">~$${(inst.price_hourly * 730).toFixed(2)}/mo</span></span>` : '<span style="color: var(--text-muted)">N/A</span>';
+            const winCostHtml = inst.price_hourly_windows ? `<span class="price-val">$${inst.price_hourly_windows.toFixed(3)}/hr<br><span style="font-size:10px; opacity:0.7">~$${(inst.price_hourly_windows * 730).toFixed(2)}/mo</span></span>` : '<span style="color: var(--text-muted)">N/A</span>';
             return `
             <tr style="animation-delay: ${i * 0.02}s">
                 <td><span class="instance-type-name">${esc(inst.instanceType)}
@@ -347,7 +368,7 @@ function buildFamilyCardHTML(key, fam, r, idx, type) {
         </tr></thead><tbody>${rows}</tbody></table>`;
     } else {
         const rows = instances.slice(0, 50).map((inst, i) => {
-            const costHtml = inst.price_hourly ? `<span class="price-val">$${inst.price_hourly.toFixed(3)}/hr<br><span style="font-size:10px; opacity:0.7">~$${(inst.price_hourly * 730).toFixed(2)}/mo</span></span>` : '—';
+            const costHtml = inst.price_hourly ? `<span class="price-val">$${inst.price_hourly.toFixed(3)}/hr<br><span style="font-size:10px; opacity:0.7">~$${(inst.price_hourly * 730).toFixed(2)}/mo</span></span>` : '<span style="color: var(--text-muted)">Varies by engine</span>';
             return `
             <tr style="animation-delay: ${i * 0.02}s">
                 <td>${esc(inst.dbInstanceClass)}</td>
@@ -356,7 +377,7 @@ function buildFamilyCardHTML(key, fam, r, idx, type) {
             </tr>
         `}).join('');
         tableHtml = `<table class="instances-table"><thead><tr>
-            <th>DB Instance Class</th><th>Supported Engines</th><th>MySQL Cost (Single-AZ)</th>
+            <th>DB Instance Class</th><th>Supported Engines</th><th>Estimated Cost</th>
         </tr></thead><tbody>${rows}</tbody></table>`;
     }
 

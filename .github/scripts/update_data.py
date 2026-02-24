@@ -84,6 +84,8 @@ def get_rds_prices(pricing_client):
     return prices
 
 def update_data():
+    from datetime import datetime
+    
     base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     data_file = os.path.join(base_dir, 'static', 'data.json')
     
@@ -197,6 +199,9 @@ def update_data():
             print("RDS instance data successfully fetched and merged.")
     except Exception as e:
         print(f"Error fetching RDS data: {e}")
+
+    # Add timestamp
+    data['lastUpdated'] = datetime.utcnow().isoformat() + 'Z'
 
     with open(data_file, 'w') as f:
         json.dump(data, f, indent=2)
