@@ -1,0 +1,56 @@
+name: Refresh AWS Instance Data
+
+on:
+  schedule:
+    - cron: "0 0 * * 1" # Runs every Monday at midnight UTC
+  workflow_dispatch: # Allows manual trigger from the GitHub UI
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required to push commits
+      id-token: write # Required for AWS OIDC authentication
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install boto3
+
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     # Best practice: Use OIDC role (Set AWS_ROLE_ARN in GitHub Secrets)
+      #     role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+      #     aws-region: us-east-1
+
+      #     # Alternatively, if you use Access Keys, uncomment the lines below and comment out role-to-assume:
+      #     # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Fetch Latest Data from AWS
+        run: python .github/scripts/update_data.py
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add static/data.json
+
+          # Check if there are changes before committing
+          if git diff --staged --quiet; then
+            echo "No changes found. Skipping commit."
+          else
+            git commit -m "Auto-update AWS instance data [skip ci]"
+            git push
+            echo "Changes pushed successfully!"
+          fi

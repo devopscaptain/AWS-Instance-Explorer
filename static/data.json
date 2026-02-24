@@ -537,386 +537,431 @@
   "ec2Instances": {
     "t": [
       {
-        "type": "t3.nano",
-        "vCPUs": 2,
-        "memoryGiB": 0.5,
-        "network": "Up to 5 Gbps",
-        "gen": true
+        "type": "t1.micro",
+        "vCPUs": 1,
+        "memoryGiB": 0.61,
+        "network": "Very Low",
+        "gen": false,
+        "price_hourly": 0.02,
+        "price_hourly_windows": 0.02
       },
       {
-        "type": "t3.micro",
-        "vCPUs": 2,
-        "memoryGiB": 1,
-        "network": "Up to 5 Gbps",
-        "gen": true
+        "type": "t2.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 32,
+        "network": "Moderate",
+        "gen": true,
+        "price_hourly": 0.3712,
+        "price_hourly_windows": 0.3712
       },
       {
-        "type": "t3.small",
-        "vCPUs": 2,
-        "memoryGiB": 2,
-        "network": "Up to 5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "t3.medium",
-        "vCPUs": 2,
-        "memoryGiB": 4,
-        "network": "Up to 5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "t3.large",
+        "type": "t2.large",
         "vCPUs": 2,
         "memoryGiB": 8,
-        "network": "Up to 5 Gbps",
-        "gen": true
+        "network": "Low to Moderate",
+        "gen": true,
+        "price_hourly": 0.0928,
+        "price_hourly_windows": 0.1208
       },
       {
-        "type": "t3.xlarge",
+        "type": "t2.medium",
+        "vCPUs": 2,
+        "memoryGiB": 4,
+        "network": "Low to Moderate",
+        "gen": true,
+        "price_hourly": 0.0464,
+        "price_hourly_windows": 0.0464
+      },
+      {
+        "type": "t2.micro",
+        "vCPUs": 1,
+        "memoryGiB": 1,
+        "network": "Low to Moderate",
+        "gen": true,
+        "price_hourly": 0.0116,
+        "price_hourly_windows": 0.0116
+      },
+      {
+        "type": "t2.nano",
+        "vCPUs": 1,
+        "memoryGiB": 0.5,
+        "network": "Low to Moderate",
+        "gen": true,
+        "price_hourly": 0.0058,
+        "price_hourly_windows": 0.0081
+      },
+      {
+        "type": "t2.small",
+        "vCPUs": 1,
+        "memoryGiB": 2,
+        "network": "Low to Moderate",
+        "gen": true,
+        "price_hourly": 0.023,
+        "price_hourly_windows": 0.032
+      },
+      {
+        "type": "t2.xlarge",
         "vCPUs": 4,
         "memoryGiB": 16,
-        "network": "Up to 5 Gbps",
-        "gen": true
+        "network": "Moderate",
+        "gen": true,
+        "price_hourly": 0.1856,
+        "price_hourly_windows": 0.1856
       },
       {
         "type": "t3.2xlarge",
         "vCPUs": 8,
         "memoryGiB": 32,
-        "network": "Up to 5 Gbps",
-        "gen": true
+        "network": "Up to 5 Gigabit",
+        "gen": true,
+        "price_hourly": 0.3328,
+        "price_hourly_windows": 0.3328
       },
       {
-        "type": "t3a.nano",
-        "vCPUs": 2,
-        "memoryGiB": 0.5,
-        "network": "Up to 5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "t3a.micro",
-        "vCPUs": 2,
-        "memoryGiB": 1,
-        "network": "Up to 5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "t3a.small",
-        "vCPUs": 2,
-        "memoryGiB": 2,
-        "network": "Up to 5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "t3a.medium",
-        "vCPUs": 2,
-        "memoryGiB": 4,
-        "network": "Up to 5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "t3a.large",
+        "type": "t3.large",
         "vCPUs": 2,
         "memoryGiB": 8,
-        "network": "Up to 5 Gbps",
-        "gen": true
+        "network": "Up to 5 Gigabit",
+        "gen": true,
+        "price_hourly": 0.0832,
+        "price_hourly_windows": 0.1108
       },
       {
-        "type": "t3a.xlarge",
-        "vCPUs": 4,
-        "memoryGiB": 16,
-        "network": "Up to 5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "t3a.2xlarge",
-        "vCPUs": 8,
-        "memoryGiB": 32,
-        "network": "Up to 5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "t4g.nano",
-        "vCPUs": 2,
-        "memoryGiB": 0.5,
-        "network": "Up to 5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "t4g.micro",
-        "vCPUs": 2,
-        "memoryGiB": 1,
-        "network": "Up to 5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "t4g.small",
-        "vCPUs": 2,
-        "memoryGiB": 2,
-        "network": "Up to 5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "t4g.medium",
+        "type": "t3.medium",
         "vCPUs": 2,
         "memoryGiB": 4,
-        "network": "Up to 5 Gbps",
-        "gen": true
+        "network": "Up to 5 Gigabit",
+        "gen": true,
+        "price_hourly": 0.0416,
+        "price_hourly_windows": 0.06
       },
       {
-        "type": "t4g.large",
+        "type": "t3.micro",
         "vCPUs": 2,
-        "memoryGiB": 8,
-        "network": "Up to 5 Gbps",
-        "gen": true
+        "memoryGiB": 1,
+        "network": "Up to 5 Gigabit",
+        "gen": true,
+        "price_hourly": 0.0104,
+        "price_hourly_windows": 0.0104
       },
       {
-        "type": "t4g.xlarge",
+        "type": "t3.nano",
+        "vCPUs": 2,
+        "memoryGiB": 0.5,
+        "network": "Up to 5 Gigabit",
+        "gen": true,
+        "price_hourly": 0.0052,
+        "price_hourly_windows": 0.0098
+      },
+      {
+        "type": "t3.small",
+        "vCPUs": 2,
+        "memoryGiB": 2,
+        "network": "Up to 5 Gigabit",
+        "gen": true,
+        "price_hourly": 0.0208,
+        "price_hourly_windows": 0.0208
+      },
+      {
+        "type": "t3.xlarge",
         "vCPUs": 4,
         "memoryGiB": 16,
-        "network": "Up to 5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "t4g.2xlarge",
-        "vCPUs": 8,
-        "memoryGiB": 32,
-        "network": "Up to 5 Gbps",
-        "gen": true
+        "network": "Up to 5 Gigabit",
+        "gen": true,
+        "price_hourly": 0.1664,
+        "price_hourly_windows": 0.1664
       }
     ],
     "m": [
       {
-        "type": "m5.large",
+        "type": "m1.large",
         "vCPUs": 2,
-        "memoryGiB": 8,
-        "network": "Up to 10 Gbps",
-        "gen": true
+        "memoryGiB": 7.5,
+        "network": "Moderate",
+        "gen": false,
+        "price_hourly": 0.175,
+        "price_hourly_windows": 0.299
       },
       {
-        "type": "m5.xlarge",
+        "type": "m1.medium",
+        "vCPUs": 1,
+        "memoryGiB": 3.7,
+        "network": "Moderate",
+        "gen": false,
+        "price_hourly": 0.087,
+        "price_hourly_windows": 0.087
+      },
+      {
+        "type": "m1.small",
+        "vCPUs": 1,
+        "memoryGiB": 1.7,
+        "network": "Low",
+        "gen": false,
+        "price_hourly": 0.044,
+        "price_hourly_windows": 0.044
+      },
+      {
+        "type": "m1.xlarge",
         "vCPUs": 4,
-        "memoryGiB": 16,
-        "network": "Up to 10 Gbps",
-        "gen": true
+        "memoryGiB": 15,
+        "network": "High",
+        "gen": false,
+        "price_hourly": 0.35,
+        "price_hourly_windows": 0.598
       },
       {
-        "type": "m5.2xlarge",
+        "type": "m2.2xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 34.2,
+        "network": "Moderate",
+        "gen": false,
+        "price_hourly": 0.49,
+        "price_hourly_windows": 0.69
+      },
+      {
+        "type": "m2.4xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 68.4,
+        "network": "High",
+        "gen": false,
+        "price_hourly": 0.98,
+        "price_hourly_windows": 1.38
+      },
+      {
+        "type": "m2.xlarge",
+        "vCPUs": 2,
+        "memoryGiB": 17.1,
+        "network": "Moderate",
+        "gen": false,
+        "price_hourly": 0.245,
+        "price_hourly_windows": 0.245
+      },
+      {
+        "type": "m3.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 30,
+        "network": "High",
+        "gen": false,
+        "price_hourly": 0.532,
+        "price_hourly_windows": 1.036
+      },
+      {
+        "type": "m3.large",
+        "vCPUs": 2,
+        "memoryGiB": 7.5,
+        "network": "Moderate",
+        "gen": false,
+        "price_hourly": 0.133,
+        "price_hourly_windows": 0.133
+      },
+      {
+        "type": "m3.medium",
+        "vCPUs": 1,
+        "memoryGiB": 3.75,
+        "network": "Moderate",
+        "gen": false,
+        "price_hourly": 0.067,
+        "price_hourly_windows": 0.067
+      },
+      {
+        "type": "m3.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 15,
+        "network": "High",
+        "gen": false,
+        "price_hourly": 0.266,
+        "price_hourly_windows": 0.266
+      },
+      {
+        "type": "m4.10xlarge",
+        "vCPUs": 40,
+        "memoryGiB": 160,
+        "network": "10 Gigabit",
+        "gen": false,
+        "price_hourly": 2.0,
+        "price_hourly_windows": 3.84
+      },
+      {
+        "type": "m4.16xlarge",
+        "vCPUs": 64,
+        "memoryGiB": 256,
+        "network": "25 Gigabit",
+        "gen": false,
+        "price_hourly": 3.2,
+        "price_hourly_windows": 3.2
+      },
+      {
+        "type": "m4.2xlarge",
         "vCPUs": 8,
         "memoryGiB": 32,
-        "network": "Up to 10 Gbps",
-        "gen": true
+        "network": "High",
+        "gen": false,
+        "price_hourly": 0.4,
+        "price_hourly_windows": 0.768
       },
       {
-        "type": "m5.4xlarge",
+        "type": "m4.4xlarge",
         "vCPUs": 16,
         "memoryGiB": 64,
-        "network": "Up to 10 Gbps",
-        "gen": true
+        "network": "High",
+        "gen": false,
+        "price_hourly": 0.8,
+        "price_hourly_windows": 0.8
       },
       {
-        "type": "m5.8xlarge",
-        "vCPUs": 32,
-        "memoryGiB": 128,
-        "network": "10 Gbps",
-        "gen": true
+        "type": "m4.large",
+        "vCPUs": 2,
+        "memoryGiB": 8,
+        "network": "Moderate",
+        "gen": false,
+        "price_hourly": 0.1,
+        "price_hourly_windows": 0.1
+      },
+      {
+        "type": "m4.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 16,
+        "network": "High",
+        "gen": false,
+        "price_hourly": 0.2,
+        "price_hourly_windows": 0.384
       },
       {
         "type": "m5.12xlarge",
         "vCPUs": 48,
         "memoryGiB": 192,
-        "network": "12 Gbps",
-        "gen": true
+        "network": "12 Gigabit",
+        "gen": false,
+        "price_hourly": 2.304,
+        "price_hourly_windows": 2.304
       },
       {
         "type": "m5.16xlarge",
         "vCPUs": 64,
         "memoryGiB": 256,
-        "network": "20 Gbps",
-        "gen": true
+        "network": "20 Gigabit",
+        "gen": false,
+        "price_hourly": 3.072,
+        "price_hourly_windows": 6.016
       },
       {
         "type": "m5.24xlarge",
         "vCPUs": 96,
         "memoryGiB": 384,
-        "network": "25 Gbps",
-        "gen": true
+        "network": "25 Gigabit",
+        "gen": false,
+        "price_hourly": 4.608,
+        "price_hourly_windows": 4.608
       },
       {
-        "type": "m6i.large",
-        "vCPUs": 2,
-        "memoryGiB": 8,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "m6i.xlarge",
-        "vCPUs": 4,
-        "memoryGiB": 16,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "m6i.2xlarge",
+        "type": "m5.2xlarge",
         "vCPUs": 8,
         "memoryGiB": 32,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 0.384,
+        "price_hourly_windows": 0.384
       },
       {
-        "type": "m6i.4xlarge",
+        "type": "m5.4xlarge",
         "vCPUs": 16,
         "memoryGiB": 64,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 0.768,
+        "price_hourly_windows": 0.768
       },
       {
-        "type": "m6i.8xlarge",
+        "type": "m5.8xlarge",
         "vCPUs": 32,
         "memoryGiB": 128,
-        "network": "12.5 Gbps",
-        "gen": true
+        "network": "10 Gigabit",
+        "gen": false,
+        "price_hourly": 1.536,
+        "price_hourly_windows": 1.536
       },
       {
-        "type": "m6i.12xlarge",
-        "vCPUs": 48,
-        "memoryGiB": 192,
-        "network": "18.75 Gbps",
-        "gen": true
+        "type": "m5.large",
+        "vCPUs": 2,
+        "memoryGiB": 8,
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 0.096,
+        "price_hourly_windows": 0.188
       },
       {
-        "type": "m6i.16xlarge",
-        "vCPUs": 64,
-        "memoryGiB": 256,
-        "network": "25 Gbps",
-        "gen": true
-      },
-      {
-        "type": "m6i.24xlarge",
+        "type": "m5.metal",
         "vCPUs": 96,
         "memoryGiB": 384,
-        "network": "37.5 Gbps",
-        "gen": true
+        "network": "25 Gigabit",
+        "gen": false,
+        "price_hourly": 4.608,
+        "price_hourly_windows": 9.024
       },
       {
-        "type": "m6i.32xlarge",
-        "vCPUs": 128,
-        "memoryGiB": 512,
-        "network": "50 Gbps",
-        "gen": true
-      },
-      {
-        "type": "m6g.medium",
-        "vCPUs": 1,
-        "memoryGiB": 4,
-        "network": "Up to 10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "m6g.large",
-        "vCPUs": 2,
-        "memoryGiB": 8,
-        "network": "Up to 10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "m6g.xlarge",
+        "type": "m5.xlarge",
         "vCPUs": 4,
         "memoryGiB": 16,
-        "network": "Up to 10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "m6g.2xlarge",
-        "vCPUs": 8,
-        "memoryGiB": 32,
-        "network": "Up to 10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "m7i.large",
-        "vCPUs": 2,
-        "memoryGiB": 8,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "m7i.xlarge",
-        "vCPUs": 4,
-        "memoryGiB": 16,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "m7i.2xlarge",
-        "vCPUs": 8,
-        "memoryGiB": 32,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "m7i.4xlarge",
-        "vCPUs": 16,
-        "memoryGiB": 64,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "m7g.medium",
-        "vCPUs": 1,
-        "memoryGiB": 4,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "m7g.large",
-        "vCPUs": 2,
-        "memoryGiB": 8,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "m7g.xlarge",
-        "vCPUs": 4,
-        "memoryGiB": 16,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 0.192,
+        "price_hourly_windows": 0.376
       }
     ],
     "a": [
       {
-        "type": "a1.medium",
-        "vCPUs": 1,
-        "memoryGiB": 2,
-        "network": "Up to 10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "a1.large",
-        "vCPUs": 2,
-        "memoryGiB": 4,
-        "network": "Up to 10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "a1.xlarge",
-        "vCPUs": 4,
-        "memoryGiB": 8,
-        "network": "Up to 10 Gbps",
-        "gen": true
-      },
-      {
         "type": "a1.2xlarge",
         "vCPUs": 8,
         "memoryGiB": 16,
-        "network": "Up to 10 Gbps",
-        "gen": true
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 0.204,
+        "price_hourly_windows": null
       },
       {
         "type": "a1.4xlarge",
         "vCPUs": 16,
         "memoryGiB": 32,
-        "network": "Up to 10 Gbps",
-        "gen": true
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 0.408,
+        "price_hourly_windows": null
+      },
+      {
+        "type": "a1.large",
+        "vCPUs": 2,
+        "memoryGiB": 4,
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 0.051,
+        "price_hourly_windows": null
+      },
+      {
+        "type": "a1.medium",
+        "vCPUs": 1,
+        "memoryGiB": 2,
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 0.0255,
+        "price_hourly_windows": null
+      },
+      {
+        "type": "a1.metal",
+        "vCPUs": 16,
+        "memoryGiB": 32,
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 0.408,
+        "price_hourly_windows": null
+      },
+      {
+        "type": "a1.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 8,
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 0.102,
+        "price_hourly_windows": null
       }
     ],
     "mac": [
@@ -924,285 +969,392 @@
         "type": "mac1.metal",
         "vCPUs": 12,
         "memoryGiB": 32,
-        "network": "25 Gbps",
-        "gen": true
+        "network": "25 Gigabit",
+        "gen": true,
+        "price_hourly": null,
+        "price_hourly_windows": null
       },
       {
         "type": "mac2.metal",
         "vCPUs": 8,
         "memoryGiB": 16,
-        "network": "10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "mac2-m2.metal",
-        "vCPUs": 8,
-        "memoryGiB": 24,
-        "network": "10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "mac2-m2pro.metal",
-        "vCPUs": 12,
-        "memoryGiB": 32,
-        "network": "10 Gbps",
-        "gen": true
+        "network": "10 Gigabit",
+        "gen": true,
+        "price_hourly": null,
+        "price_hourly_windows": null
       }
     ],
     "c": [
       {
-        "type": "c5.large",
+        "type": "c1.medium",
         "vCPUs": 2,
-        "memoryGiB": 4,
-        "network": "Up to 10 Gbps",
-        "gen": true
+        "memoryGiB": 1.7,
+        "network": "Moderate",
+        "gen": false,
+        "price_hourly": 0.13,
+        "price_hourly_windows": 0.21
       },
       {
-        "type": "c5.xlarge",
-        "vCPUs": 4,
-        "memoryGiB": 8,
-        "network": "Up to 10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "c5.2xlarge",
+        "type": "c1.xlarge",
         "vCPUs": 8,
-        "memoryGiB": 16,
-        "network": "Up to 10 Gbps",
-        "gen": true
+        "memoryGiB": 7,
+        "network": "High",
+        "gen": false,
+        "price_hourly": 0.52,
+        "price_hourly_windows": 0.84
       },
       {
-        "type": "c5.4xlarge",
+        "type": "c3.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 15,
+        "network": "High",
+        "gen": false,
+        "price_hourly": 0.42,
+        "price_hourly_windows": 0.42
+      },
+      {
+        "type": "c3.4xlarge",
         "vCPUs": 16,
-        "memoryGiB": 32,
-        "network": "Up to 10 Gbps",
-        "gen": true
+        "memoryGiB": 30,
+        "network": "High",
+        "gen": false,
+        "price_hourly": 0.84,
+        "price_hourly_windows": 0.84
       },
       {
-        "type": "c5.9xlarge",
+        "type": "c3.8xlarge",
+        "vCPUs": 32,
+        "memoryGiB": 60,
+        "network": "10 Gigabit",
+        "gen": false,
+        "price_hourly": 1.68,
+        "price_hourly_windows": 3.008
+      },
+      {
+        "type": "c3.large",
+        "vCPUs": 2,
+        "memoryGiB": 3.75,
+        "network": "Moderate",
+        "gen": false,
+        "price_hourly": 0.105,
+        "price_hourly_windows": 0.105
+      },
+      {
+        "type": "c3.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 7.5,
+        "network": "Moderate",
+        "gen": false,
+        "price_hourly": 0.21,
+        "price_hourly_windows": 0.21
+      },
+      {
+        "type": "c4.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 15,
+        "network": "High",
+        "gen": false,
+        "price_hourly": 0.398,
+        "price_hourly_windows": 0.398
+      },
+      {
+        "type": "c4.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 30,
+        "network": "High",
+        "gen": false,
+        "price_hourly": 0.796,
+        "price_hourly_windows": 0.796
+      },
+      {
+        "type": "c4.8xlarge",
         "vCPUs": 36,
-        "memoryGiB": 72,
-        "network": "12 Gbps",
-        "gen": true
+        "memoryGiB": 60,
+        "network": "10 Gigabit",
+        "gen": false,
+        "price_hourly": 1.591,
+        "price_hourly_windows": 1.591
+      },
+      {
+        "type": "c4.large",
+        "vCPUs": 2,
+        "memoryGiB": 3.75,
+        "network": "Moderate",
+        "gen": false,
+        "price_hourly": 0.1,
+        "price_hourly_windows": 0.1
+      },
+      {
+        "type": "c4.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 7.5,
+        "network": "High",
+        "gen": false,
+        "price_hourly": 0.199,
+        "price_hourly_windows": 0.199
       },
       {
         "type": "c5.12xlarge",
         "vCPUs": 48,
         "memoryGiB": 96,
-        "network": "12 Gbps",
-        "gen": true
+        "network": "12 Gigabit",
+        "gen": false,
+        "price_hourly": 2.04,
+        "price_hourly_windows": 4.248
       },
       {
         "type": "c5.18xlarge",
         "vCPUs": 72,
         "memoryGiB": 144,
-        "network": "25 Gbps",
-        "gen": true
+        "network": "25 Gigabit",
+        "gen": false,
+        "price_hourly": 3.06,
+        "price_hourly_windows": 3.06
       },
       {
         "type": "c5.24xlarge",
         "vCPUs": 96,
         "memoryGiB": 192,
-        "network": "25 Gbps",
-        "gen": true
+        "network": "25 Gigabit",
+        "gen": false,
+        "price_hourly": 4.08,
+        "price_hourly_windows": 4.08
       },
       {
-        "type": "c6i.large",
-        "vCPUs": 2,
-        "memoryGiB": 4,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "c6i.xlarge",
-        "vCPUs": 4,
-        "memoryGiB": 8,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "c6i.2xlarge",
+        "type": "c5.2xlarge",
         "vCPUs": 8,
         "memoryGiB": 16,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 0.34,
+        "price_hourly_windows": 0.708
       },
       {
-        "type": "c6i.4xlarge",
+        "type": "c5.4xlarge",
         "vCPUs": 16,
         "memoryGiB": 32,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 0.68,
+        "price_hourly_windows": 0.68
       },
       {
-        "type": "c6g.medium",
-        "vCPUs": 1,
-        "memoryGiB": 2,
-        "network": "Up to 10 Gbps",
-        "gen": true
+        "type": "c5.9xlarge",
+        "vCPUs": 36,
+        "memoryGiB": 72,
+        "network": "12 Gigabit",
+        "gen": false,
+        "price_hourly": 1.53,
+        "price_hourly_windows": 3.186
       },
       {
-        "type": "c6g.large",
+        "type": "c5.large",
         "vCPUs": 2,
         "memoryGiB": 4,
-        "network": "Up to 10 Gbps",
-        "gen": true
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 0.085,
+        "price_hourly_windows": 0.085
       },
       {
-        "type": "c6g.xlarge",
+        "type": "c5.metal",
+        "vCPUs": 96,
+        "memoryGiB": 192,
+        "network": "25 Gigabit",
+        "gen": false,
+        "price_hourly": 4.08,
+        "price_hourly_windows": 4.08
+      },
+      {
+        "type": "c5.xlarge",
         "vCPUs": 4,
         "memoryGiB": 8,
-        "network": "Up to 10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "c7i.large",
-        "vCPUs": 2,
-        "memoryGiB": 4,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "c7i.xlarge",
-        "vCPUs": 4,
-        "memoryGiB": 8,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "c7g.medium",
-        "vCPUs": 1,
-        "memoryGiB": 2,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "c7g.large",
-        "vCPUs": 2,
-        "memoryGiB": 4,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 0.17,
+        "price_hourly_windows": 0.17
       }
     ],
     "r": [
       {
-        "type": "r5.large",
-        "vCPUs": 2,
-        "memoryGiB": 16,
-        "network": "Up to 10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "r5.xlarge",
-        "vCPUs": 4,
-        "memoryGiB": 32,
-        "network": "Up to 10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "r5.2xlarge",
+        "type": "r3.2xlarge",
         "vCPUs": 8,
-        "memoryGiB": 64,
-        "network": "Up to 10 Gbps",
-        "gen": true
+        "memoryGiB": 61,
+        "network": "High",
+        "gen": false,
+        "price_hourly": 0.665,
+        "price_hourly_windows": 0.665
       },
       {
-        "type": "r5.4xlarge",
+        "type": "r3.4xlarge",
         "vCPUs": 16,
-        "memoryGiB": 128,
-        "network": "Up to 10 Gbps",
-        "gen": true
+        "memoryGiB": 122,
+        "network": "High",
+        "gen": false,
+        "price_hourly": 1.33,
+        "price_hourly_windows": 1.33
       },
       {
-        "type": "r5.8xlarge",
+        "type": "r3.8xlarge",
         "vCPUs": 32,
-        "memoryGiB": 256,
-        "network": "10 Gbps",
-        "gen": true
+        "memoryGiB": 244,
+        "network": "10 Gigabit",
+        "gen": false,
+        "price_hourly": 2.66,
+        "price_hourly_windows": 2.66
+      },
+      {
+        "type": "r3.large",
+        "vCPUs": 2,
+        "memoryGiB": 15,
+        "network": "Moderate",
+        "gen": false,
+        "price_hourly": 0.166,
+        "price_hourly_windows": 0.291
+      },
+      {
+        "type": "r3.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 30.5,
+        "network": "Moderate",
+        "gen": false,
+        "price_hourly": 0.333,
+        "price_hourly_windows": 0.583
+      },
+      {
+        "type": "r4.16xlarge",
+        "vCPUs": 64,
+        "memoryGiB": 488,
+        "network": "25 Gigabit",
+        "gen": false,
+        "price_hourly": 4.256,
+        "price_hourly_windows": 7.2
+      },
+      {
+        "type": "r4.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 61,
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 0.532,
+        "price_hourly_windows": 0.532
+      },
+      {
+        "type": "r4.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 122,
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 1.064,
+        "price_hourly_windows": 1.064
+      },
+      {
+        "type": "r4.8xlarge",
+        "vCPUs": 32,
+        "memoryGiB": 244,
+        "network": "10 Gigabit",
+        "gen": false,
+        "price_hourly": 2.128,
+        "price_hourly_windows": 2.128
+      },
+      {
+        "type": "r4.large",
+        "vCPUs": 2,
+        "memoryGiB": 15.25,
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 0.133,
+        "price_hourly_windows": 0.225
+      },
+      {
+        "type": "r4.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 30.5,
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 0.266,
+        "price_hourly_windows": 0.45
       },
       {
         "type": "r5.12xlarge",
         "vCPUs": 48,
         "memoryGiB": 384,
-        "network": "12 Gbps",
-        "gen": true
+        "network": "12 Gigabit",
+        "gen": false,
+        "price_hourly": 3.024,
+        "price_hourly_windows": 3.024
       },
       {
         "type": "r5.16xlarge",
         "vCPUs": 64,
         "memoryGiB": 512,
-        "network": "20 Gbps",
-        "gen": true
+        "network": "20 Gigabit",
+        "gen": false,
+        "price_hourly": 4.032,
+        "price_hourly_windows": 4.032
       },
       {
         "type": "r5.24xlarge",
         "vCPUs": 96,
         "memoryGiB": 768,
-        "network": "25 Gbps",
-        "gen": true
+        "network": "25 Gigabit",
+        "gen": false,
+        "price_hourly": 6.048,
+        "price_hourly_windows": 6.048
       },
       {
-        "type": "r6i.large",
-        "vCPUs": 2,
-        "memoryGiB": 16,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "r6i.xlarge",
-        "vCPUs": 4,
-        "memoryGiB": 32,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "r6i.2xlarge",
+        "type": "r5.2xlarge",
         "vCPUs": 8,
         "memoryGiB": 64,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 0.504,
+        "price_hourly_windows": 0.504
       },
       {
-        "type": "r6g.medium",
-        "vCPUs": 1,
-        "memoryGiB": 8,
-        "network": "Up to 10 Gbps",
-        "gen": true
+        "type": "r5.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 128,
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 1.008,
+        "price_hourly_windows": 1.008
       },
       {
-        "type": "r6g.large",
+        "type": "r5.8xlarge",
+        "vCPUs": 32,
+        "memoryGiB": 256,
+        "network": "10 Gigabit",
+        "gen": false,
+        "price_hourly": 2.016,
+        "price_hourly_windows": 2.016
+      },
+      {
+        "type": "r5.large",
         "vCPUs": 2,
         "memoryGiB": 16,
-        "network": "Up to 10 Gbps",
-        "gen": true
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 0.126,
+        "price_hourly_windows": 0.126
       },
       {
-        "type": "r7i.large",
-        "vCPUs": 2,
-        "memoryGiB": 16,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
+        "type": "r5.metal",
+        "vCPUs": 96,
+        "memoryGiB": 768,
+        "network": "25 Gigabit",
+        "gen": false,
+        "price_hourly": 6.048,
+        "price_hourly_windows": 10.464
       },
       {
-        "type": "r7i.xlarge",
+        "type": "r5.xlarge",
         "vCPUs": 4,
         "memoryGiB": 32,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "r7g.medium",
-        "vCPUs": 1,
-        "memoryGiB": 8,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
-      },
-      {
-        "type": "r7g.large",
-        "vCPUs": 2,
-        "memoryGiB": 16,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
+        "network": "Up to 10 Gigabit",
+        "gen": false,
+        "price_hourly": 0.252,
+        "price_hourly_windows": 0.252
       }
     ],
     "x": [
@@ -1210,78 +1362,19 @@
         "type": "x1.16xlarge",
         "vCPUs": 64,
         "memoryGiB": 976,
-        "network": "10 Gbps",
-        "gen": true
+        "network": "10 Gigabit",
+        "gen": true,
+        "price_hourly": 6.669,
+        "price_hourly_windows": 9.613
       },
       {
         "type": "x1.32xlarge",
         "vCPUs": 128,
         "memoryGiB": 1952,
-        "network": "25 Gbps",
-        "gen": true
-      },
-      {
-        "type": "x1e.xlarge",
-        "vCPUs": 4,
-        "memoryGiB": 122,
-        "network": "Up to 10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "x1e.2xlarge",
-        "vCPUs": 8,
-        "memoryGiB": 244,
-        "network": "Up to 10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "x1e.4xlarge",
-        "vCPUs": 16,
-        "memoryGiB": 488,
-        "network": "Up to 10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "x1e.8xlarge",
-        "vCPUs": 32,
-        "memoryGiB": 976,
-        "network": "Up to 10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "x1e.16xlarge",
-        "vCPUs": 64,
-        "memoryGiB": 1952,
-        "network": "10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "x1e.32xlarge",
-        "vCPUs": 128,
-        "memoryGiB": 3904,
-        "network": "25 Gbps",
-        "gen": true
-      },
-      {
-        "type": "x2idn.16xlarge",
-        "vCPUs": 64,
-        "memoryGiB": 1024,
-        "network": "50 Gbps",
-        "gen": true
-      },
-      {
-        "type": "x2idn.24xlarge",
-        "vCPUs": 96,
-        "memoryGiB": 1536,
-        "network": "75 Gbps",
-        "gen": true
-      },
-      {
-        "type": "x2idn.32xlarge",
-        "vCPUs": 128,
-        "memoryGiB": 2048,
-        "network": "100 Gbps",
-        "gen": true
+        "network": "25 Gigabit",
+        "gen": true,
+        "price_hourly": 13.338,
+        "price_hourly_windows": 13.338
       }
     ],
     "z": [
@@ -1330,420 +1423,473 @@
     ],
     "i": [
       {
-        "type": "i3.large",
-        "vCPUs": 2,
-        "memoryGiB": 15.25,
-        "network": "Up to 10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "i3.xlarge",
-        "vCPUs": 4,
-        "memoryGiB": 30.5,
-        "network": "Up to 10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "i3.2xlarge",
+        "type": "i2.2xlarge",
         "vCPUs": 8,
         "memoryGiB": 61,
-        "network": "Up to 10 Gbps",
-        "gen": true
+        "network": "High",
+        "gen": false,
+        "price_hourly": 1.705,
+        "price_hourly_windows": 1.705
       },
       {
-        "type": "i3.4xlarge",
+        "type": "i2.4xlarge",
         "vCPUs": 16,
         "memoryGiB": 122,
-        "network": "Up to 10 Gbps",
-        "gen": true
+        "network": "High",
+        "gen": false,
+        "price_hourly": 3.41,
+        "price_hourly_windows": 3.41
       },
       {
-        "type": "i3.8xlarge",
+        "type": "i2.8xlarge",
         "vCPUs": 32,
         "memoryGiB": 244,
-        "network": "10 Gbps",
-        "gen": true
+        "network": "10 Gigabit",
+        "gen": false,
+        "price_hourly": 6.82,
+        "price_hourly_windows": 6.82
+      },
+      {
+        "type": "i2.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 30.5,
+        "network": "Moderate",
+        "gen": false,
+        "price_hourly": 0.853,
+        "price_hourly_windows": 0.973
       },
       {
         "type": "i3.16xlarge",
         "vCPUs": 64,
         "memoryGiB": 488,
-        "network": "25 Gbps",
-        "gen": true
+        "network": "25 Gigabit",
+        "gen": true,
+        "price_hourly": 4.992,
+        "price_hourly_windows": 7.936
       },
       {
-        "type": "i4i.large",
-        "vCPUs": 2,
-        "memoryGiB": 16,
-        "network": "Up to 25 Gbps",
-        "gen": true
-      },
-      {
-        "type": "i4i.xlarge",
-        "vCPUs": 4,
-        "memoryGiB": 32,
-        "network": "Up to 25 Gbps",
-        "gen": true
-      },
-      {
-        "type": "i4i.2xlarge",
+        "type": "i3.2xlarge",
         "vCPUs": 8,
-        "memoryGiB": 64,
-        "network": "Up to 25 Gbps",
-        "gen": true
+        "memoryGiB": 61,
+        "network": "Up to 10 Gigabit",
+        "gen": true,
+        "price_hourly": 0.624,
+        "price_hourly_windows": 0.992
       },
       {
-        "type": "i4i.4xlarge",
+        "type": "i3.4xlarge",
         "vCPUs": 16,
-        "memoryGiB": 128,
-        "network": "Up to 25 Gbps",
-        "gen": true
+        "memoryGiB": 122,
+        "network": "Up to 10 Gigabit",
+        "gen": true,
+        "price_hourly": 1.248,
+        "price_hourly_windows": 1.248
       },
       {
-        "type": "i4i.8xlarge",
+        "type": "i3.8xlarge",
         "vCPUs": 32,
-        "memoryGiB": 256,
-        "network": "18.75 Gbps",
-        "gen": true
+        "memoryGiB": 244,
+        "network": "10 Gigabit",
+        "gen": true,
+        "price_hourly": 2.496,
+        "price_hourly_windows": 2.496
       },
       {
-        "type": "i4i.16xlarge",
-        "vCPUs": 64,
-        "memoryGiB": 512,
-        "network": "37.5 Gbps",
-        "gen": true
+        "type": "i3.large",
+        "vCPUs": 2,
+        "memoryGiB": 15.25,
+        "network": "Up to 10 Gigabit",
+        "gen": true,
+        "price_hourly": 0.156,
+        "price_hourly_windows": 0.156
       },
       {
-        "type": "i4i.32xlarge",
-        "vCPUs": 128,
-        "memoryGiB": 1024,
-        "network": "75 Gbps",
-        "gen": true
+        "type": "i3.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 30.5,
+        "network": "Up to 10 Gigabit",
+        "gen": true,
+        "price_hourly": 0.312,
+        "price_hourly_windows": 0.496
       }
     ],
     "d": [
-      {
-        "type": "d2.xlarge",
-        "vCPUs": 4,
-        "memoryGiB": 30.5,
-        "network": "Moderate",
-        "gen": false
-      },
       {
         "type": "d2.2xlarge",
         "vCPUs": 8,
         "memoryGiB": 61,
         "network": "High",
-        "gen": false
+        "gen": false,
+        "price_hourly": 1.38,
+        "price_hourly_windows": 1.601
       },
       {
         "type": "d2.4xlarge",
         "vCPUs": 16,
         "memoryGiB": 122,
         "network": "High",
-        "gen": false
+        "gen": false,
+        "price_hourly": 2.76,
+        "price_hourly_windows": 3.062
       },
       {
         "type": "d2.8xlarge",
         "vCPUs": 36,
         "memoryGiB": 244,
-        "network": "10 Gbps",
-        "gen": false
+        "network": "10 Gigabit",
+        "gen": false,
+        "price_hourly": 5.52,
+        "price_hourly_windows": 6.198
       },
       {
-        "type": "d3.xlarge",
+        "type": "d2.xlarge",
         "vCPUs": 4,
-        "memoryGiB": 32,
-        "network": "Up to 15 Gbps",
-        "gen": true
+        "memoryGiB": 30.5,
+        "network": "Moderate",
+        "gen": false,
+        "price_hourly": 0.69,
+        "price_hourly_windows": 0.69
       },
       {
         "type": "d3.2xlarge",
         "vCPUs": 8,
         "memoryGiB": 64,
-        "network": "Up to 15 Gbps",
-        "gen": true
+        "network": "Up to 15 Gigabit",
+        "gen": true,
+        "price_hourly": 0.999,
+        "price_hourly_windows": 0.999
       },
       {
         "type": "d3.4xlarge",
         "vCPUs": 16,
         "memoryGiB": 128,
-        "network": "Up to 15 Gbps",
-        "gen": true
+        "network": "Up to 15 Gigabit",
+        "gen": true,
+        "price_hourly": 1.998,
+        "price_hourly_windows": 2.734
       },
       {
         "type": "d3.8xlarge",
         "vCPUs": 32,
         "memoryGiB": 256,
-        "network": "25 Gbps",
-        "gen": true
+        "network": "25 Gigabit",
+        "gen": true,
+        "price_hourly": 3.99552,
+        "price_hourly_windows": 3.99552
       },
       {
-        "type": "d3en.xlarge",
+        "type": "d3.xlarge",
         "vCPUs": 4,
-        "memoryGiB": 16,
-        "network": "Up to 25 Gbps",
-        "gen": true
-      },
-      {
-        "type": "d3en.2xlarge",
-        "vCPUs": 8,
         "memoryGiB": 32,
-        "network": "Up to 25 Gbps",
-        "gen": true
-      },
-      {
-        "type": "d3en.4xlarge",
-        "vCPUs": 16,
-        "memoryGiB": 64,
-        "network": "25 Gbps",
-        "gen": true
-      },
-      {
-        "type": "d3en.8xlarge",
-        "vCPUs": 32,
-        "memoryGiB": 128,
-        "network": "50 Gbps",
-        "gen": true
-      },
-      {
-        "type": "d3en.12xlarge",
-        "vCPUs": 48,
-        "memoryGiB": 192,
-        "network": "75 Gbps",
-        "gen": true
+        "network": "Up to 15 Gigabit",
+        "gen": true,
+        "price_hourly": 0.499,
+        "price_hourly_windows": 0.683
       }
     ],
     "h": [
       {
+        "type": "h1.16xlarge",
+        "vCPUs": 64,
+        "memoryGiB": 256,
+        "network": "25 Gigabit",
+        "gen": true,
+        "price_hourly": 3.744,
+        "price_hourly_windows": 3.744
+      },
+      {
         "type": "h1.2xlarge",
         "vCPUs": 8,
         "memoryGiB": 32,
-        "network": "Up to 10 Gbps",
-        "gen": true
+        "network": "Up to 10 Gigabit",
+        "gen": true,
+        "price_hourly": 0.468,
+        "price_hourly_windows": 0.836
       },
       {
         "type": "h1.4xlarge",
         "vCPUs": 16,
         "memoryGiB": 64,
-        "network": "Up to 10 Gbps",
-        "gen": true
+        "network": "Up to 10 Gigabit",
+        "gen": true,
+        "price_hourly": 0.936,
+        "price_hourly_windows": 0.936
       },
       {
         "type": "h1.8xlarge",
         "vCPUs": 32,
         "memoryGiB": 128,
-        "network": "10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "h1.16xlarge",
-        "vCPUs": 64,
-        "memoryGiB": 256,
-        "network": "25 Gbps",
-        "gen": true
+        "network": "10 Gigabit",
+        "gen": true,
+        "price_hourly": 1.872,
+        "price_hourly_windows": 1.872
       }
     ],
     "p": [
       {
+        "type": "p3.16xlarge",
+        "vCPUs": 64,
+        "memoryGiB": 488,
+        "network": "25 Gigabit",
+        "gen": true,
+        "price_hourly": 24.48,
+        "price_hourly_windows": 24.48
+      },
+      {
         "type": "p3.2xlarge",
         "vCPUs": 8,
         "memoryGiB": 61,
-        "network": "Up to 10 Gbps",
-        "gen": true
+        "network": "Up to 10 Gigabit",
+        "gen": true,
+        "price_hourly": 3.06,
+        "price_hourly_windows": 3.06
       },
       {
         "type": "p3.8xlarge",
         "vCPUs": 32,
         "memoryGiB": 244,
-        "network": "10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "p3.16xlarge",
-        "vCPUs": 64,
-        "memoryGiB": 488,
-        "network": "25 Gbps",
-        "gen": true
-      },
-      {
-        "type": "p3dn.24xlarge",
-        "vCPUs": 96,
-        "memoryGiB": 768,
-        "network": "100 Gbps",
-        "gen": true
-      },
-      {
-        "type": "p4d.24xlarge",
-        "vCPUs": 96,
-        "memoryGiB": 1152,
-        "network": "400 Gbps",
-        "gen": true
+        "network": "10 Gigabit",
+        "gen": true,
+        "price_hourly": 12.24,
+        "price_hourly_windows": 13.712
       },
       {
         "type": "p5.48xlarge",
         "vCPUs": 192,
         "memoryGiB": 2048,
-        "network": "3200 Gbps",
-        "gen": true
+        "network": "3200 Gigabit",
+        "gen": true,
+        "price_hourly": 0.0,
+        "price_hourly_windows": null
+      },
+      {
+        "type": "p5.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 256,
+        "network": "100 Gigabit",
+        "gen": true,
+        "price_hourly": 6.88,
+        "price_hourly_windows": 0.736
       }
     ],
     "g": [
       {
-        "type": "g4dn.xlarge",
-        "vCPUs": 4,
-        "memoryGiB": 16,
-        "network": "Up to 25 Gbps",
-        "gen": true
-      },
-      {
-        "type": "g4dn.2xlarge",
-        "vCPUs": 8,
-        "memoryGiB": 32,
-        "network": "Up to 25 Gbps",
-        "gen": true
-      },
-      {
-        "type": "g4dn.4xlarge",
-        "vCPUs": 16,
-        "memoryGiB": 64,
-        "network": "Up to 25 Gbps",
-        "gen": true
-      },
-      {
-        "type": "g4dn.8xlarge",
-        "vCPUs": 32,
-        "memoryGiB": 128,
-        "network": "50 Gbps",
-        "gen": true
-      },
-      {
-        "type": "g4dn.12xlarge",
-        "vCPUs": 48,
-        "memoryGiB": 192,
-        "network": "50 Gbps",
-        "gen": true
-      },
-      {
-        "type": "g4dn.16xlarge",
-        "vCPUs": 64,
-        "memoryGiB": 256,
-        "network": "50 Gbps",
-        "gen": true
-      },
-      {
-        "type": "g5.xlarge",
-        "vCPUs": 4,
-        "memoryGiB": 16,
-        "network": "Up to 10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "g5.2xlarge",
-        "vCPUs": 8,
-        "memoryGiB": 32,
-        "network": "Up to 10 Gbps",
-        "gen": true
-      },
-      {
-        "type": "g5.4xlarge",
-        "vCPUs": 16,
-        "memoryGiB": 64,
-        "network": "Up to 25 Gbps",
-        "gen": true
-      },
-      {
-        "type": "g5.8xlarge",
-        "vCPUs": 32,
-        "memoryGiB": 128,
-        "network": "25 Gbps",
-        "gen": true
-      },
-      {
         "type": "g5.12xlarge",
         "vCPUs": 48,
         "memoryGiB": 192,
-        "network": "40 Gbps",
-        "gen": true
+        "network": "40 Gigabit",
+        "gen": true,
+        "price_hourly": 5.672,
+        "price_hourly_windows": 5.672
       },
       {
         "type": "g5.16xlarge",
         "vCPUs": 64,
         "memoryGiB": 256,
-        "network": "25 Gbps",
-        "gen": true
+        "network": "25 Gigabit",
+        "gen": true,
+        "price_hourly": 4.096,
+        "price_hourly_windows": 4.096
       },
       {
         "type": "g5.24xlarge",
         "vCPUs": 96,
         "memoryGiB": 384,
-        "network": "50 Gbps",
-        "gen": true
+        "network": "50 Gigabit",
+        "gen": true,
+        "price_hourly": 8.144,
+        "price_hourly_windows": 12.56
+      },
+      {
+        "type": "g5.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 32,
+        "network": "Up to 10 Gigabit",
+        "gen": true,
+        "price_hourly": 1.212,
+        "price_hourly_windows": 1.212
       },
       {
         "type": "g5.48xlarge",
         "vCPUs": 192,
         "memoryGiB": 768,
-        "network": "100 Gbps",
-        "gen": true
+        "network": "100 Gigabit",
+        "gen": true,
+        "price_hourly": 16.288,
+        "price_hourly_windows": 25.12
+      },
+      {
+        "type": "g5.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 64,
+        "network": "Up to 25 Gigabit",
+        "gen": true,
+        "price_hourly": 1.624,
+        "price_hourly_windows": 1.624
+      },
+      {
+        "type": "g5.8xlarge",
+        "vCPUs": 32,
+        "memoryGiB": 128,
+        "network": "25 Gigabit",
+        "gen": true,
+        "price_hourly": 2.448,
+        "price_hourly_windows": 2.448
+      },
+      {
+        "type": "g5.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 16,
+        "network": "Up to 10 Gigabit",
+        "gen": true,
+        "price_hourly": 1.006,
+        "price_hourly_windows": 1.006
+      },
+      {
+        "type": "g6.12xlarge",
+        "vCPUs": 48,
+        "memoryGiB": 192,
+        "network": "40 Gigabit",
+        "gen": true,
+        "price_hourly": 4.6016,
+        "price_hourly_windows": 6.8096
+      },
+      {
+        "type": "g6.16xlarge",
+        "vCPUs": 64,
+        "memoryGiB": 256,
+        "network": "25 Gigabit",
+        "gen": true,
+        "price_hourly": 3.3968,
+        "price_hourly_windows": 6.3408
+      },
+      {
+        "type": "g6.24xlarge",
+        "vCPUs": 96,
+        "memoryGiB": 384,
+        "network": "50 Gigabit",
+        "gen": true,
+        "price_hourly": 6.6752,
+        "price_hourly_windows": 6.6752
+      },
+      {
+        "type": "g6.2xlarge",
+        "vCPUs": 8,
+        "memoryGiB": 32,
+        "network": "Up to 10 Gigabit",
+        "gen": true,
+        "price_hourly": 0.9776,
+        "price_hourly_windows": 0.9776
+      },
+      {
+        "type": "g6.48xlarge",
+        "vCPUs": 192,
+        "memoryGiB": 768,
+        "network": "100 Gigabit",
+        "gen": true,
+        "price_hourly": 13.3504,
+        "price_hourly_windows": 13.3504
+      },
+      {
+        "type": "g6.4xlarge",
+        "vCPUs": 16,
+        "memoryGiB": 64,
+        "network": "Up to 25 Gigabit",
+        "gen": true,
+        "price_hourly": 1.3232,
+        "price_hourly_windows": 2.0592
+      },
+      {
+        "type": "g6.8xlarge",
+        "vCPUs": 32,
+        "memoryGiB": 128,
+        "network": "25 Gigabit",
+        "gen": true,
+        "price_hourly": 2.0144,
+        "price_hourly_windows": 2.0144
+      },
+      {
+        "type": "g6.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 16,
+        "network": "Up to 10 Gigabit",
+        "gen": true,
+        "price_hourly": 0.8048,
+        "price_hourly_windows": 0.8048
       }
     ],
     "inf": [
       {
-        "type": "inf1.xlarge",
-        "vCPUs": 4,
-        "memoryGiB": 8,
-        "network": "Up to 25 Gbps",
-        "gen": true
+        "type": "inf1.24xlarge",
+        "vCPUs": 96,
+        "memoryGiB": 192,
+        "network": "100 Gigabit",
+        "gen": true,
+        "price_hourly": 4.721,
+        "price_hourly_windows": null
       },
       {
         "type": "inf1.2xlarge",
         "vCPUs": 8,
         "memoryGiB": 16,
-        "network": "Up to 25 Gbps",
-        "gen": true
+        "network": "Up to 25 Gigabit",
+        "gen": true,
+        "price_hourly": 0.362,
+        "price_hourly_windows": null
       },
       {
         "type": "inf1.6xlarge",
         "vCPUs": 24,
         "memoryGiB": 48,
-        "network": "25 Gbps",
-        "gen": true
+        "network": "25 Gigabit",
+        "gen": true,
+        "price_hourly": 1.18,
+        "price_hourly_windows": null
       },
       {
-        "type": "inf1.24xlarge",
-        "vCPUs": 96,
-        "memoryGiB": 192,
-        "network": "100 Gbps",
-        "gen": true
-      },
-      {
-        "type": "inf2.xlarge",
+        "type": "inf1.xlarge",
         "vCPUs": 4,
-        "memoryGiB": 32,
-        "network": "Up to 15 Gbps",
-        "gen": true
-      },
-      {
-        "type": "inf2.8xlarge",
-        "vCPUs": 32,
-        "memoryGiB": 128,
-        "network": "Up to 25 Gbps",
-        "gen": true
+        "memoryGiB": 8,
+        "network": "Up to 25 Gigabit",
+        "gen": true,
+        "price_hourly": 0.228,
+        "price_hourly_windows": null
       },
       {
         "type": "inf2.24xlarge",
         "vCPUs": 96,
         "memoryGiB": 384,
-        "network": "100 Gbps",
-        "gen": true
+        "network": "50 Gigabit",
+        "gen": true,
+        "price_hourly": 6.49063,
+        "price_hourly_windows": null
       },
       {
         "type": "inf2.48xlarge",
         "vCPUs": 192,
         "memoryGiB": 768,
-        "network": "100 Gbps",
-        "gen": true
+        "network": "100 Gigabit",
+        "gen": true,
+        "price_hourly": 12.98127,
+        "price_hourly_windows": null
+      },
+      {
+        "type": "inf2.8xlarge",
+        "vCPUs": 32,
+        "memoryGiB": 128,
+        "network": "Up to 25 Gigabit",
+        "gen": true,
+        "price_hourly": 1.96786,
+        "price_hourly_windows": null
+      },
+      {
+        "type": "inf2.xlarge",
+        "vCPUs": 4,
+        "memoryGiB": 16,
+        "network": "Up to 15 Gigabit",
+        "gen": true,
+        "price_hourly": 0.7582,
+        "price_hourly_windows": null
       }
     ],
     "trn": [
@@ -1751,22 +1897,19 @@
         "type": "trn1.2xlarge",
         "vCPUs": 8,
         "memoryGiB": 32,
-        "network": "Up to 12.5 Gbps",
-        "gen": true
+        "network": "Up to 12.5 Gigabit",
+        "gen": true,
+        "price_hourly": 1.34375,
+        "price_hourly_windows": null
       },
       {
         "type": "trn1.32xlarge",
         "vCPUs": 128,
         "memoryGiB": 512,
-        "network": "800 Gbps",
-        "gen": true
-      },
-      {
-        "type": "trn1n.32xlarge",
-        "vCPUs": 128,
-        "memoryGiB": 512,
-        "network": "1600 Gbps",
-        "gen": true
+        "network": "8x 100 Gigabit",
+        "gen": true,
+        "price_hourly": 21.5,
+        "price_hourly_windows": null
       }
     ],
     "hpc": [

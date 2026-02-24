@@ -198,6 +198,8 @@ async function loadStaticData() {
                 networkPerformance: inst.network,
                 currentGeneration: inst.gen,
                 burstable: key === 't',
+                price_hourly: inst.price_hourly,
+                price_hourly_windows: inst.price_hourly_windows,
             }));
             ec2Families[key] = { reasoning, instances, count: instances.length };
             totalEc2 += instances.length;
@@ -211,6 +213,7 @@ async function loadStaticData() {
             const instances = (data.rdsInstances[key] || []).map(inst => ({
                 dbInstanceClass: inst.class,
                 engine: inst.engine,
+                price_hourly: inst.price_hourly,
             }));
             rdsFamilies[key] = { reasoning, instances, count: instances.length };
             totalRds += instances.length;
@@ -323,7 +326,10 @@ function buildFamilyCardHTML(key, fam, r, idx, type) {
 
     let tableHtml = '';
     if (type === 'ec2') {
-        const rows = instances.slice(0, 50).map((inst, i) => `
+        const rows = instances.slice(0, 50).map((inst, i) => {
+            const costHtml = inst.price_hourly ? `<span class="price-val">$${inst.price_hourly.toFixed(3)}/hr<br><span style="font-size:10px; opacity:0.7">~$${(inst.price_hourly * 730).toFixed(2)}/mo</span></span>` : '—';
+            const winCostHtml = inst.price_hourly_windows ? `<span class="price-val">$${inst.price_hourly_windows.toFixed(3)}/hr<br><span style="font-size:10px; opacity:0.7">~$${(inst.price_hourly_windows * 730).toFixed(2)}/mo</span></span>` : '—';
+            return `
             <tr style="animation-delay: ${i * 0.02}s">
                 <td><span class="instance-type-name">${esc(inst.instanceType)}
                     ${inst.currentGeneration ? '<span class="gen-badge">Current</span>' : '<span class="gen-badge old">Prev</span>'}
@@ -332,20 +338,25 @@ function buildFamilyCardHTML(key, fam, r, idx, type) {
                 <td>${inst.memoryGiB} GiB</td>
                 <td>${esc(inst.networkPerformance || '—')}</td>
                 <td>${inst.burstable ? '⚡ Yes' : '—'}</td>
+                <td>${costHtml}</td>
+                <td>${winCostHtml}</td>
             </tr>
-        `).join('');
+        `}).join('');
         tableHtml = `<table class="instances-table"><thead><tr>
-            <th>Instance Type</th><th>vCPUs</th><th>Memory</th><th>Network</th><th>Burstable</th>
+            <th>Instance Type</th><th>vCPUs</th><th>Memory</th><th>Network</th><th>Burstable</th><th>Linux Cost (OD)</th><th>Windows Cost (OD)</th>
         </tr></thead><tbody>${rows}</tbody></table>`;
     } else {
-        const rows = instances.slice(0, 50).map((inst, i) => `
+        const rows = instances.slice(0, 50).map((inst, i) => {
+            const costHtml = inst.price_hourly ? `<span class="price-val">$${inst.price_hourly.toFixed(3)}/hr<br><span style="font-size:10px; opacity:0.7">~$${(inst.price_hourly * 730).toFixed(2)}/mo</span></span>` : '—';
+            return `
             <tr style="animation-delay: ${i * 0.02}s">
                 <td>${esc(inst.dbInstanceClass)}</td>
                 <td>${inst.engine.split(', ').map(e => `<span class="engine-tag" style="margin:2px">${esc(e)}</span>`).join('')}</td>
+                <td>${costHtml}</td>
             </tr>
-        `).join('');
+        `}).join('');
         tableHtml = `<table class="instances-table"><thead><tr>
-            <th>DB Instance Class</th><th>Supported Engines</th>
+            <th>DB Instance Class</th><th>Supported Engines</th><th>MySQL Cost (Single-AZ)</th>
         </tr></thead><tbody>${rows}</tbody></table>`;
     }
 

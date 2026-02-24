@@ -1281,3 +1281,8 @@ body {
 .stagger-15 { animation-delay: 0.75s; }
 .stagger-16 { animation-delay: 0.8s; }
 .stagger-17 { animation-delay: 0.85s; }
+
+.price-val {
+    color: var(--aws-orange-light);
+    font-weight: 600;
+}
