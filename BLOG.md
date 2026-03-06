@@ -1,130 +1,88 @@
-# Building InstanceIQ: A Zero-Backend AWS Instance Explorer with Live Pricing, Comparison, and Shareable Links
+# Building InstanceIQ: A Fully Free AWS Instance Explorer with Live Pricing, Comparison, and Shareable Links
 
 **Level 300 · by devopscaptain**
 
-*Tags: AWS, EC2, RDS, GitHub Actions, GitHub Pages, boto3, Static Sites, DevOps Tooling*
+*Tags: AWS, EC2, RDS, GitHub Actions, GitHub Pages, Static Sites, DevOps Tooling*
 
 ---
 
-## The Problem
+## Why I Built This
 
-Every AWS architect has been there: you open the EC2 instance types page, stare at 700+ rows, and try to remember whether `r6g` or `x2idn` is the right call for in-memory analytics. The questions engineers actually ask are:
+Every AWS architect has been there. You're in the middle of a sizing conversation, someone asks "should we go with `r6g` or `x2idn` for this in-memory workload?" and you end up with five browser tabs open — the AWS pricing calculator, the EC2 instance types page, the RDS docs, a Stack Overflow thread from 2021, and a spreadsheet someone on the team made two years ago that may or may not be accurate anymore.
 
-- "What family should I be in for this workload?"
-- "Is `m7g.4xlarge` cheaper than `m6a.4xlarge` for the same vCPU/RAM ratio?"
-- "Which RDS class supports Aurora PostgreSQL and is under $0.40/hr in EU?"
-- "My current instance is `c5.2xlarge` — what is the spec delta to `c6i.2xlarge`, and what do I save per month?"
+The real questions engineers ask don't fit neatly into AWS documentation:
 
-I built **InstanceIQ** to answer all of these without opening five browser tabs, running CLI commands, or writing throwaway scripts.
+- "What family should I even be in for this workload?"
+- "Is `m7g.4xlarge` actually cheaper than `m6a.4xlarge` for the same vCPU/RAM ratio?"
+- "Which RDS class supports Aurora PostgreSQL and costs under $0.40/hr in EU Ireland?"
+- "My current instance is `c5.2xlarge` — what's the spec delta to `c6i.2xlarge`, and what do I save per month?"
 
----
-
-## Goals and Constraints
-
-Three hard constraints before writing a line of code:
-
-1. **No backend.** No Lambda, no EC2, no container. Zero runtime infrastructure = zero operational cost.
-2. **No credentials to view.** Every visitor sees the full site immediately. AWS credentials only appear in CI.
-3. **No AI.** Instance suitability is published AWS knowledge — whitepapers, re:Invent talks, the Well-Architected Framework. Encoding it as structured JSON is more auditable and faster than a language model at runtime.
+**InstanceIQ** is my answer to all of those. One page. All EC2 and RDS instance families. Per-family workload guidance. Live on-demand pricing across four regions. Side-by-side instance comparison with a shareable link. And it runs entirely for free — no backend, no AWS credentials to view it, no infrastructure to maintain.
 
 ---
 
-## The $0 Infrastructure Stack
+## The $0 Stack
 
-The entire production infrastructure costs **exactly $0/month**.
+Before anything else — let's talk about cost. The entire production infrastructure for InstanceIQ costs **exactly $0/month**. Not "cheap." Zero.
 
-| Service | What it does | Cost |
+| What | Does | Costs |
 |---|---|---|
-| **GitHub Pages** | Global CDN hosting with automatic HTTPS | **Free** |
-| **GitHub Actions** | Weekly AWS data refresh (Python + boto3) | **Free** (2,000 min/month on free tier) |
-| **GitHub repo** | Stores source code and `data.json` | **Free** |
-| **AWS read-only APIs** | `describe_instance_types`, `describe_orderable_db_instance_options`, `get_products` | **Free** (read APIs carry no charge) |
+| **GitHub Pages** | Hosts and serves the site globally via CDN | **Free** |
+| **GitHub Actions** | Runs the weekly AWS data refresh | **Free** (2,000 min/month on free tier) |
+| **GitHub Repository** | Stores all code and the pre-built data file | **Free** |
+| **AWS Pricing/EC2/RDS APIs** | Read-only, queried from CI once a week | **Free** (read calls carry no charge) |
 
-No EC2. No Lambda. No S3. No CloudFront. No load balancer. Nothing to patch, rotate, or page you at 3am.
+No EC2. No Lambda. No S3 bucket. No CloudFront distribution. No RDS. No load balancer. No container registry. No monitoring agent. Nothing to patch, nothing to rotate, nothing that pages you at 3am.
 
-### GitHub Pages: The Real Story
+### GitHub Pages Is More Than Static Hosting
 
-GitHub Pages is not just "put your HTML somewhere." It is a full CDN-backed hosting platform built into every public GitHub repository:
+Most people think of GitHub Pages as "a place to put your portfolio." It is actually a production-grade, globally distributed CDN platform that happens to be built into every public GitHub repository.
 
-- **Automatic HTTPS** — TLS cert provisioned and renewed by GitHub, zero configuration.
-- **Global CDN via Fastly** — assets served from edge nodes worldwide. A Tokyo visitor gets the same sub-100ms load as a Virginia visitor.
-- **Custom domains** — single CNAME record, GitHub handles the certificate.
-- **Instant deploys from `git push`** — every push to `main` triggers a Pages rebuild in under 60 seconds, globally live.
-- **Zero egress cost** — GitHub does not charge per-GB served. A popular tool costs the same as one with no traffic.
+When you push to `main`, GitHub triggers a build, invalidates the Fastly CDN cache, and your site is live worldwide in under 60 seconds. You get automatic HTTPS with cert renewal managed by GitHub. You get custom domain support with a single CNAME. You get zero egress charges — a tool that goes viral costs the same as one with no traffic. And you get none of the operational overhead of running a web server.
 
-To enable: repository → **Settings → Pages → Deploy from branch → `main` → `/` root → Save**. That is the entire setup.
+The setup is literally three clicks: **Settings → Pages → Deploy from branch → main → Save**. That is the entire deployment pipeline for a globally available, HTTPS-secured, CDN-backed web application.
 
-```
-git push origin main
-        │
-        ▼  GitHub detects push (~5s)
-        │
-        ▼  Pages build triggered (~30s)
-        │
-        ▼  Fastly CDN cache invalidated globally
-        │
-        ▼  Live worldwide in under 60 seconds
-```
+### GitHub Actions Does the Heavy Lifting for Free
 
-### GitHub Actions: Free CI/CD for Your Data Pipeline
+The weekly data refresh — calling AWS APIs, building the JSON file, committing it back to the repo — runs as a GitHub Actions workflow. The free tier gives every account 2,000 minutes per month. Our script takes about 5 minutes per run. Running weekly, that is roughly 260 minutes per year — about 10% of the free monthly allowance, used annually.
 
-The weekly data refresh is a YAML file checked into the repo. The free tier gives every account **2,000 minutes/month**. Our weekly Python script takes 4–6 minutes per run:
+What does the workflow actually do? It checks out the repo, assumes an AWS IAM role using OIDC (no stored credentials — more on that shortly), runs a Python script that calls EC2, RDS, and the AWS Pricing API across four regions, writes an updated `data.json` file, commits it, and pushes back to main. GitHub Pages picks up the push and deploys automatically. The entire feedback loop — from AWS API call to live updated website — is fully automated and costs nothing.
 
-```
-52 runs/year × 5 minutes = 260 minutes/year
-= ~10% of the free monthly allowance, used annually
-```
+### Why Not Just Build a Real API?
 
-```yaml
-on:
-  schedule:
-    - cron: '0 0 * * 1'   # Every Monday midnight UTC
-  workflow_dispatch:        # Also triggerable from the Actions tab
-```
+The instinct for a tool like this is to put a Lambda behind API Gateway, call AWS on demand, and return fresh pricing on every request. But think through what that actually buys you: AWS instance types are updated at most a handful of times per year. Pricing changes weekly at most. A real-time API would be calling the same data, every request, and charging you Lambda invocations, API Gateway requests, and CloudWatch logs to do it.
 
-The workflow: checks out repo → assumes IAM role via OIDC → runs Python script → commits updated `data.json` → pushes to `main` → GitHub Pages auto-redeploys. **Fully automated. Zero cost. Zero ops.**
-
-### Why Static Beats a Serverless API Here
-
-| Concern | Lambda + API GW | Static + GitHub Pages |
-|---|---|---|
-| Latency | 50–200ms cold start + network | CDN edge, ~10ms |
-| Cost | Per-invocation + API GW + CloudWatch | $0 |
-| Ops | IAM, throttling, error rates, cold starts | Nothing |
-| Data freshness | Real-time (AWS instance types change weekly at most) | Weekly — same effective freshness |
-| Offline dev | Needs SAM/LocalStack | `python3 -m http.server 8080` |
-
-For data that changes at most once a week, real-time API calls are pure overhead.
+A static JSON file pre-built by CI and served from a CDN edge node near the visitor is strictly faster (no cold starts, no Lambda latency), strictly cheaper ($0), and has equivalent data freshness for this use case. The "serverless" version of this tool would cost more, respond slower, and require an on-call rotation for a dataset that changes once a week.
 
 ---
 
-## Architecture Overview
+## Architecture: How It All Fits Together
 
 ```mermaid
 graph TD
-    subgraph AWS["AWS (read-only)"]
+    subgraph AWS["AWS (read-only APIs — no charges)"]
         EC2API["EC2 API\ndescribe_instance_types"]
         RDSAPI["RDS API\ndescribe_orderable_db_instance_options"]
         PriceAPI["Pricing API\nget_products\nus-east-1 · us-west-2\neu-west-1 · ap-southeast-1"]
     end
 
-    subgraph CI["GitHub Actions (weekly, free)"]
-        PY["update_data.py\nboto3"]
-        OIDC["OIDC Token\nNo long-lived keys"]
+    subgraph CI["GitHub Actions — weekly, free tier"]
+        OIDC["OIDC Token\nNo long-lived keys\nEphemeral per run"]
+        PY["update_data.py\nboto3 — fetches all regions"]
     end
 
     subgraph Repo["GitHub Repository"]
-        JSON["static/data.json\ninstances + 4-region pricing"]
-        SRC["HTML / CSS / JS\nVanilla, no build step"]
+        JSON["static/data.json\nInstances + 4-region pricing\nCurated reasoning layer"]
+        SRC["index.html · style.css · app.js\nVanilla — no build step"]
     end
 
-    subgraph Pages["GitHub Pages (CDN · free · auto-HTTPS)"]
-        SITE["InstanceIQ\nFastly edge globally"]
+    subgraph Pages["GitHub Pages — CDN · free · auto-HTTPS"]
+        SITE["InstanceIQ\nFastly edge globally\nSub-100ms worldwide"]
     end
 
-    subgraph Browser["Browser"]
-        FETCH["fetch() data.json"]
-        UI["Render families\nSearch · Filter · Compare\nRegion selector · CSV export\nShareable URL hash"]
+    subgraph Browser["Visitor's Browser"]
+        FETCH["One fetch() to data.json"]
+        UI["EC2 + RDS families\nSearch · Filter · Region selector\nSide-by-side comparison\nShareable URL · CSV export"]
     end
 
     OIDC --> AWS
@@ -135,243 +93,133 @@ graph TD
     JSON --> Repo
     SRC --> Repo
     Repo --> Pages
-    Pages --> Browser
     FETCH --> SITE
     SITE --> UI
 ```
 
-The key insight: **the browser never calls AWS**. All API calls happen in CI once a week. The browser fetches one pre-built JSON file from a CDN edge node near it.
+The most important thing in this diagram: **the browser never calls AWS**. All API calls happen in CI, once a week. The browser fetches one pre-built JSON file from the nearest Fastly edge node and renders everything from that. No CORS issues. No rate limits. No AWS credentials exposed to visitors.
 
 ---
 
-## The Data Pipeline
+## The Data: Two Layers With Different Owners
 
-### Two-Layer data.json
+`data.json` has a deliberate two-layer structure that makes the weekly CI refresh safe to run automatically.
 
-The file has a deliberate split:
+The **static layer** — family reasoning, workload guidance, "Best For / Not Ideal For" tags, icons, category labels — is written and maintained by a human. The CI script never touches it. It is editorial content.
 
-| Layer | Who writes it | What it contains |
-|---|---|---|
-| **Static** (`ec2Families`, `rdsFamilies`, `rdsEngines`) | Humans | Reasoning, icons, "best for" tags, use-case guidance |
-| **Dynamic** (`ec2Instances`, `rdsInstances`, `ec2RegionalPrices`, `rdsRegionalPrices`) | CI weekly | Specs, instance counts, per-region pricing |
+The **dynamic layer** — instance types, vCPU counts, memory sizes, network performance, and per-region pricing — is completely overwritten by the CI script on every run. If AWS launches a new instance size on Monday, it appears in the site by Monday night.
 
-The CI script only overwrites the dynamic layer:
-
-```python
-for family in data.get('ec2Families', {}).keys():
-    if family in ec2_instances_by_family:
-        data['ec2Instances'][family] = ec2_instances_by_family[family]
-```
-
-The curated reasoning is never auto-overwritten. It is editorial content a human controls.
+This separation means you can run the CI job confidently without worrying that automation will corrupt carefully written guidance. The human-owned content is structurally isolated from the machine-owned data.
 
 ### Multi-Region Pricing
 
-One of the most-requested features was regional pricing. AWS Pricing API lives only in `us-east-1` but covers all regions via the `location` filter:
+One of the most-requested capabilities was regional pricing. The AWS Pricing API lives in `us-east-1` but covers all regions via a location filter. The CI script now queries four regions — US East, US West, EU Ireland, and AP Singapore — in a single workflow run and stores the results in a flat lookup map in `data.json`.
 
-```python
-PRICING_REGIONS = {
-    'us-east-1':      'US East (N. Virginia)',
-    'us-west-2':      'US West (Oregon)',
-    'eu-west-1':      'EU (Ireland)',
-    'ap-southeast-1': 'Asia Pacific (Singapore)',
-}
+Why a flat map rather than embedding prices inside each instance record? Because instance specs (vCPU, memory, network) are the same regardless of region — only pricing varies. Keeping them separate avoids duplicating spec data four times and makes the per-region price lookup a simple two-level key access. The resulting JSON is compact: the entire file including 4-region pricing for 700+ EC2 instance types stays under 800KB — one CDN round-trip for any visitor.
 
-def get_ec2_prices(pricing_client, location='US East (N. Virginia)'):
-    paginator = pricing_client.get_paginator('get_products')
-    pages = paginator.paginate(
-        ServiceCode='AmazonEC2',
-        Filters=[
-            {'Type': 'TERM_MATCH', 'Field': 'location',       'Value': location},
-            {'Type': 'TERM_MATCH', 'Field': 'preInstalledSw', 'Value': 'NA'},
-            {'Type': 'TERM_MATCH', 'Field': 'tenancy',        'Value': 'Shared'},
-            {'Type': 'TERM_MATCH', 'Field': 'capacitystatus', 'Value': 'Used'},
-        ]
-    )
-    # ... extract Linux and Windows OD prices
-```
-
-Prices are stored in a flat top-level map keyed by instance type and region, keeping per-instance records lean:
-
-```json
-{
-  "ec2RegionalPrices": {
-    "m7g.4xlarge": {
-      "us-east-1":      { "linux": 0.6720, "windows": 1.0640 },
-      "eu-west-1":      { "linux": 0.7680, "windows": 1.2160 },
-      "ap-southeast-1": { "linux": 0.7840, "windows": 1.2800 }
-    }
-  }
-}
-```
-
-The frontend resolves the active region at render time — no re-fetch needed:
-
-```js
-function getEc2LinuxPrice(instanceType) {
-    const r = state.ec2RegionalPrices?.[instanceType]?.[state.activeRegion];
-    if (r?.linux != null) return r.linux;
-    return state.instanceLookup.get(`ec2:${instanceType}`)?.price_hourly ?? null;
-}
-```
-
-When the user switches region, `renderEc2Families()` and `renderRdsFamilies()` re-run. Because all data is already in memory, this is instant — no network call, no spinner.
-
-### IAM Permissions (Least Privilege + OIDC)
-
-The GitHub Actions role needs exactly three AWS managed policies:
-
-```
-AmazonEC2ReadOnlyAccess
-AmazonRDSReadOnlyAccess
-AWSPriceListServiceFullAccess
-```
-
-No write access to EC2 or RDS. No IAM permissions. Using OIDC eliminates long-lived access keys entirely:
-
-```json
-{
-  "Condition": {
-    "StringEquals": {
-      "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
-      "token.actions.githubusercontent.com:sub": "repo:OWNER/REPO:ref:refs/heads/main"
-    }
-  }
-}
-```
-
-The token is ephemeral, scoped to the specific repo and branch, and rotates automatically every run.
+When the user switches regions in the UI, the frontend resolves prices from the in-memory map instantly. No network call. No spinner. No re-render flash. All 700+ tables update in milliseconds because the data was already there.
 
 ---
 
-## Frontend Architecture
+## The Comparison Feature: Design Decisions
 
-### State Management Without a Framework
+The comparison feature was the most architecturally interesting piece to build. The requirements sound simple — "let me compare a few instances" — but the details expose a lot of design choices.
 
-All mutable state lives in one plain object with clearly typed fields. No reactive proxy, no store subscription — just a direct function call when something changes:
+### Selecting Instances Across the Entire Page
 
-```js
-const state = {
-    activeTab:          'ec2',
-    activeFilter:       'all',
-    searchQuery:        '',
-    activeRegion:       'us-east-1',
-    ec2Data:            null,
-    rdsData:            null,
-    ec2RegionalPrices:  {},   // inst_type → { region → { linux, windows } }
-    rdsRegionalPrices:  {},   // db_class  → { region → price }
-    compareItems:       new Map(),   // ikey → { itype, label, data }
-    instanceLookup:     new Map(),   // "ec2:t3.micro" → instance object
-};
-```
+The first challenge is that instances live inside collapsible family cards spread across a scrolling page. You might want to compare `t3.micro` from the T family card at the top of the page with `m7g.xlarge` from a different card halfway down, then add `c7g.xlarge` from the Compute Optimized section. The selection state has to be global and persistent while you scroll around.
 
-### Search: Cache at Render Time
+The solution is a flat `Map` in the application state — `compareItems` — keyed by a namespaced string identifier. Every EC2 instance gets a key like `ec2:t3.micro`. Every RDS class gets `rds:db.r6g.large`. The colon prefix prevents collisions between EC2 and RDS types and makes the type trivially extractable without any additional metadata.
 
-A naive search reads `card.textContent` on every keystroke — expensive for 700+ DOM nodes. Instead, a `data-search-text` attribute is computed once at card render time and never touched again:
+When you click the `+` button on a row, the key is added to the map. Click again and it's removed. The button state across the entire page updates immediately via a single pass through all rendered `+` buttons — no event bubbling complexity, just a DOM query and a class toggle.
 
-```js
-const searchText = [
-    familyName, category, headline, reasoning,
-    ...bestFor, ...notFor,
-    ...instances.map(i => i.instanceType || i.dbInstanceClass || ''),
-].join(' ').toLowerCase();
-// stored as: data-search-text="t3 general purpose burstable..."
-```
+### The Sticky Tray
 
-Search then becomes a single `String.prototype.includes()` call per card. Debounced at 200ms.
+Once you've selected instances, you need to see what you've picked without scrolling back through the page. A sticky tray at the bottom of the viewport solves this. It slides up from below as soon as your first selection is made and stays visible as you scroll.
 
-### The Comparison Feature
+The tray shows named slots for each selected instance — so you can see at a glance what you've got — along with individual remove buttons and a global clear. It also shows the "Compare" button, which is disabled until you have at least two selections. There's a slot layout that always shows four positions (filling empties with dashed outlines) so you can see how many more you can add.
 
-**Identity keys:** each instance gets a namespaced string key (`ec2:t3.micro`, `rds:db.r6g.large`). This prevents collisions and makes type extraction trivial.
+The tray also hosts the **Copy link** button. Clicking it encodes your current selection into the URL hash and copies it to clipboard. Any colleague you send that link to will land on the page with your exact comparison pre-loaded and the modal open. Zero server involvement.
 
-**O(1) lookup:** after data loads, all instances are indexed into a flat `Map`. The comparison modal never traverses the family hierarchy.
+### The Comparison Modal
 
-**Event delegation:** a single listener on the grid container handles all `+` button clicks — no per-row listener attachment, no memory leaks, works for rows rendered at any time.
+The comparison modal shows specs side-by-side in a structured table. The design decisions here:
 
-**Best/worst highlighting:** one pass over numeric values per row finds min/max. `higherIsBetter: true` for vCPU/RAM, `false` for cost. Guard prevents highlighting when all values are equal.
+**Best/worst highlighting** is applied per row, not globally. For vCPUs and memory, the highest value is highlighted green. For cost, the lowest value is highlighted green. A guard prevents both cells from being highlighted when all values are equal — which would be misleading.
 
-### Shareable Comparison URLs
+**Mixed EC2 + RDS selections** are handled gracefully rather than rejected. You can add both EC2 instances and RDS classes to a comparison, and the modal renders two separate tables — one for each type — with a notice explaining the split. The use case is real: a team evaluating whether to self-manage a database on EC2 versus using RDS might want to compare an EC2 instance against an RDS class directly.
 
-The comparison state is encoded in the URL hash so links are shareable without a server:
+**Region awareness** flows through the comparison table automatically. If you switch to EU Ireland before opening the modal, all prices shown are EU Ireland prices. If you switch region while the modal is open, the table refreshes in place — no need to close and reopen.
+
+---
+
+## Shareable Comparison Links: URL Hash as Your Database
+
+Most "share this state" features require a server. You generate a short code, store the state server-side, and give the user a URL that decodes on the server at render time. That is an entire backend feature — a database table, a key generation function, a lookup endpoint, expiry logic.
+
+InstanceIQ does the same thing with no server at all, using the URL hash.
+
+The URL hash (`window.location.hash`) is the part of the URL after the `#`. Critically, the browser does not send the hash to the server — it is purely client-side. Which means you can store arbitrary state in it without any server knowing about it, and it is part of the URL that gets copied when someone shares a link.
+
+When you add or remove instances from your comparison, the app encodes the selection as a comma-separated list of instance keys and writes it to the hash:
 
 ```
 https://devopscaptain.github.io/AWS-Instance-Explorer/#compare=ec2%3Am7g.4xlarge%2Cec2%3Ac7g.4xlarge
 ```
 
-On every selection change:
+When anyone visits that URL, the app loads normally, builds its data structures, then reads the hash, finds the instances, pre-selects them, and opens the comparison modal automatically. The visitor sees exactly what the sender saw.
 
-```js
-function updateCompareHash() {
-    const keys = [...state.compareItems.keys()];
-    history.replaceState(null, '', '#compare=' + encodeURIComponent(keys.join(',')));
-}
-```
-
-On page load, after the instance lookup is built:
-
-```js
-function parseCompareFromHash() {
-    const hash = window.location.hash;
-    if (!hash.startsWith('#compare=')) return;
-    const keys = decodeURIComponent(hash.slice('#compare='.length)).split(',');
-    for (const key of keys) {
-        if (state.instanceLookup.has(key) && state.compareItems.size < MAX_COMPARE) {
-            // pre-select and open comparison modal
-        }
-    }
-}
-```
-
-No server-side session. No database. The entire state lives in a 100-byte URL fragment.
-
-### Export to CSV
-
-The comparison table is serialised to CSV entirely in the browser — no server upload, no third-party library:
-
-```js
-const blob = new Blob([csv], { type: 'text/csv' });
-const url  = URL.createObjectURL(blob);
-const a    = document.createElement('a');
-a.href     = url;
-a.download = `instanceiq-compare-${state.activeRegion}-${Date.now()}.csv`;
-document.body.appendChild(a);
-a.click();
-document.body.removeChild(a);
-URL.revokeObjectURL(url);
-```
-
-The exported filename includes the active region and a timestamp — `instanceiq-compare-eu-west-1-1741000000000.csv` — so downloaded files are self-identifying.
+The entire persistence layer is a 100-byte URL fragment. No database. No server. No session. No expiry date. Links work forever as long as the instances themselves still exist in `data.json`.
 
 ---
 
-## Key Takeaways
+## Export to CSV: Send It to the Spreadsheet People
 
-**1. GitHub Pages + Actions is production infrastructure, not a toy.**
-Free, globally distributed, HTTPS-by-default, zero ops. For any read-heavy tool that doesn't need real-time data, this stack is strictly better than self-hosting.
+Not everyone lives in a web app. Finance teams, procurement, capacity planners — they work in spreadsheets. The CSV export button in the comparison modal generates a properly formatted CSV from the current comparison table, including the active region, and triggers a browser download.
 
-**2. Pre-compute at CI time. Serve at edge time.**
-Fetching AWS pricing in a weekly CI job and embedding it in a static JSON file is faster and cheaper than calling the Pricing API per request — and the data is the same.
+Everything happens in the browser. No upload to a server, no third-party library, no dependencies. The generated filename includes the active region and a timestamp (`instanceiq-compare-eu-west-1-1741000000000.csv`) so downloaded files are self-identifying when they land in a shared folder two weeks later.
 
-**3. Multi-region pricing without a backend.**
-By fetching 4 regions in the CI script and storing a flat price map in `data.json`, the frontend does live region switching with zero network calls. The entire JSON including 4-region pricing stays under 800KB — one CDN round-trip.
+The region is embedded in the data itself too — each price column is labelled with the region code, so a spreadsheet opened months later is unambiguous about which region the pricing reflects.
 
-**4. URL hash as your persistence layer.**
-For shareable state in a static app, `window.location.hash` + `history.replaceState` gives you deep-linkable, bookmarkable, shareable state with no server, no database, and no cookies.
+---
 
-**5. OIDC for GitHub Actions is table-stakes.**
-If you are still using long-lived IAM access keys in GitHub Secrets, migrate to OIDC. One-time 15-minute setup, eliminates an entire class of credential exposure risk, tokens auto-rotate every run.
+## Security: No Credentials, No Keys, No Secrets
 
-**6. Separate dynamic data from curated content in your JSON.**
-The two-layer `data.json` pattern keeps automated CI updates safe — the script can never overwrite editorial reasoning, icons, or guidance that a human wrote.
+Visitors never need an AWS account. The site is a static file. There is nothing to authenticate against.
+
+The only credentials in the system are the ones the GitHub Actions workflow uses to call AWS. And those are not stored credentials — they are ephemeral tokens issued by AWS's OIDC integration with GitHub.
+
+Here is how it works: AWS trusts GitHub's OIDC identity provider. When the Actions workflow runs, GitHub issues a short-lived token that identifies the specific repository and branch. The workflow presents this token to AWS in exchange for temporary IAM credentials. Those credentials are scoped to read-only access (EC2, RDS, and Pricing APIs), are valid for the duration of the workflow run, and are never stored anywhere. There is no `AWS_ACCESS_KEY_ID` secret sitting in the repository settings waiting to be leaked.
+
+The IAM role has exactly three managed policies attached:
+- `AmazonEC2ReadOnlyAccess`
+- `AmazonRDSReadOnlyAccess`
+- `AWSPriceListServiceFullAccess`
+
+No write access. No IAM permissions. No ability to create or delete anything. The workflow's only write action is a `git push` back to the repository — over HTTPS using the `GITHUB_TOKEN` that GitHub provides automatically, which is scoped to the repository and expires when the run ends.
+
+---
+
+## What I Learned
+
+**Run your CI close to where the data lives, not where the users are.** The AWS Pricing API is in `us-east-1`. The CI runs there. The output is a file that gets served from CDN edges near each user. This is the right topology for a read-heavy, infrequently updated dataset.
+
+**The URL hash is an underused primitive.** It gives you bookmarkable, shareable, serverless state persistence with no infrastructure. For tools where state is a selection or filter, not sensitive data, it is almost always the right answer.
+
+**Separate human-owned content from machine-owned data in the same file.** The two-layer `data.json` design lets CI run safely and automatically without ever risking corruption of curated content. When you have mixed editorial and programmatic data, make the boundary explicit in the structure.
+
+**GitHub Pages + Actions is not a toy stack.** It is a globally distributed, HTTPS-by-default, zero-ops hosting platform with a built-in CI/CD system. For tools that serve read-heavy, mostly-static content to developers and ops teams, it is often the most robust and cost-effective choice available — including compared to paid hosting platforms.
+
+**OIDC for GitHub Actions should be your default, not your stretch goal.** Long-lived IAM access keys in repository secrets are a liability. OIDC eliminates them entirely, takes about 15 minutes to set up, and requires no rotation, no auditing of who has access to what secret, and no incident response playbook for leaked keys.
 
 ---
 
 ## What's Next
 
-- **Savings Plans / Reserved pricing** columns in the comparison table
-- **More regions** — currently 4; expanding to full AWS region list
-- **Instance generation upgrade paths** — highlight the direct successor of a selected instance
+- **More regions** — currently four; expanding coverage to all commercial AWS regions
+- **Savings Plans / Reserved pricing** columns alongside On-Demand in the comparison table
+- **Instance generation upgrade paths** — highlight the direct current-gen successor of a selected previous-gen instance
 
 ---
 
-*InstanceIQ is open source on GitHub. The full CI workflow, Python data pipeline, and frontend source are in the repo. Contributions welcome.*
+*InstanceIQ is open source. Source code, the full GitHub Actions workflow, and the Python data pipeline are all in the repository. Contributions welcome.*
