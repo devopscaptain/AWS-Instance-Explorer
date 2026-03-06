@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AWS Instance Explorer — EC2 & RDS Advisor</title>
+    <title>InstanceIQ — EC2 & RDS Advisor · devopscaptain</title>
     <meta name="description"
-        content="Explore all AWS EC2 and RDS instance types with intelligent reasoning about workload suitability. Beautiful animated guide to choosing the right instance.">
+        content="InstanceIQ by devopscaptain. Explore all AWS EC2 and RDS instance types with workload suitability guidance. Auto-updated from AWS APIs.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="./static/css/style.css">
 </head>
@@ -23,26 +23,48 @@
         <div class="nav-inner">
             <div class="nav-brand">
                 <div class="brand-icon">
-                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                        <path d="M14 2L2 8v12l12 6 12-6V8L14 2z" fill="url(#brandGrad)" opacity="0.9" />
-                        <path d="M14 2L2 8l12 6 12-6L14 2z" fill="url(#brandGrad2)" opacity="0.6" />
+                    <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+                        <rect x="1" y="1" width="24" height="24" rx="4" stroke="url(#iqGrad)" stroke-width="1.5"/>
+                        <text x="13" y="18" text-anchor="middle"
+                              font-family="'JetBrains Mono', monospace"
+                              font-weight="900" font-size="11"
+                              fill="url(#iqGrad)">IQ</text>
                         <defs>
-                            <linearGradient id="brandGrad" x1="2" y1="2" x2="26" y2="26">
-                                <stop stop-color="#FF9900" />
-                                <stop offset="1" stop-color="#FF6600" />
-                            </linearGradient>
-                            <linearGradient id="brandGrad2" x1="2" y1="2" x2="26" y2="14">
-                                <stop stop-color="#FFB84D" />
-                                <stop offset="1" stop-color="#FF9900" />
+                            <linearGradient id="iqGrad" x1="1" y1="1" x2="25" y2="25">
+                                <stop stop-color="#00D4FF"/>
+                                <stop offset="1" stop-color="#FF0080"/>
                             </linearGradient>
                         </defs>
                     </svg>
                 </div>
-                <span class="brand-text">AWS Instance Explorer</span>
+                <div class="brand-text-group">
+                    <span class="brand-product">InstanceIQ</span>
+                    <span class="brand-author">devopscaptain</span>
+                </div>
             </div>
             <div class="nav-controls">
                 <span id="lastUpdated"
-                    style="font-size:12px;color:var(--text-tertiary);font-family:var(--font-mono)"></span>
+                    style="font-size:11px;color:var(--text-tertiary);font-family:var(--font-mono)"></span>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme">
+                    <!-- Moon icon (shown in dark mode) -->
+                    <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                    <!-- Sun icon (shown in light mode) -->
+                    <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                </button>
             </div>
         </div>
     </nav>
@@ -50,19 +72,21 @@
     <!-- Hero -->
     <header class="hero" id="hero">
         <div class="hero-content">
-            <div class="hero-badge"><span class="badge-dot"></span><span>Powered by AWS API · Auto-Updated via GitHub
-                    Actions · No AI</span></div>
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                <span>[ LIVE ] AWS API · GitHub Actions · No AI · devopscaptain</span>
+            </div>
             <h1 class="hero-title">
-                <span class="title-line">Choose the Right</span>
+                <span class="title-line">Find the Right</span>
                 <span class="title-line title-gradient">AWS Instance</span>
                 <span class="title-line">for Every Workload</span>
             </h1>
-            <p class="hero-subtitle">Explore all EC2 & RDS instance families with detailed reasoning about workload
-                suitability. Data auto-refreshed from AWS APIs via GitHub Actions.</p>
+            <p class="hero-subtitle">InstanceIQ gives you clear, data-driven guidance across every EC2 and RDS
+                instance family. Pricing and specs auto-refreshed weekly from AWS APIs.</p>
             <div class="hero-stats" id="heroStats">
                 <div class="stat-card">
                     <div class="stat-number" id="statEc2Count">—</div>
-                    <div class="stat-label">EC2 Instance Types</div>
+                    <div class="stat-label">EC2 Types</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number" id="statEc2Families">—</div>
@@ -70,11 +94,11 @@
                 </div>
                 <div class="stat-card">
                     <div class="stat-number" id="statRdsCount">—</div>
-                    <div class="stat-label">RDS Instance Classes</div>
+                    <div class="stat-label">RDS Classes</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number" id="statRdsEngines">—</div>
-                    <div class="stat-label">Database Engines</div>
+                    <div class="stat-label">DB Engines</div>
                 </div>
             </div>
         </div>
@@ -84,7 +108,7 @@
     <main class="main-content">
         <div class="tab-bar" id="tabBar" role="tablist" aria-label="Instance type categories">
             <button class="tab-btn active" data-tab="ec2" id="tabEc2" role="tab" aria-selected="true" aria-controls="ec2Content">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <rect x="2" y="3" width="20" height="14" rx="2" />
                     <line x1="8" y1="21" x2="16" y2="21" />
                     <line x1="12" y1="17" x2="12" y2="21" />
@@ -92,7 +116,7 @@
                 <span>EC2 Instance Types</span>
             </button>
             <button class="tab-btn" data-tab="rds" id="tabRds" role="tab" aria-selected="false" aria-controls="rdsContent">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <ellipse cx="12" cy="5" rx="9" ry="3" />
                     <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
                     <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
@@ -100,7 +124,7 @@
                 <span>RDS Instance Classes</span>
             </button>
             <button class="tab-btn" data-tab="engines" id="tabEngines" role="tab" aria-selected="false" aria-controls="enginesContent">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="3" />
                     <path
                         d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
@@ -111,7 +135,7 @@
 
         <div class="filter-bar" id="filterBar">
             <div class="search-box">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="11" cy="11" r="8" />
                     <line x1="21" y1="21" x2="16.65" y2="16.65" />
                 </svg>
@@ -135,10 +159,10 @@
                 <div class="loader-ring"></div>
                 <div class="loader-ring"></div>
             </div>
-            <p class="loading-text">Loading instance data...</p>
+            <p class="loading-text">// loading instance data...</p>
         </div>
         <div class="error-state hidden" id="errorState">
-            <div class="error-icon">⚠️</div>
+            <div class="error-icon">⚠</div>
             <h3>Data Load Error</h3>
             <p id="errorMessage"></p>
         </div>
@@ -156,9 +180,8 @@
 
     <footer class="main-footer">
         <div class="footer-inner">
-            <p>AWS Instance Explorer — Data from AWS APIs via GitHub Actions | No AI Used | Static Reasoning from AWS
-                Best Practices</p>
-            <p class="footer-sub">Fully static site · Hosted on GitHub Pages · Built with Vanilla HTML/CSS/JS</p>
+            <p><span class="footer-brand">InstanceIQ</span> — Data from AWS APIs via GitHub Actions · No AI · Static reasoning from AWS best practices</p>
+            <p class="footer-sub">by <span class="footer-brand">devopscaptain</span> · Fully static · GitHub Pages · Vanilla HTML/CSS/JS</p>
         </div>
     </footer>
 

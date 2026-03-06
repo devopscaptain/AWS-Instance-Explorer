@@ -55,18 +55,42 @@ const els = {
 document.addEventListener('DOMContentLoaded', init);
 
 function init() {
+    applyStoredTheme();
     createParticles();
     setupNavScrollEffect();
     setupTabs();
     setupFilters();
     setupSearch();
+    setupThemeToggle();
     loadStaticData();
+}
+
+// ─── Theme ───────────────────────────────────────────────────
+function applyStoredTheme() {
+    const stored = localStorage.getItem('iq-theme');
+    if (stored === 'light') document.documentElement.setAttribute('data-theme', 'light');
+}
+
+function setupThemeToggle() {
+    const btn = document.getElementById('themeToggle');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+        if (isLight) {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('iq-theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('iq-theme', 'light');
+        }
+    });
 }
 
 // ─── Background Particles ────────────────────────────────────
 function createParticles() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const colors = ['#FF9900', '#3b82f6', '#8b5cf6', '#10b981', '#ec4899'];
+    // Cyberpunk neon palette
+    const colors = ['#00D4FF', '#FF0080', '#9D00FF', '#00FF88', '#FFD700'];
     for (let i = 0; i < 30; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
@@ -374,9 +398,9 @@ function buildFamilyCardHTML(key, fam, r, idx, type) {
                 <td>${winCostHtml}</td>
             </tr>
         `}).join('');
-        tableHtml = `<table class="instances-table"><thead><tr>
+        tableHtml = `<div class="table-scroll"><table class="instances-table"><thead><tr>
             <th>Instance Type</th><th>vCPUs</th><th>Memory</th><th>Network</th><th>Burstable</th><th>Linux Cost (OD)</th><th>Windows Cost (OD)</th>
-        </tr></thead><tbody>${rows}</tbody></table>`;
+        </tr></thead><tbody>${rows}</tbody></table></div>`;
     } else {
         const rows = instances.slice(0, 50).map((inst, i) => {
             const costHtml = inst.price_hourly ? `<span class="price-val">$${inst.price_hourly.toFixed(3)}/hr<br><span style="font-size:10px; opacity:0.7">~$${(inst.price_hourly * 730).toFixed(2)}/mo</span></span>` : '<span style="color: var(--text-muted)">Varies by engine</span>';
@@ -387,13 +411,14 @@ function buildFamilyCardHTML(key, fam, r, idx, type) {
                 <td>${costHtml}</td>
             </tr>
         `}).join('');
-        tableHtml = `<table class="instances-table"><thead><tr>
+        tableHtml = `<div class="table-scroll"><table class="instances-table"><thead><tr>
             <th>DB Instance Class</th><th>Supported Engines</th><th>Estimated Cost</th>
-        </tr></thead><tbody>${rows}</tbody></table>`;
+        </tr></thead><tbody>${rows}</tbody></table></div>`;
     }
 
     return `
         <div class="family-card stagger-${Math.min(idx + 1, 17)}"
+             style="--card-accent: ${color}"
              data-category="${esc(category)}" data-family-name="${esc(familyName)}" data-family-key="${esc(key)}"
              data-search-text="${esc(searchText)}">
             <div class="family-card-header">
@@ -447,7 +472,7 @@ function renderEngines() {
             ...(eng.best_for || []),
         ].join(' ').toLowerCase();
         return `
-            <div class="engine-card stagger-${Math.min(idx + 1, 17)}" data-search-text="${esc(searchText)}">
+            <div class="engine-card stagger-${Math.min(idx + 1, 17)}" style="--card-accent: ${color}" data-search-text="${esc(searchText)}">
                 <div class="engine-card-header" style="border-top: 3px solid ${color}">
                     <span class="engine-icon">${eng.icon || '🗄️'}</span>
                     <div class="engine-name" style="color: ${color}">${esc(eng.engine_name)}</div>
