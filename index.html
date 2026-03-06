@@ -185,6 +185,34 @@
         </div>
     </footer>
 
+    <!-- Compare Tray -->
+    <div class="compare-tray" id="compareTray" aria-live="polite">
+        <div class="compare-tray-inner">
+            <div class="compare-tray-slots" id="compareTraySlots"></div>
+            <div class="compare-tray-actions">
+                <span class="compare-tray-hint" id="compareTrayHint">Select up to 4 instances to compare</span>
+                <button class="compare-open-btn" id="compareOpenBtn" disabled>Compare <span id="compareCount">0</span> →</button>
+                <button class="compare-clear-btn" id="compareClearBtn" title="Clear all">✕ Clear</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Compare Overlay -->
+    <div class="compare-overlay" id="compareOverlay" role="dialog" aria-modal="true" aria-label="Instance Comparison">
+        <div class="compare-modal">
+            <div class="compare-modal-header">
+                <div class="compare-modal-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="8" height="18" rx="1"/><rect x="13" y="3" width="8" height="18" rx="1"/>
+                    </svg>
+                    Side-by-Side Comparison
+                </div>
+                <button class="compare-close-btn" id="compareCloseBtn" aria-label="Close comparison">✕</button>
+            </div>
+            <div class="compare-modal-body" id="compareModalBody"></div>
+        </div>
+    </div>
+
     <script src="./static/js/app.js"></script>
 </body>
 

@@ -16,7 +16,11 @@ const state = {
     ec2Data: null,
     rdsData: null,
     engineData: null,
+    compareItems: new Map(),   // key → { type: 'ec2'|'rds', label, data }
+    instanceLookup: new Map(), // "ec2:t3.micro" / "rds:db.r6g.large" → instance object
 };
+
+const MAX_COMPARE = 4;
 
 const CATEGORY_FILTER_MAP = {
     'general': 'General Purpose',
@@ -62,6 +66,7 @@ function init() {
     setupFilters();
     setupSearch();
     setupThemeToggle();
+    setupCompare();
     loadStaticData();
 }
 
@@ -268,6 +273,18 @@ async function loadStaticData() {
             $('#lastUpdated').textContent = `Last updated: ${date.toLocaleDateString()}`;
         }
 
+        // Build lookup for comparison feature
+        for (const [, fam] of Object.entries(ec2Families)) {
+            for (const inst of fam.instances) {
+                state.instanceLookup.set(`ec2:${inst.instanceType}`, { itype: 'ec2', ...inst });
+            }
+        }
+        for (const [, fam] of Object.entries(rdsFamilies)) {
+            for (const inst of fam.instances) {
+                state.instanceLookup.set(`rds:${inst.dbInstanceClass}`, { itype: 'rds', ...inst });
+            }
+        }
+
         // Render everything
         updateStats();
         renderEc2Families();
@@ -327,6 +344,8 @@ function renderEc2Families() {
     els.ec2Grid.querySelectorAll('.instances-toggle').forEach(btn => {
         btn.addEventListener('click', () => toggleInstanceList(btn));
     });
+    // Event delegation for compare buttons
+    els.ec2Grid.addEventListener('click', handleCompareClick);
 }
 
 // ─── Render RDS Families ─────────────────────────────────────
@@ -341,6 +360,8 @@ function renderRdsFamilies() {
     els.rdsGrid.querySelectorAll('.instances-toggle').forEach(btn => {
         btn.addEventListener('click', () => toggleInstanceList(btn));
     });
+    // Event delegation for compare buttons
+    els.rdsGrid.addEventListener('click', handleCompareClick);
 }
 
 // ─── Build Family Card HTML ──────────────────────────────────
@@ -385,6 +406,7 @@ function buildFamilyCardHTML(key, fam, r, idx, type) {
         const rows = instances.slice(0, 50).map((inst, i) => {
             const costHtml = inst.price_hourly ? `<span class="price-val">$${inst.price_hourly.toFixed(3)}/hr<br><span style="font-size:10px; opacity:0.7">~$${(inst.price_hourly * 730).toFixed(2)}/mo</span></span>` : '<span style="color: var(--text-muted)">N/A</span>';
             const winCostHtml = inst.price_hourly_windows ? `<span class="price-val">$${inst.price_hourly_windows.toFixed(3)}/hr<br><span style="font-size:10px; opacity:0.7">~$${(inst.price_hourly_windows * 730).toFixed(2)}/mo</span></span>` : '<span style="color: var(--text-muted)">N/A</span>';
+            const ikey = `ec2:${inst.instanceType}`;
             return `
             <tr style="animation-delay: ${i * 0.02}s">
                 <td><span class="instance-type-name">${esc(inst.instanceType)}
@@ -396,23 +418,26 @@ function buildFamilyCardHTML(key, fam, r, idx, type) {
                 <td>${inst.burstable ? '⚡ Yes' : '—'}</td>
                 <td>${costHtml}</td>
                 <td>${winCostHtml}</td>
+                <td><button class="compare-row-btn" data-ikey="${esc(ikey)}" title="Add to compare">+</button></td>
             </tr>
         `}).join('');
         tableHtml = `<div class="table-scroll"><table class="instances-table"><thead><tr>
-            <th>Instance Type</th><th>vCPUs</th><th>Memory</th><th>Network</th><th>Burstable</th><th>Linux Cost (OD)</th><th>Windows Cost (OD)</th>
+            <th>Instance Type</th><th>vCPUs</th><th>Memory</th><th>Network</th><th>Burstable</th><th>Linux Cost (OD)</th><th>Windows Cost (OD)</th><th></th>
         </tr></thead><tbody>${rows}</tbody></table></div>`;
     } else {
         const rows = instances.slice(0, 50).map((inst, i) => {
             const costHtml = inst.price_hourly ? `<span class="price-val">$${inst.price_hourly.toFixed(3)}/hr<br><span style="font-size:10px; opacity:0.7">~$${(inst.price_hourly * 730).toFixed(2)}/mo</span></span>` : '<span style="color: var(--text-muted)">Varies by engine</span>';
+            const ikey = `rds:${inst.dbInstanceClass}`;
             return `
             <tr style="animation-delay: ${i * 0.02}s">
                 <td>${esc(inst.dbInstanceClass)}</td>
                 <td>${inst.engine.split(', ').map(e => `<span class="engine-tag" style="margin:2px">${esc(e)}</span>`).join('')}</td>
                 <td>${costHtml}</td>
+                <td><button class="compare-row-btn" data-ikey="${esc(ikey)}" title="Add to compare">+</button></td>
             </tr>
         `}).join('');
         tableHtml = `<div class="table-scroll"><table class="instances-table"><thead><tr>
-            <th>DB Instance Class</th><th>Supported Engines</th><th>Estimated Cost</th>
+            <th>DB Instance Class</th><th>Supported Engines</th><th>Estimated Cost</th><th></th>
         </tr></thead><tbody>${rows}</tbody></table></div>`;
     }
 
@@ -506,6 +531,246 @@ function esc(str) {
     const d = document.createElement('div');
     d.textContent = str;
     return d.innerHTML;
+}
+
+// ─── Compare Feature ─────────────────────────────────────────
+function setupCompare() {
+    const openBtn = document.getElementById('compareOpenBtn');
+    const clearBtn = document.getElementById('compareClearBtn');
+    const closeBtn = document.getElementById('compareCloseBtn');
+    const overlay = document.getElementById('compareOverlay');
+
+    openBtn.addEventListener('click', openComparisonModal);
+    clearBtn.addEventListener('click', clearCompare);
+    closeBtn.addEventListener('click', closeComparisonModal);
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeComparisonModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeComparisonModal();
+    });
+}
+
+function handleCompareClick(e) {
+    const btn = e.target.closest('.compare-row-btn');
+    if (!btn) return;
+    const ikey = btn.dataset.ikey;
+    if (!ikey) return;
+    toggleCompare(ikey);
+}
+
+function toggleCompare(ikey) {
+    if (state.compareItems.has(ikey)) {
+        state.compareItems.delete(ikey);
+    } else {
+        if (state.compareItems.size >= MAX_COMPARE) return;
+        const inst = state.instanceLookup.get(ikey);
+        if (!inst) return;
+        const [itype, label] = ikey.startsWith('ec2:')
+            ? ['ec2', inst.instanceType]
+            : ['rds', inst.dbInstanceClass];
+        state.compareItems.set(ikey, { itype, label, data: inst });
+    }
+    updateAllCompareButtons();
+    renderCompareTray();
+}
+
+function updateAllCompareButtons() {
+    const atMax = state.compareItems.size >= MAX_COMPARE;
+    document.querySelectorAll('.compare-row-btn').forEach(btn => {
+        const ikey = btn.dataset.ikey;
+        const selected = state.compareItems.has(ikey);
+        btn.classList.toggle('active', selected);
+        btn.textContent = selected ? '✓' : '+';
+        btn.title = selected ? 'Remove from compare' : (atMax ? 'Max 4 reached' : 'Add to compare');
+        btn.classList.toggle('disabled', !selected && atMax);
+    });
+}
+
+function renderCompareTray() {
+    const tray = document.getElementById('compareTray');
+    const slots = document.getElementById('compareTraySlots');
+    const hint = document.getElementById('compareTrayHint');
+    const openBtn = document.getElementById('compareOpenBtn');
+    const countSpan = document.getElementById('compareCount');
+    const count = state.compareItems.size;
+
+    if (count === 0) {
+        tray.classList.remove('visible');
+        return;
+    }
+    tray.classList.add('visible');
+    openBtn.disabled = count < 2;
+    countSpan.textContent = count;
+    hint.textContent = count < 2 ? 'Add 1 more to compare' : `${count} selected — ready to compare`;
+
+    // Fill slots (always show 4 slots)
+    const items = [...state.compareItems.entries()];
+    let html = '';
+    for (let i = 0; i < MAX_COMPARE; i++) {
+        if (i < items.length) {
+            const [ikey, { label }] = items[i];
+            html += `<div class="compare-slot">
+                <span class="compare-slot-label" title="${esc(label)}">${esc(label)}</span>
+                <button class="compare-slot-remove" data-ikey="${esc(ikey)}" title="Remove">✕</button>
+            </div>`;
+        } else {
+            html += `<div class="compare-slot compare-slot-empty"></div>`;
+        }
+    }
+    slots.innerHTML = html;
+    slots.querySelectorAll('.compare-slot-remove').forEach(btn => {
+        btn.addEventListener('click', () => toggleCompare(btn.dataset.ikey));
+    });
+}
+
+function clearCompare() {
+    state.compareItems.clear();
+    updateAllCompareButtons();
+    renderCompareTray();
+}
+
+function openComparisonModal() {
+    if (state.compareItems.size < 2) return;
+    const overlay = document.getElementById('compareOverlay');
+    const body = document.getElementById('compareModalBody');
+    body.innerHTML = buildComparisonHTML();
+    overlay.classList.add('visible');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeComparisonModal() {
+    document.getElementById('compareOverlay').classList.remove('visible');
+    document.body.style.overflow = '';
+}
+
+function buildComparisonHTML() {
+    const items = [...state.compareItems.values()];
+    const ec2Items = items.filter(i => i.itype === 'ec2');
+    const rdsItems = items.filter(i => i.itype === 'rds');
+    let html = '';
+
+    if (ec2Items.length > 0 && rdsItems.length > 0) {
+        html += `<div class="compare-mixed-notice">⚠ Comparing mixed types (EC2 + RDS). Each section is shown separately.</div>`;
+    }
+    if (ec2Items.length > 0) {
+        html += buildEc2ComparisonTable(ec2Items);
+    }
+    if (rdsItems.length > 0) {
+        if (ec2Items.length > 0) html += `<br>`;
+        html += buildRdsComparisonTable(rdsItems);
+    }
+    return html;
+}
+
+function buildEc2ComparisonTable(items) {
+    const headers = items.map(i => `<th class="compare-instance-header">
+        <div class="compare-instance-name">${esc(i.label)}</div>
+        <div class="compare-instance-type-label">EC2 Instance</div>
+    </th>`).join('');
+
+    const vcpus  = items.map(i => i.data.vCPUs || 0);
+    const mems   = items.map(i => i.data.memoryGiB || 0);
+    const pricesL = items.map(i => i.data.price_hourly || null);
+    const pricesW = items.map(i => i.data.price_hourly_windows || null);
+
+    const vcpuRow  = buildCompareRow('vCPUs', vcpus.map(v => v.toLocaleString()), vcpus, true);
+    const memRow   = buildCompareRow('Memory (GiB)', mems.map(v => `${v} GiB`), mems, true);
+    const netRow   = items.map(i => `<td class="compare-val">${esc(i.data.networkPerformance || '—')}</td>`).join('');
+    const burstRow = items.map(i => `<td class="compare-val">${i.data.burstable ? '⚡ Yes' : '—'}</td>`).join('');
+    const genRow   = items.map(i => `<td class="compare-val">${i.data.currentGeneration ? '<span class="gen-badge">Current</span>' : '<span class="gen-badge old">Prev</span>'}</td>`).join('');
+    const linuxRow = buildCompareRow(
+        'Linux Cost (OD)',
+        pricesL.map(p => p ? `$${p.toFixed(3)}/hr` : 'N/A'),
+        pricesL.map(p => p || Infinity),
+        false  // lower is better for cost
+    );
+    const winRow = buildCompareRow(
+        'Windows Cost (OD)',
+        pricesW.map(p => p ? `$${p.toFixed(3)}/hr` : 'N/A'),
+        pricesW.map(p => p || Infinity),
+        false
+    );
+    const moRow = buildCompareRow(
+        'Monthly Est. (Linux)',
+        pricesL.map(p => p ? `~$${(p * 730).toFixed(0)}/mo` : 'N/A'),
+        pricesL.map(p => p || Infinity),
+        false
+    );
+
+    return `
+    <p class="compare-notice">// EC2 · best value highlighted <span style="color:var(--neon-green)">green ↑</span></p>
+    <div style="overflow-x:auto">
+    <table class="compare-table">
+        <thead><tr><th>Spec</th>${headers}</tr></thead>
+        <tbody>
+            <tr class="compare-section-header"><td colspan="${items.length + 1}">// Compute</td></tr>
+            <tr><td class="compare-row-label">vCPUs</td>${vcpuRow}</tr>
+            <tr><td class="compare-row-label">Memory</td>${memRow}</tr>
+            <tr><td class="compare-row-label">Network</td>${netRow}</tr>
+            <tr><td class="compare-row-label">Burstable</td>${burstRow}</tr>
+            <tr><td class="compare-row-label">Generation</td>${genRow}</tr>
+            <tr class="compare-section-header"><td colspan="${items.length + 1}">// Pricing (US-East-1 On-Demand)</td></tr>
+            <tr><td class="compare-row-label">Linux/hr</td>${linuxRow}</tr>
+            <tr><td class="compare-row-label">Windows/hr</td>${winRow}</tr>
+            <tr><td class="compare-row-label">Monthly (Linux)</td>${moRow}</tr>
+        </tbody>
+    </table>
+    </div>`;
+}
+
+function buildRdsComparisonTable(items) {
+    const headers = items.map(i => `<th class="compare-instance-header">
+        <div class="compare-instance-name">${esc(i.label)}</div>
+        <div class="compare-instance-type-label">RDS Instance Class</div>
+    </th>`).join('');
+
+    const prices = items.map(i => i.data.price_hourly || null);
+    const priceRow = buildCompareRow(
+        'Estimated Cost',
+        prices.map(p => p ? `$${p.toFixed(3)}/hr` : 'Varies'),
+        prices.map(p => p || Infinity),
+        false
+    );
+    const moRow = buildCompareRow(
+        'Monthly Est.',
+        prices.map(p => p ? `~$${(p * 730).toFixed(0)}/mo` : 'Varies'),
+        prices.map(p => p || Infinity),
+        false
+    );
+    const engRow = items.map(i => `<td class="compare-val" style="font-size:11px">${esc(i.data.engine || '—')}</td>`).join('');
+
+    return `
+    <p class="compare-notice">// RDS · best value highlighted <span style="color:var(--neon-green)">green ↑</span></p>
+    <div style="overflow-x:auto">
+    <table class="compare-table">
+        <thead><tr><th>Spec</th>${headers}</tr></thead>
+        <tbody>
+            <tr class="compare-section-header"><td colspan="${items.length + 1}">// Engines</td></tr>
+            <tr><td class="compare-row-label">Supported Engines</td>${engRow}</tr>
+            <tr class="compare-section-header"><td colspan="${items.length + 1}">// Pricing (MySQL Single-AZ, US-East-1)</td></tr>
+            <tr><td class="compare-row-label">Hourly (OD)</td>${priceRow}</tr>
+            <tr><td class="compare-row-label">Monthly Est.</td>${moRow}</tr>
+        </tbody>
+    </table>
+    </div>`;
+}
+
+function buildCompareRow(label, displayVals, numericVals, higherIsBetter) {
+    const validNums = numericVals.filter(v => v !== null && v !== Infinity && !isNaN(v));
+    if (validNums.length < 2) {
+        return numericVals.map((_, i) => `<td class="compare-val">${esc(String(displayVals[i]))}</td>`).join('');
+    }
+    const best  = higherIsBetter ? Math.max(...validNums) : Math.min(...validNums);
+    const worst = higherIsBetter ? Math.min(...validNums) : Math.max(...validNums);
+    return numericVals.map((val, i) => {
+        let cls = 'compare-val';
+        if (val !== null && val !== Infinity && !isNaN(val)) {
+            if (val === best && best !== worst) cls += ' compare-val-best';
+            else if (val === worst && best !== worst) cls += ' compare-val-worst';
+        }
+        return `<td class="${cls}">${esc(String(displayVals[i]))}</td>`;
+    }).join('');
 }
 
 function hexToRgb(hex) {
