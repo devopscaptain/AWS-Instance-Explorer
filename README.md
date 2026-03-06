@@ -6,7 +6,7 @@ A fully static web app that lets you explore every AWS EC2 and RDS instance type
 
 Live site → GitHub Pages · Data refreshed weekly via GitHub Actions from AWS APIs.
 
----
+-----
 
 ## Features
 
