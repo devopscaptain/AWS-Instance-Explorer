@@ -4,22 +4,25 @@ import os
 from collections import defaultdict
 
 def get_pretty_engines(engines_set):
+    seen = set()
     result = []
-    # simplified mapping
     for e in engines_set:
         if 'aurora' in e.lower():
-            if 'Aurora' not in result: result.append('Aurora')
+            label = 'Aurora'
         elif 'mysql' in e.lower() or 'mariadb' in e.lower():
-            if 'MySQL/MariaDB' not in result: result.append('MySQL/MariaDB')
+            label = 'MySQL/MariaDB'
         elif 'postgres' in e.lower():
-            if 'PostgreSQL' not in result: result.append('PostgreSQL')
+            label = 'PostgreSQL'
         elif 'oracle' in e.lower():
-            if 'Oracle' not in result: result.append('Oracle')
+            label = 'Oracle'
         elif 'sqlserver' in e.lower():
-            if 'SQL Server' not in result: result.append('SQL Server')
+            label = 'SQL Server'
         else:
-            result.append(e)
-    return sorted(list(set(result)))
+            label = e
+        if label not in seen:
+            seen.add(label)
+            result.append(label)
+    return sorted(result)
 
 def get_ec2_prices(pricing_client):
     prices = {}
@@ -100,7 +103,7 @@ def update_data():
     session = boto3.Session(region_name='us-east-1')
     ec2 = session.client('ec2')
     rds = session.client('rds')
-    pricing = session.client('pricing')
+    pricing = session.client('pricing', region_name='us-east-1')
 
     ec2_price_map = get_ec2_prices(pricing)
     rds_price_map = get_rds_prices(pricing)

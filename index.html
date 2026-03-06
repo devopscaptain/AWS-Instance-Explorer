@@ -73,7 +73,7 @@
                     <div class="stat-label">RDS Instance Classes</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number" id="statRdsEngines">7</div>
+                    <div class="stat-number" id="statRdsEngines">—</div>
                     <div class="stat-label">Database Engines</div>
                 </div>
             </div>
@@ -82,8 +82,8 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <div class="tab-bar" id="tabBar">
-            <button class="tab-btn active" data-tab="ec2" id="tabEc2">
+        <div class="tab-bar" id="tabBar" role="tablist" aria-label="Instance type categories">
+            <button class="tab-btn active" data-tab="ec2" id="tabEc2" role="tab" aria-selected="true" aria-controls="ec2Content">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <rect x="2" y="3" width="20" height="14" rx="2" />
                     <line x1="8" y1="21" x2="16" y2="21" />
@@ -91,7 +91,7 @@
                 </svg>
                 <span>EC2 Instance Types</span>
             </button>
-            <button class="tab-btn" data-tab="rds" id="tabRds">
+            <button class="tab-btn" data-tab="rds" id="tabRds" role="tab" aria-selected="false" aria-controls="rdsContent">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <ellipse cx="12" cy="5" rx="9" ry="3" />
                     <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
@@ -99,7 +99,7 @@
                 </svg>
                 <span>RDS Instance Classes</span>
             </button>
-            <button class="tab-btn" data-tab="engines" id="tabEngines">
+            <button class="tab-btn" data-tab="engines" id="tabEngines" role="tab" aria-selected="false" aria-controls="enginesContent">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="3" />
                     <path
@@ -115,17 +115,17 @@
                     <circle cx="11" cy="11" r="8" />
                     <line x1="21" y1="21" x2="16.65" y2="16.65" />
                 </svg>
-                <input type="text" id="searchInput"
+                <input type="text" id="searchInput" aria-label="Search instances"
                     placeholder="Search instance types... (e.g., m5.xlarge, gpu, burstable)">
             </div>
-            <div class="filter-chips" id="filterChips">
-                <button class="chip active" data-filter="all">All</button>
-                <button class="chip" data-filter="general">General Purpose</button>
-                <button class="chip" data-filter="compute">Compute Optimized</button>
-                <button class="chip" data-filter="memory">Memory Optimized</button>
-                <button class="chip" data-filter="storage">Storage Optimized</button>
-                <button class="chip" data-filter="accelerated">Accelerated Computing</button>
-                <button class="chip" data-filter="hpc">HPC</button>
+            <div class="filter-chips" id="filterChips" role="group" aria-label="Filter by category">
+                <button class="chip active" data-filter="all" aria-pressed="true">All</button>
+                <button class="chip" data-filter="general" aria-pressed="false">General Purpose</button>
+                <button class="chip" data-filter="compute" aria-pressed="false">Compute Optimized</button>
+                <button class="chip" data-filter="memory" aria-pressed="false">Memory Optimized</button>
+                <button class="chip" data-filter="storage" aria-pressed="false">Storage Optimized</button>
+                <button class="chip" data-filter="accelerated" aria-pressed="false">Accelerated Computing</button>
+                <button class="chip" data-filter="hpc" aria-pressed="false">HPC</button>
             </div>
         </div>
 
@@ -153,14 +153,6 @@
             <div class="engines-grid" id="enginesGrid"></div>
         </div>
     </main>
-
-    <div class="modal-overlay hidden" id="modalOverlay">
-        <div class="modal" id="detailModal">
-            <button class="modal-close" id="modalClose">&times;</button>
-            <div class="modal-header" id="modalHeader"></div>
-            <div class="modal-body" id="modalBody"></div>
-        </div>
-    </div>
 
     <footer class="main-footer">
         <div class="footer-inner">

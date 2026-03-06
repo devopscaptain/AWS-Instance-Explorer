@@ -203,62 +203,6 @@ body {
     gap: 16px;
 }
 
-.region-selector {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.region-selector label {
-    font-size: 13px;
-    color: var(--text-secondary);
-    font-weight: 500;
-}
-
-.region-selector select {
-    background: var(--bg-tertiary);
-    color: var(--text-primary);
-    border: 1px solid var(--border-medium);
-    border-radius: var(--radius-sm);
-    padding: 6px 12px;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    cursor: pointer;
-    outline: none;
-    transition: border-color var(--duration-fast);
-}
-
-.region-selector select:hover {
-    border-color: var(--aws-orange);
-}
-
-.btn-refresh {
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border-medium);
-    border-radius: var(--radius-sm);
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all var(--duration-fast);
-}
-
-.btn-refresh:hover {
-    background: rgba(255, 153, 0, 0.1);
-    border-color: var(--aws-orange);
-    color: var(--aws-orange);
-}
-
-.btn-refresh.spinning svg {
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
 
 
 /* ─── Hero Section ────────────────────────────────────────── */
@@ -904,24 +848,17 @@ body {
 }
 
 .instances-list {
-    display: none;
-    margin-top: 12px;
+    overflow: hidden;
+    height: 0;
+    opacity: 0;
+    margin-top: 0;
+    transition: height 0.4s var(--ease-out), opacity 0.3s var(--ease-out), margin-top 0.4s var(--ease-out);
 }
 
 .instances-list.expanded {
-    display: block;
-    animation: slideDown 0.4s var(--ease-out);
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        max-height: 0;
-    }
-    to {
-        opacity: 1;
-        max-height: 2000px;
-    }
+    opacity: 1;
+    margin-top: 12px;
+    /* height is set explicitly by JS */
 }
 
 .instances-table {

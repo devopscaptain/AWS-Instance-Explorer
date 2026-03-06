@@ -1,10 +1,10 @@
 /**
  * AWS Instance Explorer — Fully Static Frontend
- * 
+ *
  * Loads all EC2 & RDS data from a static JSON file.
  * NO backend needed. NO AWS credentials needed.
  * Reasoning is based on AWS best practices — NO AI used.
- * 
+ *
  * Can be hosted on GitHub Pages or any static file server.
  */
 
@@ -45,10 +45,6 @@ const els = {
     ec2Grid: $('#ec2FamiliesGrid'),
     rdsGrid: $('#rdsFamiliesGrid'),
     enginesGrid: $('#enginesGrid'),
-    modalOverlay: $('#modalOverlay'),
-    modalClose: $('#modalClose'),
-    modalHeader: $('#modalHeader'),
-    modalBody: $('#modalBody'),
     statEc2Count: $('#statEc2Count'),
     statEc2Families: $('#statEc2Families'),
     statRdsCount: $('#statRdsCount'),
@@ -64,12 +60,12 @@ function init() {
     setupTabs();
     setupFilters();
     setupSearch();
-    setupModal();
     loadStaticData();
 }
 
 // ─── Background Particles ────────────────────────────────────
 function createParticles() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const colors = ['#FF9900', '#3b82f6', '#8b5cf6', '#10b981', '#ec4899'];
     for (let i = 0; i < 30; i++) {
         const particle = document.createElement('div');
@@ -109,10 +105,29 @@ function setupTabs() {
             const tab = btn.dataset.tab;
             if (tab === state.activeTab) return;
             state.activeTab = tab;
-            $$('.tab-btn').forEach(b => b.classList.remove('active'));
+
+            $$('.tab-btn').forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false');
+            });
             btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
+
             $$('.tab-content').forEach(c => c.classList.remove('active'));
             $(`#${tab}Content`).classList.add('active');
+
+            // Reset filter state on tab switch so stale filters don't bleed across tabs
+            state.activeFilter = 'all';
+            $$('.chip').forEach(c => {
+                c.classList.remove('active');
+                c.setAttribute('aria-pressed', 'false');
+            });
+            const allChip = $('.chip[data-filter="all"]');
+            if (allChip) {
+                allChip.classList.add('active');
+                allChip.setAttribute('aria-pressed', 'true');
+            }
+
             if (tab === 'engines') {
                 els.filterChips.style.display = 'none';
                 els.searchInput.placeholder = 'Search database engines...';
@@ -130,8 +145,12 @@ function setupFilters() {
     $$('.chip').forEach(chip => {
         chip.addEventListener('click', () => {
             state.activeFilter = chip.dataset.filter;
-            $$('.chip').forEach(c => c.classList.remove('active'));
+            $$('.chip').forEach(c => {
+                c.classList.remove('active');
+                c.setAttribute('aria-pressed', 'false');
+            });
             chip.classList.add('active');
+            chip.setAttribute('aria-pressed', 'true');
             applyFilters();
         });
     });
@@ -142,13 +161,11 @@ function applyFilters() {
     const cards = grid.querySelectorAll('.family-card');
     cards.forEach(card => {
         const category = card.dataset.category;
-        const familyName = card.dataset.familyName || '';
+        // Use pre-built search text cache instead of reading live DOM text
+        const searchText = card.dataset.searchText || '';
         const matchesFilter = state.activeFilter === 'all' ||
             category === CATEGORY_FILTER_MAP[state.activeFilter];
-        const matchesSearch = !state.searchQuery ||
-            familyName.toLowerCase().includes(state.searchQuery) ||
-            category.toLowerCase().includes(state.searchQuery) ||
-            card.textContent.toLowerCase().includes(state.searchQuery);
+        const matchesSearch = !state.searchQuery || searchText.includes(state.searchQuery);
         card.style.display = (matchesFilter && matchesSearch) ? 'block' : 'none';
     });
 }
@@ -172,26 +189,10 @@ function setupSearch() {
 function applyEngineSearch() {
     const cards = els.enginesGrid.querySelectorAll('.engine-card');
     cards.forEach(card => {
-        const matchesSearch = !state.searchQuery ||
-            card.textContent.toLowerCase().includes(state.searchQuery);
+        const searchText = card.dataset.searchText || '';
+        const matchesSearch = !state.searchQuery || searchText.includes(state.searchQuery);
         card.style.display = matchesSearch ? 'block' : 'none';
     });
-}
-
-// ─── Modal ───────────────────────────────────────────────────
-function setupModal() {
-    els.modalClose.addEventListener('click', closeModal);
-    els.modalOverlay.addEventListener('click', (e) => {
-        if (e.target === els.modalOverlay) closeModal();
-    });
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeModal();
-    });
-}
-
-function closeModal() {
-    els.modalOverlay.classList.add('hidden');
-    document.body.style.overflow = '';
 }
 
 // ─── Load Static Data ────────────────────────────────────────
@@ -266,6 +267,9 @@ function updateStats() {
     if (state.rdsData) {
         animateNumber(els.statRdsCount, state.rdsData.totalClasses);
     }
+    if (state.engineData) {
+        animateNumber(els.statRdsEngines, Object.keys(state.engineData).length);
+    }
 }
 
 function animateNumber(el, target) {
@@ -330,6 +334,13 @@ function buildFamilyCardHTML(key, fam, r, idx, type) {
     const instances = fam.instances || [];
     const count = fam.count || instances.length;
 
+    // Build search text at render time so we never read live DOM during search
+    const searchText = [
+        familyName, category, headline, reasoning,
+        ...bestFor, ...notFor,
+        ...instances.map(i => i.instanceType || i.dbInstanceClass || ''),
+    ].join(' ').toLowerCase();
+
     const specsHtml = Object.entries(keySpecs).map(([label, value]) => `
         <div class="spec-item">
             <div class="spec-label">${esc(label)}</div>
@@ -382,8 +393,9 @@ function buildFamilyCardHTML(key, fam, r, idx, type) {
     }
 
     return `
-        <div class="family-card stagger-${Math.min(idx + 1, 17)}" 
-             data-category="${esc(category)}" data-family-name="${esc(familyName)}" data-family-key="${esc(key)}">
+        <div class="family-card stagger-${Math.min(idx + 1, 17)}"
+             data-category="${esc(category)}" data-family-name="${esc(familyName)}" data-family-key="${esc(key)}"
+             data-search-text="${esc(searchText)}">
             <div class="family-card-header">
                 <div class="family-icon-wrapper" style="background: ${gradient}"><span>${icon}</span></div>
                 <div class="family-header-text">
@@ -411,7 +423,7 @@ function buildFamilyCardHTML(key, fam, r, idx, type) {
                     </div>
                 </div>
                 <div class="instance-types-section">
-                    <button class="instances-toggle">
+                    <button class="instances-toggle" aria-expanded="false">
                         <span>📋 View ${count} Instance Types</span>
                         <span class="toggle-icon">▼</span>
                     </button>
@@ -430,8 +442,12 @@ function renderEngines() {
         const bestForHtml = (eng.best_for || []).map(item => `
             <span class="engine-tag">${esc(item)}</span>
         `).join('');
+        const searchText = [
+            eng.engine_name || '', eng.headline || '', eng.reasoning || '',
+            ...(eng.best_for || []),
+        ].join(' ').toLowerCase();
         return `
-            <div class="engine-card stagger-${Math.min(idx + 1, 17)}">
+            <div class="engine-card stagger-${Math.min(idx + 1, 17)}" data-search-text="${esc(searchText)}">
                 <div class="engine-card-header" style="border-top: 3px solid ${color}">
                     <span class="engine-icon">${eng.icon || '🗄️'}</span>
                     <div class="engine-name" style="color: ${color}">${esc(eng.engine_name)}</div>
@@ -450,7 +466,13 @@ function renderEngines() {
 function toggleInstanceList(btn) {
     const list = btn.nextElementSibling;
     const isExpanded = btn.classList.toggle('expanded');
+    btn.setAttribute('aria-expanded', isExpanded);
     list.classList.toggle('expanded', isExpanded);
+    if (isExpanded) {
+        list.style.height = list.scrollHeight + 'px';
+    } else {
+        list.style.height = '0';
+    }
 }
 
 // ─── Helpers ─────────────────────────────────────────────────
@@ -462,6 +484,10 @@ function esc(str) {
 }
 
 function hexToRgb(hex) {
-    const h = hex.replace('#', '');
-    return `${parseInt(h.substring(0, 2), 16)}, ${parseInt(h.substring(2, 4), 16)}, ${parseInt(h.substring(4, 6), 16)}`;
+    if (typeof hex !== 'string') return '144, 164, 174';
+    const raw = hex.replace('#', '');
+    // Expand shorthand (#abc → aabbcc)
+    const full = raw.length === 3 ? raw.split('').map(c => c + c).join('') : raw;
+    if (full.length !== 6 || !/^[0-9a-fA-F]{6}$/.test(full)) return '144, 164, 174';
+    return `${parseInt(full.substring(0, 2), 16)}, ${parseInt(full.substring(2, 4), 16)}, ${parseInt(full.substring(4, 6), 16)}`;
 }
