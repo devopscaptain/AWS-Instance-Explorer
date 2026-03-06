@@ -142,6 +142,14 @@
                 <input type="text" id="searchInput" aria-label="Search instances"
                     placeholder="Search instance types... (e.g., m5.xlarge, gpu, burstable)">
             </div>
+            <div class="region-selector-wrap">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="2" y1="12" x2="22" y2="12"/>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+                <select id="regionSelect" class="region-select" aria-label="Select pricing region"></select>
+            </div>
             <div class="filter-chips" id="filterChips" role="group" aria-label="Filter by category">
                 <button class="chip active" data-filter="all" aria-pressed="true">All</button>
                 <button class="chip" data-filter="general" aria-pressed="false">General Purpose</button>
@@ -191,6 +199,12 @@
             <div class="compare-tray-slots" id="compareTraySlots"></div>
             <div class="compare-tray-actions">
                 <span class="compare-tray-hint" id="compareTrayHint">Select up to 4 instances to compare</span>
+                <button class="compare-copy-btn" id="compareCopyBtn" title="Copy shareable link">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
+                    Copy link
+                </button>
                 <button class="compare-open-btn" id="compareOpenBtn" disabled>Compare <span id="compareCount">0</span> →</button>
                 <button class="compare-clear-btn" id="compareClearBtn" title="Clear all">✕ Clear</button>
             </div>
@@ -207,7 +221,15 @@
                     </svg>
                     Side-by-Side Comparison
                 </div>
-                <button class="compare-close-btn" id="compareCloseBtn" aria-label="Close comparison">✕</button>
+                <div class="compare-modal-actions">
+                    <button class="compare-action-btn" id="compareExportCsvBtn" title="Export comparison as CSV">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Export CSV
+                    </button>
+                    <button class="compare-close-btn" id="compareCloseBtn" aria-label="Close comparison">✕</button>
+                </div>
             </div>
             <div class="compare-modal-body" id="compareModalBody"></div>
         </div>

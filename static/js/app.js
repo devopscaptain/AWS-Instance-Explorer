@@ -16,11 +16,22 @@ const state = {
     ec2Data: null,
     rdsData: null,
     engineData: null,
-    compareItems: new Map(),   // key → { type: 'ec2'|'rds', label, data }
-    instanceLookup: new Map(), // "ec2:t3.micro" / "rds:db.r6g.large" → instance object
+    compareItems: new Map(),      // key → { itype, label, data }
+    instanceLookup: new Map(),    // "ec2:t3.micro" / "rds:db.r6g.large" → instance
+    activeRegion: 'us-east-1',
+    ec2RegionalPrices: {},        // inst_type → { region → { linux, windows } }
+    rdsRegionalPrices: {},        // db_class  → { region → price }
+    supportedRegions: ['us-east-1', 'us-west-2', 'eu-west-1', 'ap-southeast-1'],
 };
 
 const MAX_COMPARE = 4;
+
+const REGION_LABELS = {
+    'us-east-1':      'US East (N. Virginia)',
+    'us-west-2':      'US West (Oregon)',
+    'eu-west-1':      'EU (Ireland)',
+    'ap-southeast-1': 'AP (Singapore)',
+};
 
 const CATEGORY_FILTER_MAP = {
     'general': 'General Purpose',
@@ -67,6 +78,7 @@ function init() {
     setupSearch();
     setupThemeToggle();
     setupCompare();
+    setupRegionSelector();
     loadStaticData();
 }
 
@@ -266,6 +278,9 @@ async function loadStaticData() {
         state.rdsData = { families: rdsFamilies, totalClasses: totalRds, totalFamilies: Object.keys(rdsFamilies).length };
 
         state.engineData = data.rdsEngines;
+        state.ec2RegionalPrices = data.ec2RegionalPrices || {};
+        state.rdsRegionalPrices = data.rdsRegionalPrices || {};
+        if (data.supportedRegions?.length) state.supportedRegions = data.supportedRegions;
 
         // Set last updated timestamp if available
         if (data.lastUpdated) {
@@ -285,11 +300,17 @@ async function loadStaticData() {
             }
         }
 
+        // Populate region selector with live supported regions
+        populateRegionSelector();
+
         // Render everything
         updateStats();
         renderEc2Families();
         renderRdsFamilies();
         renderEngines();
+
+        // Restore comparison from URL hash (after lookup is built)
+        parseCompareFromHash();
 
     } catch (err) {
         console.error('Failed to load data:', err);
@@ -402,10 +423,13 @@ function buildFamilyCardHTML(key, fam, r, idx, type) {
     `).join('');
 
     let tableHtml = '';
+    const regionLabel = REGION_LABELS[state.activeRegion] || state.activeRegion;
     if (type === 'ec2') {
         const rows = instances.slice(0, 50).map((inst, i) => {
-            const costHtml = inst.price_hourly ? `<span class="price-val">$${inst.price_hourly.toFixed(3)}/hr<br><span style="font-size:10px; opacity:0.7">~$${(inst.price_hourly * 730).toFixed(2)}/mo</span></span>` : '<span style="color: var(--text-muted)">N/A</span>';
-            const winCostHtml = inst.price_hourly_windows ? `<span class="price-val">$${inst.price_hourly_windows.toFixed(3)}/hr<br><span style="font-size:10px; opacity:0.7">~$${(inst.price_hourly_windows * 730).toFixed(2)}/mo</span></span>` : '<span style="color: var(--text-muted)">N/A</span>';
+            const lp = getEc2LinuxPrice(inst.instanceType);
+            const wp = getEc2WindowsPrice(inst.instanceType);
+            const costHtml    = lp ? `<span class="price-val">$${lp.toFixed(3)}/hr<br><span style="font-size:10px;opacity:0.7">~$${(lp*730).toFixed(2)}/mo</span></span>` : '<span style="color:var(--text-muted)">N/A</span>';
+            const winCostHtml = wp ? `<span class="price-val">$${wp.toFixed(3)}/hr<br><span style="font-size:10px;opacity:0.7">~$${(wp*730).toFixed(2)}/mo</span></span>` : '<span style="color:var(--text-muted)">N/A</span>';
             const ikey = `ec2:${inst.instanceType}`;
             return `
             <tr style="animation-delay: ${i * 0.02}s">
@@ -422,11 +446,12 @@ function buildFamilyCardHTML(key, fam, r, idx, type) {
             </tr>
         `}).join('');
         tableHtml = `<div class="table-scroll"><table class="instances-table"><thead><tr>
-            <th>Instance Type</th><th>vCPUs</th><th>Memory</th><th>Network</th><th>Burstable</th><th>Linux Cost (OD)</th><th>Windows Cost (OD)</th><th></th>
+            <th>Instance Type</th><th>vCPUs</th><th>Memory</th><th>Network</th><th>Burstable</th><th>Linux (OD · ${esc(regionLabel)})</th><th>Windows (OD · ${esc(regionLabel)})</th><th></th>
         </tr></thead><tbody>${rows}</tbody></table></div>`;
     } else {
         const rows = instances.slice(0, 50).map((inst, i) => {
-            const costHtml = inst.price_hourly ? `<span class="price-val">$${inst.price_hourly.toFixed(3)}/hr<br><span style="font-size:10px; opacity:0.7">~$${(inst.price_hourly * 730).toFixed(2)}/mo</span></span>` : '<span style="color: var(--text-muted)">Varies by engine</span>';
+            const p = getRdsPrice(inst.dbInstanceClass);
+            const costHtml = p ? `<span class="price-val">$${p.toFixed(3)}/hr<br><span style="font-size:10px;opacity:0.7">~$${(p*730).toFixed(2)}/mo</span></span>` : '<span style="color:var(--text-muted)">Varies by engine</span>';
             const ikey = `rds:${inst.dbInstanceClass}`;
             return `
             <tr style="animation-delay: ${i * 0.02}s">
@@ -437,7 +462,7 @@ function buildFamilyCardHTML(key, fam, r, idx, type) {
             </tr>
         `}).join('');
         tableHtml = `<div class="table-scroll"><table class="instances-table"><thead><tr>
-            <th>DB Instance Class</th><th>Supported Engines</th><th>Estimated Cost</th><th></th>
+            <th>DB Instance Class</th><th>Supported Engines</th><th>MySQL Single-AZ (OD · ${esc(regionLabel)})</th><th></th>
         </tr></thead><tbody>${rows}</tbody></table></div>`;
     }
 
@@ -533,21 +558,179 @@ function esc(str) {
     return d.innerHTML;
 }
 
+// ─── Regional Price Helpers ───────────────────────────────────
+function getEc2LinuxPrice(instanceType) {
+    const r = state.ec2RegionalPrices?.[instanceType]?.[state.activeRegion];
+    if (r?.linux != null) return r.linux;
+    return state.instanceLookup.get(`ec2:${instanceType}`)?.price_hourly ?? null;
+}
+
+function getEc2WindowsPrice(instanceType) {
+    const r = state.ec2RegionalPrices?.[instanceType]?.[state.activeRegion];
+    if (r?.windows != null) return r.windows;
+    return state.instanceLookup.get(`ec2:${instanceType}`)?.price_hourly_windows ?? null;
+}
+
+function getRdsPrice(dbClass) {
+    const r = state.rdsRegionalPrices?.[dbClass]?.[state.activeRegion];
+    if (r != null) return r;
+    return state.instanceLookup.get(`rds:${dbClass}`)?.price_hourly ?? null;
+}
+
+// ─── Region Selector ─────────────────────────────────────────
+function setupRegionSelector() {
+    const sel = document.getElementById('regionSelect');
+    if (!sel) return;
+    sel.addEventListener('change', () => {
+        state.activeRegion = sel.value;
+        renderEc2Families();
+        renderRdsFamilies();
+        // Refresh open comparison modal if visible
+        if (document.getElementById('compareOverlay').classList.contains('visible')) {
+            document.getElementById('compareModalBody').innerHTML = buildComparisonHTML();
+        }
+    });
+}
+
+function populateRegionSelector() {
+    const sel = document.getElementById('regionSelect');
+    if (!sel) return;
+    sel.innerHTML = state.supportedRegions.map(r =>
+        `<option value="${r}"${r === state.activeRegion ? ' selected' : ''}>${r} — ${REGION_LABELS[r] || r}</option>`
+    ).join('');
+}
+
+// ─── URL Hash (shareable comparisons) ────────────────────────
+function updateCompareHash() {
+    const keys = [...state.compareItems.keys()];
+    if (keys.length > 0) {
+        history.replaceState(null, '', '#compare=' + encodeURIComponent(keys.join(',')));
+    } else {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+}
+
+function parseCompareFromHash() {
+    const hash = window.location.hash;
+    if (!hash.startsWith('#compare=')) return;
+    let keys;
+    try { keys = decodeURIComponent(hash.slice('#compare='.length)).split(','); }
+    catch { return; }
+    for (const key of keys) {
+        if (!key || !state.instanceLookup.has(key) || state.compareItems.size >= MAX_COMPARE) continue;
+        const inst = state.instanceLookup.get(key);
+        const [itype, label] = key.startsWith('ec2:')
+            ? ['ec2', inst.instanceType]
+            : ['rds', inst.dbInstanceClass];
+        state.compareItems.set(key, { itype, label, data: inst });
+    }
+    if (state.compareItems.size > 0) {
+        updateAllCompareButtons();
+        renderCompareTray();
+        if (state.compareItems.size >= 2) openComparisonModal();
+    }
+}
+
+// ─── CSV Export ───────────────────────────────────────────────
+function exportComparisonCSV() {
+    const items     = [...state.compareItems.values()];
+    const ec2Items  = items.filter(i => i.itype === 'ec2');
+    const rdsItems  = items.filter(i => i.itype === 'rds');
+    const region    = state.activeRegion;
+    const rows      = [];
+
+    if (ec2Items.length > 0) {
+        rows.push(['', ...ec2Items.map(i => i.label)]);
+        rows.push(['Type', ...ec2Items.map(() => 'EC2')]);
+        rows.push([`Region`, ...ec2Items.map(() => region)]);
+        rows.push(['vCPUs', ...ec2Items.map(i => i.data.vCPUs)]);
+        rows.push(['Memory (GiB)', ...ec2Items.map(i => i.data.memoryGiB)]);
+        rows.push(['Network', ...ec2Items.map(i => i.data.networkPerformance || '—')]);
+        rows.push(['Burstable', ...ec2Items.map(i => i.data.burstable ? 'Yes' : 'No')]);
+        rows.push(['Current Gen', ...ec2Items.map(i => i.data.currentGeneration ? 'Yes' : 'No')]);
+        rows.push([`Linux/hr (OD)`, ...ec2Items.map(i => {
+            const p = getEc2LinuxPrice(i.data.instanceType);
+            return p != null ? `$${p.toFixed(4)}` : 'N/A';
+        })]);
+        rows.push([`Windows/hr (OD)`, ...ec2Items.map(i => {
+            const p = getEc2WindowsPrice(i.data.instanceType);
+            return p != null ? `$${p.toFixed(4)}` : 'N/A';
+        })]);
+        rows.push([`Monthly Linux Est.`, ...ec2Items.map(i => {
+            const p = getEc2LinuxPrice(i.data.instanceType);
+            return p != null ? `$${(p * 730).toFixed(2)}` : 'N/A';
+        })]);
+    }
+
+    if (rdsItems.length > 0) {
+        if (rows.length > 0) rows.push([]);
+        rows.push(['', ...rdsItems.map(i => i.label)]);
+        rows.push(['Type', ...rdsItems.map(() => 'RDS')]);
+        rows.push([`Region`, ...rdsItems.map(() => region)]);
+        rows.push(['Supported Engines', ...rdsItems.map(i => i.data.engine || '—')]);
+        rows.push([`Hourly MySQL Single-AZ (OD)`, ...rdsItems.map(i => {
+            const p = getRdsPrice(i.data.dbInstanceClass);
+            return p != null ? `$${p.toFixed(4)}` : 'Varies';
+        })]);
+        rows.push([`Monthly Est.`, ...rdsItems.map(i => {
+            const p = getRdsPrice(i.data.dbInstanceClass);
+            return p != null ? `$${(p * 730).toFixed(2)}` : 'Varies';
+        })]);
+    }
+
+    const csv  = rows.map(r => r.map(c => `"${String(c ?? '').replace(/"/g, '""')}"`).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = `instanceiq-compare-${region}-${Date.now()}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
 // ─── Compare Feature ─────────────────────────────────────────
 function setupCompare() {
-    const openBtn = document.getElementById('compareOpenBtn');
-    const clearBtn = document.getElementById('compareClearBtn');
-    const closeBtn = document.getElementById('compareCloseBtn');
-    const overlay = document.getElementById('compareOverlay');
+    const openBtn      = document.getElementById('compareOpenBtn');
+    const clearBtn     = document.getElementById('compareClearBtn');
+    const closeBtn     = document.getElementById('compareCloseBtn');
+    const copyBtn      = document.getElementById('compareCopyBtn');
+    const exportCsvBtn = document.getElementById('compareExportCsvBtn');
+    const overlay      = document.getElementById('compareOverlay');
 
     openBtn.addEventListener('click', openComparisonModal);
     clearBtn.addEventListener('click', clearCompare);
     closeBtn.addEventListener('click', closeComparisonModal);
+    copyBtn.addEventListener('click', copyCompareLink);
+    exportCsvBtn.addEventListener('click', exportComparisonCSV);
     overlay.addEventListener('click', (e) => {
         if (e.target === overlay) closeComparisonModal();
     });
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeComparisonModal();
+    });
+}
+
+function copyCompareLink() {
+    updateCompareHash();
+    const url = window.location.href;
+    navigator.clipboard?.writeText(url).then(() => {
+        const btn = document.getElementById('compareCopyBtn');
+        if (!btn) return;
+        btn.classList.add('copied');
+        btn.childNodes[btn.childNodes.length - 1].textContent = ' Copied!';
+        setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.childNodes[btn.childNodes.length - 1].textContent = ' Copy link';
+        }, 2000);
+    }).catch(() => {
+        const el = document.createElement('textarea');
+        el.value = url;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
     });
 }
 
@@ -573,6 +756,7 @@ function toggleCompare(ikey) {
     }
     updateAllCompareButtons();
     renderCompareTray();
+    updateCompareHash();
 }
 
 function updateAllCompareButtons() {
@@ -628,6 +812,7 @@ function clearCompare() {
     state.compareItems.clear();
     updateAllCompareButtons();
     renderCompareTray();
+    updateCompareHash();
 }
 
 function openComparisonModal() {
@@ -664,15 +849,16 @@ function buildComparisonHTML() {
 }
 
 function buildEc2ComparisonTable(items) {
+    const regionLabel = REGION_LABELS[state.activeRegion] || state.activeRegion;
     const headers = items.map(i => `<th class="compare-instance-header">
         <div class="compare-instance-name">${esc(i.label)}</div>
         <div class="compare-instance-type-label">EC2 Instance</div>
     </th>`).join('');
 
-    const vcpus  = items.map(i => i.data.vCPUs || 0);
-    const mems   = items.map(i => i.data.memoryGiB || 0);
-    const pricesL = items.map(i => i.data.price_hourly || null);
-    const pricesW = items.map(i => i.data.price_hourly_windows || null);
+    const vcpus   = items.map(i => i.data.vCPUs || 0);
+    const mems    = items.map(i => i.data.memoryGiB || 0);
+    const pricesL = items.map(i => getEc2LinuxPrice(i.data.instanceType));
+    const pricesW = items.map(i => getEc2WindowsPrice(i.data.instanceType));
 
     const vcpuRow  = buildCompareRow('vCPUs', vcpus.map(v => v.toLocaleString()), vcpus, true);
     const memRow   = buildCompareRow('Memory (GiB)', mems.map(v => `${v} GiB`), mems, true);
@@ -699,7 +885,7 @@ function buildEc2ComparisonTable(items) {
     );
 
     return `
-    <p class="compare-notice">// EC2 · best value highlighted <span style="color:var(--neon-green)">green ↑</span></p>
+    <p class="compare-notice">// EC2 · ${esc(regionLabel)} · On-Demand · best value <span style="color:var(--neon-green)">green ↑</span></p>
     <div style="overflow-x:auto">
     <table class="compare-table">
         <thead><tr><th>Spec</th>${headers}</tr></thead>
@@ -710,7 +896,7 @@ function buildEc2ComparisonTable(items) {
             <tr><td class="compare-row-label">Network</td>${netRow}</tr>
             <tr><td class="compare-row-label">Burstable</td>${burstRow}</tr>
             <tr><td class="compare-row-label">Generation</td>${genRow}</tr>
-            <tr class="compare-section-header"><td colspan="${items.length + 1}">// Pricing (US-East-1 On-Demand)</td></tr>
+            <tr class="compare-section-header"><td colspan="${items.length + 1}">// Pricing (${esc(regionLabel)} · On-Demand)</td></tr>
             <tr><td class="compare-row-label">Linux/hr</td>${linuxRow}</tr>
             <tr><td class="compare-row-label">Windows/hr</td>${winRow}</tr>
             <tr><td class="compare-row-label">Monthly (Linux)</td>${moRow}</tr>
@@ -720,12 +906,13 @@ function buildEc2ComparisonTable(items) {
 }
 
 function buildRdsComparisonTable(items) {
+    const regionLabel = REGION_LABELS[state.activeRegion] || state.activeRegion;
     const headers = items.map(i => `<th class="compare-instance-header">
         <div class="compare-instance-name">${esc(i.label)}</div>
         <div class="compare-instance-type-label">RDS Instance Class</div>
     </th>`).join('');
 
-    const prices = items.map(i => i.data.price_hourly || null);
+    const prices = items.map(i => getRdsPrice(i.data.dbInstanceClass));
     const priceRow = buildCompareRow(
         'Estimated Cost',
         prices.map(p => p ? `$${p.toFixed(3)}/hr` : 'Varies'),
@@ -741,14 +928,14 @@ function buildRdsComparisonTable(items) {
     const engRow = items.map(i => `<td class="compare-val" style="font-size:11px">${esc(i.data.engine || '—')}</td>`).join('');
 
     return `
-    <p class="compare-notice">// RDS · best value highlighted <span style="color:var(--neon-green)">green ↑</span></p>
+    <p class="compare-notice">// RDS · ${esc(regionLabel)} · MySQL Single-AZ · best value <span style="color:var(--neon-green)">green ↑</span></p>
     <div style="overflow-x:auto">
     <table class="compare-table">
         <thead><tr><th>Spec</th>${headers}</tr></thead>
         <tbody>
             <tr class="compare-section-header"><td colspan="${items.length + 1}">// Engines</td></tr>
             <tr><td class="compare-row-label">Supported Engines</td>${engRow}</tr>
-            <tr class="compare-section-header"><td colspan="${items.length + 1}">// Pricing (MySQL Single-AZ, US-East-1)</td></tr>
+            <tr class="compare-section-header"><td colspan="${items.length + 1}">// Pricing (${esc(regionLabel)} · MySQL Single-AZ · On-Demand)</td></tr>
             <tr><td class="compare-row-label">Hourly (OD)</td>${priceRow}</tr>
             <tr><td class="compare-row-label">Monthly Est.</td>${moRow}</tr>
         </tbody>
