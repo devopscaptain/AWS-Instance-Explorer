@@ -1,84 +1,109 @@
-# AWS Instance Explorer
+# InstanceIQ — EC2 & RDS Advisor
 
-A fully static web app showing all AWS EC2 & RDS instance types with workload suitability reasoning. No backend, no AWS credentials needed to view it.
+> **by [devopscaptain](https://github.com/devopscaptain)**
 
-## Quick Start
+A fully static web app that lets you explore every AWS EC2 and RDS instance type, understand which workloads each is suited for, compare instances side-by-side, and see live on-demand pricing — all without a backend or AWS credentials.
 
-Because the app loads data via `fetch()`, it must be served over HTTP — opening `index.html` directly as a `file://` URL will not work.
+Live site → GitHub Pages · Data refreshed weekly via GitHub Actions from AWS APIs.
 
-**Option 1 — Python (built-in, no install needed):**
-```bash
-python3 -m http.server 8080
-# then open http://localhost:8080
-```
-
-**Option 2 — GitHub Pages:**
-Push to GitHub → Settings → Pages → Deploy from `main` branch → live site.
+---
 
 ## Features
 
-- Premium dark UI with glassmorphism and animations
-- EC2 and RDS instance families with "Best For / Not Ideal For" guidance per family
-- Instance counts and pricing auto-refreshed weekly from AWS APIs via GitHub Actions
-- Search across instance types, categories, and use cases
-- Filter by category (General Purpose, Compute Optimized, Memory Optimized, etc.)
-- Fully responsive
-- Respects `prefers-reduced-motion` — no animations on low-motion devices
+| Feature | Details |
+|---|---|
+| EC2 families | All families with Best For / Not Ideal For guidance and per-family reasoning |
+| RDS families | All DB instance classes with supported engine matrix and pricing |
+| Database engines | Deep-dive cards for MySQL, PostgreSQL, Aurora, Oracle, SQL Server, MariaDB, and more |
+| **Side-by-side comparison** | Select up to 4 EC2 or RDS instances, compare specs and costs with best/worst highlighting |
+| Live pricing | On-demand Linux, Windows (EC2) and MySQL Single-AZ (RDS) — US East-1 baseline |
+| Auto-refresh | GitHub Actions workflow runs every Monday, commits updated `data.json` |
+| Search | Full-text search across instance types, families, categories, and use cases |
+| Category filters | General Purpose, Compute Optimized, Memory Optimized, Storage Optimized, Accelerated Computing, HPC |
+| Dark + Light theme | Cyberpunk neon dark default, clean light mode, persisted via `localStorage` |
+| Responsive | Works on mobile through ultrawide; 2-column grid collapses to 1-column below 1100px |
+| Accessible | ARIA roles/labels on tabs, chips, toggles; `prefers-reduced-motion` respected |
+| Zero dependencies | Vanilla HTML, CSS, JS — no frameworks, no build step, no runtime server |
 
-## Why No AI? Why No AWS Keys to View?
+---
 
-Instance type suitability is **public, well-documented AWS knowledge** — not a secret behind an API wall. Every spec and use case is published in AWS documentation. It is baked into a static `data.json`. No server, no credentials, no API calls needed to view the site.
+## How the Comparison Feature Works
 
-AWS credentials are only needed by the GitHub Actions workflow that refreshes `data.json` once a week.
+1. Expand any instance family card and click the **`+`** button on any row.
+2. A sticky tray slides up from the bottom showing your selections (up to 4).
+3. Hit **Compare →** to open a full-screen modal with a side-by-side spec table.
+4. **Green ↑** = best value for that row. **Red** = worst value.
+5. EC2 and RDS instances can be mixed — they render as two separate tables.
+6. Press `Escape` or click outside the modal to dismiss.
+
+---
+
+## Quick Start (Local)
+
+The app loads `data.json` via `fetch()` — it must be served over HTTP, not opened as a `file://` URL.
+
+```bash
+# Option 1 — Python (no install needed)
+python3 -m http.server 8080
+# open http://localhost:8080
+
+# Option 2 — Node
+npx serve .
+```
+
+For production, push to GitHub and enable Pages under Settings → Pages → Deploy from `main`.
+
+---
 
 ## Project Structure
 
 ```
-├── index.html                      # Main page
+├── index.html                      # Main page — nav, hero, tabs, compare tray, compare modal
 ├── static/
-│   ├── css/style.css               # Design system and all styles
-│   ├── js/app.js                   # Frontend logic
-│   └── data.json                   # Instance data (auto-updated by CI)
+│   ├── css/style.css               # Design system — dark/light tokens, all component styles
+│   ├── js/app.js                   # All frontend logic — render, search, filter, compare
+│   └── data.json                   # Instance data (auto-updated by CI every Monday)
 ├── .github/
 │   ├── workflows/
-│   │   └── update-data.yml         # Runs every Monday to refresh data
+│   │   └── update-data.yml         # GitHub Actions — runs weekly, commits updated data.json
 │   └── scripts/
-│       └── update_data.py          # Fetches EC2/RDS data from AWS APIs
+│       └── update_data.py          # Fetches EC2/RDS types and pricing from AWS APIs via boto3
 └── README.md
 ```
 
+---
+
+## Why No AI? Why No AWS Keys to View?
+
+Instance type suitability is **public, well-documented AWS knowledge** — published in AWS docs, whitepapers, and re:Invent talks. The reasoning in `data.json` is baked in as static text, not generated at runtime.
+
+AWS credentials are only needed by the GitHub Actions workflow that writes the weekly data refresh. Visitors never need credentials.
+
+---
+
 ## Auto-Update Setup (GitHub Actions)
 
-The workflow in `.github/workflows/update-data.yml` runs every Monday at midnight UTC. It fetches the latest EC2 instance types, RDS instance classes, and on-demand pricing from AWS, then commits the updated `data.json` back to the repo. It can also be triggered manually from the Actions tab.
+The workflow fetches EC2 instance types, RDS instance classes, and on-demand pricing via `boto3`, then commits the refreshed `data.json` back to the repo. It runs every Monday at midnight UTC and can be triggered manually from the Actions tab.
 
-### Option A: OIDC Role (Recommended — no long-lived credentials)
+### Option A: OIDC Role (Recommended — no long-lived keys)
 
-1. **Create an IAM role** in AWS with these permissions:
+1. **Create an IAM role** with these managed policies:
    - `AmazonEC2ReadOnlyAccess`
    - `AmazonRDSReadOnlyAccess`
    - `AWSPriceListServiceFullAccess`
 
-2. **Add GitHub as an OIDC provider** in your AWS account and configure the role's trust policy to allow your repo. See the [AWS OIDC guide](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html) for details.
+2. **Add GitHub as an OIDC provider** in your AWS account and set the role trust policy to allow your repo (`repo:<owner>/<repo>:ref:refs/heads/main`). See the [AWS OIDC guide](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html).
 
-3. **Add the role ARN to GitHub Secrets**:
-   - Go to your repo → Settings → Secrets and variables → Actions
-   - Add secret: `AWS_ROLE_ARN`
+3. **Add the role ARN to GitHub Secrets** → `AWS_ROLE_ARN`
 
-4. **Update the workflow** — uncomment the `role-to-assume` line and remove the access key lines in `update-data.yml`.
+4. **Uncomment** the `role-to-assume` line in `update-data.yml` and remove the access key lines.
 
-### Option B: Access Keys (Simpler setup)
+### Option B: Access Keys (Simpler)
 
-1. **Create an IAM user** with these policies attached:
-   - `AmazonEC2ReadOnlyAccess`
-   - `AmazonRDSReadOnlyAccess`
-   - `AWSPriceListServiceFullAccess`
-
-2. **Generate access keys** for the user (IAM → Users → Security credentials → Create access key).
-
-3. **Add both keys to GitHub Secrets**:
-   - `AWS_ACCESS_KEY_ID`
-   - `AWS_SECRET_ACCESS_KEY`
+1. Create an IAM user with the same three policies above.
+2. Generate access keys (IAM → Users → Security credentials → Create access key).
+3. Add both to GitHub Secrets: `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
 
 ### Manual Trigger
 
-Go to Actions → "Refresh AWS Instance Data" → Run workflow.
+Actions tab → "Refresh AWS Instance Data" → Run workflow.
