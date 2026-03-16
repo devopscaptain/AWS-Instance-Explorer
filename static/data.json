@@ -2477,7 +2477,7 @@
       ]
     }
   },
-  "lastUpdated": "2026-03-09T02:42:48.022699Z",
+  "lastUpdated": "2026-03-16T02:59:08.365805Z",
   "ec2RegionalPrices": {
     "m5ad.8xlarge": {
       "us-east-1": {
@@ -2597,6 +2597,10 @@
       "us-west-2": {
         "linux": 10.16064,
         "windows": 18.99264
+      },
+      "eu-west-1": {
+        "linux": 11.32512,
+        "windows": 11.32512
       },
       "ap-southeast-1": {
         "linux": 12.7008,
@@ -2819,6 +2823,10 @@
       "us-west-2": {
         "linux": 0.8044,
         "windows": 0.8044
+      },
+      "eu-west-1": {
+        "linux": 0.89656,
+        "windows": 0.89656
       },
       "ap-southeast-1": {
         "linux": 1.00552,
@@ -3771,6 +3779,10 @@
       "us-west-2": {
         "linux": 2.4132,
         "windows": 4.5108
+      },
+      "eu-west-1": {
+        "linux": 2.68968,
+        "windows": 4.78728
       },
       "ap-southeast-1": {
         "linux": 3.01656,
@@ -5605,6 +5617,10 @@
       "us-west-2": {
         "linux": 3.69024,
         "windows": null
+      },
+      "eu-west-1": {
+        "linux": 4.1152,
+        "windows": null
       }
     },
     "r6a.large": {
@@ -6007,6 +6023,10 @@
       "us-west-2": {
         "linux": 5.08032,
         "windows": 5.08032
+      },
+      "eu-west-1": {
+        "linux": 5.66256,
+        "windows": 5.66256
       },
       "ap-southeast-1": {
         "linux": 6.3504,
@@ -8019,6 +8039,10 @@
       "us-west-2": {
         "linux": 1.69344,
         "windows": 3.16544
+      },
+      "eu-west-1": {
+        "linux": 1.88752,
+        "windows": 1.88752
       },
       "ap-southeast-1": {
         "linux": 2.1168,
@@ -10112,6 +10136,10 @@
         "linux": 0.21168,
         "windows": 0.21168
       },
+      "eu-west-1": {
+        "linux": 0.23594,
+        "windows": 0.41994
+      },
       "ap-southeast-1": {
         "linux": 0.2646,
         "windows": 0.2646
@@ -10143,6 +10171,10 @@
       "us-west-2": {
         "linux": 0.2011,
         "windows": 0.2011
+      },
+      "eu-west-1": {
+        "linux": 0.22414,
+        "windows": 0.39894
       },
       "ap-southeast-1": {
         "linux": 0.25138,
@@ -11612,6 +11644,10 @@
         "linux": 3.38688,
         "windows": 3.38688
       },
+      "eu-west-1": {
+        "linux": 3.77504,
+        "windows": 6.71904
+      },
       "ap-southeast-1": {
         "linux": 4.2336,
         "windows": 4.2336
@@ -11758,6 +11794,10 @@
         "linux": 10.16064,
         "windows": 10.16064
       },
+      "eu-west-1": {
+        "linux": 11.32512,
+        "windows": 11.32512
+      },
       "ap-southeast-1": {
         "linux": 12.7008,
         "windows": 12.7008
@@ -11771,6 +11811,10 @@
       "us-west-2": {
         "linux": 0.4022,
         "windows": 0.7518
+      },
+      "eu-west-1": {
+        "linux": 0.44828,
+        "windows": 0.44828
       },
       "ap-southeast-1": {
         "linux": 0.50276,
@@ -12584,6 +12628,10 @@
         "linux": 20.32128,
         "windows": 37.98528
       },
+      "eu-west-1": {
+        "linux": 22.65024,
+        "windows": 40.31424
+      },
       "ap-southeast-1": {
         "linux": 25.4016,
         "windows": 25.4016
@@ -12597,6 +12645,10 @@
       "us-west-2": {
         "linux": 0.84672,
         "windows": 0.84672
+      },
+      "eu-west-1": {
+        "linux": 0.94376,
+        "windows": 0.94376
       },
       "ap-southeast-1": {
         "linux": 1.0584,
@@ -14038,6 +14090,10 @@
         "linux": 0.42336,
         "windows": 0.79136
       },
+      "eu-west-1": {
+        "linux": 0.47188,
+        "windows": 0.47188
+      },
       "ap-southeast-1": {
         "linux": 0.5292,
         "windows": 0.5292
@@ -14101,6 +14157,10 @@
       "us-west-2": {
         "linux": 11.07072,
         "windows": null
+      },
+      "eu-west-1": {
+        "linux": 12.3456,
+        "windows": null
       }
     },
     "c7i.12xlarge": {
@@ -14146,6 +14206,10 @@
       },
       "us-west-2": {
         "linux": 0.05766,
+        "windows": null
+      },
+      "eu-west-1": {
+        "linux": 0.0643,
         "windows": null
       }
     },
@@ -14438,6 +14502,10 @@
         "linux": 2.54016,
         "windows": 2.54016
       },
+      "eu-west-1": {
+        "linux": 2.83128,
+        "windows": 5.03928
+      },
       "ap-southeast-1": {
         "linux": 3.1752,
         "windows": 3.1752
@@ -14469,6 +14537,10 @@
       "us-west-2": {
         "linux": 20.32128,
         "windows": 37.98528
+      },
+      "eu-west-1": {
+        "linux": 22.65024,
+        "windows": 40.31424
       },
       "ap-southeast-1": {
         "linux": 25.4016,
@@ -14611,6 +14683,10 @@
       "us-west-2": {
         "linux": 0.23064,
         "windows": null
+      },
+      "eu-west-1": {
+        "linux": 0.2572,
+        "windows": null
       }
     },
     "m7a.xlarge": {
@@ -14685,6 +14761,10 @@
       "us-west-2": {
         "linux": 3.2176,
         "windows": 3.2176
+      },
+      "eu-west-1": {
+        "linux": 3.58624,
+        "windows": 3.58624
       },
       "ap-southeast-1": {
         "linux": 4.02208,
@@ -15126,6 +15206,10 @@
         "linux": 0.10584,
         "windows": 0.10584
       },
+      "eu-west-1": {
+        "linux": 0.11797,
+        "windows": 0.11797
+      },
       "ap-southeast-1": {
         "linux": 0.1323,
         "windows": 0.1323
@@ -15175,6 +15259,10 @@
       "us-west-2": {
         "linux": 6.77376,
         "windows": 6.77376
+      },
+      "eu-west-1": {
+        "linux": 7.55008,
+        "windows": 7.55008
       },
       "ap-southeast-1": {
         "linux": 8.4672,
@@ -15291,6 +15379,10 @@
       "us-west-2": {
         "linux": 0.10055,
         "windows": 0.10055
+      },
+      "eu-west-1": {
+        "linux": 0.11207,
+        "windows": 0.19947
       },
       "ap-southeast-1": {
         "linux": 0.12569,
@@ -17243,6 +17335,10 @@
       "us-west-2": {
         "linux": 0.92256,
         "windows": null
+      },
+      "eu-west-1": {
+        "linux": 1.0288,
+        "windows": null
       }
     },
     "x8i.8xlarge": {
@@ -17315,6 +17411,10 @@
       "us-west-2": {
         "linux": 1.6088,
         "windows": 1.6088
+      },
+      "eu-west-1": {
+        "linux": 1.79312,
+        "windows": 1.79312
       },
       "ap-southeast-1": {
         "linux": 2.01104,
@@ -18247,6 +18347,10 @@
       "us-west-2": {
         "linux": 5.53536,
         "windows": null
+      },
+      "eu-west-1": {
+        "linux": 6.1728,
+        "windows": null
       }
     },
     "vt1.24xlarge": {
@@ -18280,6 +18384,10 @@
       },
       "us-west-2": {
         "linux": 0.46128,
+        "windows": null
+      },
+      "eu-west-1": {
+        "linux": 0.5144,
         "windows": null
       }
     },
@@ -18468,6 +18576,10 @@
       },
       "us-west-2": {
         "linux": 5.53536,
+        "windows": null
+      },
+      "eu-west-1": {
+        "linux": 6.1728,
         "windows": null
       }
     },
@@ -18821,6 +18933,10 @@
       "us-west-2": {
         "linux": 0.11532,
         "windows": null
+      },
+      "eu-west-1": {
+        "linux": 0.1286,
+        "windows": null
       }
     },
     "t2.large": {
@@ -19030,6 +19146,10 @@
       },
       "us-west-2": {
         "linux": 1.84512,
+        "windows": null
+      },
+      "eu-west-1": {
+        "linux": 2.0576,
         "windows": null
       }
     },
@@ -19676,6 +19796,10 @@
       },
       "us-west-2": {
         "linux": 11.07072,
+        "windows": null
+      },
+      "eu-west-1": {
+        "linux": 12.3456,
         "windows": null
       }
     },
@@ -20814,6 +20938,10 @@
       },
       "us-west-2": {
         "linux": 2.76768,
+        "windows": null
+      },
+      "eu-west-1": {
+        "linux": 3.0864,
         "windows": null
       }
     },
